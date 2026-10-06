@@ -59,7 +59,7 @@ const navigationItems: NavigationSection[] = [
       {
         label: "Home",
         icon: Home,
-        path: "/",
+        path: "/home",
       },
       {
         label: "Dashboard",

@@ -5,7 +5,10 @@ import SessionOverview from "./SessionOverview";
 import Card from "@/components/ui/Card/Card";
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 import Button from "@/components/ui/Button/Button";
-import { useDashboard } from "../hooks/useDashboard";
+// import { useDashboard } from "../hooks/useDashboard";
+import { dummyDashboardData } from "../utils/dashboardData";
+import { useState } from "react";
+import Select from "@/components/ui/Select/Select";
 
 const deviceData = [
   { name: "Android", value: "4,820" },
@@ -14,36 +17,45 @@ const deviceData = [
 ];
 
 function Dashboard() {
-  const { data, loading, error, refetch } = useDashboard();
-  if (loading) {
-  return (
-    <div className="flex min-h-[400px] items-center justify-center">
-      <p className="text-sm text-text-secondary">
-        Loading dashboard...
-      </p>
-    </div>
-  );
-}
 
-if (error) {
-  return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-      <p className="text-sm text-error">
-        {error}
-      </p>
+  {/* -------API Integration------- */}
+  // const { data, loading, error, refetch } = useDashboard();
+//   if (loading) {
+//   return (
+//     <div className="flex min-h-[400px] items-center justify-center">
+//       <p className="text-sm text-text-secondary">
+//         Loading dashboard...
+//       </p>
+//     </div>
+//   );
+// }
 
-      <Button onClick={refetch}>
-        Try Again
-      </Button>
-    </div>
-  );
-}
+// if (error) {
+//   return (
+//     <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
+//       <p className="text-sm text-error">
+//         {error}
+//       </p>
 
-if (!data) {
-  return null;
-}
+//       <Button onClick={refetch}>
+//         Try Again
+//       </Button>
+//     </div>
+//   );
+// }
 
-const dashboard = data.studentDetails;
+// if (!data) {
+//   return null;
+// }
+
+// const dashboard = data.studentDetails;
+  {/* -------Dummy Data------- */}
+
+  const dashboard = dummyDashboardData.studentDetails;
+  const [selectedCourse, setSelectedCourse] = useState("NEET PG");
+
+
+
   return (
     
     <div className="space-y-6">
@@ -58,111 +70,193 @@ const dashboard = data.studentDetails;
         </p>
       </div>
 
-      {/* Course Registrations */}
-      <RegistrationOverview />
-
-      {/* Session Overview */}
-      <SessionOverview />
-
-      {/* Student Details */}
-      <Card
-        title="Student Details"
-        description="View student details based on course and selected date range."
-      >
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-          {["NEET PG", "NEET SS", "FMGE"].map((course) => (
-            <div
-              key={course}
-              className="
-                group
-                rounded-xl
-                border border-border
-                bg-secondary-light
-                p-5
-                transition-all duration-300 ease-out
-                hover:-translate-y-0.5
-                hover:bg-primary-light
-              "
-            >
-              <h3 className="text-base font-semibold text-text-primary transition-colors duration-300 group-hover:text-primary">
-                {course}
-              </h3>
-
-              <p className="mt-1 text-xs text-text-muted transition-colors duration-300 group-hover:text-primary">
-                Select a date range to view student details.
-              </p>
-
-              <div className="mt-5 space-y-4">
-                <DatePicker
-                  label="From Date"
-                  value=""
-                  onChange={() => {}}
-                />
-
-                <DatePicker
-                  label="To Date"
-                  value=""
-                  onChange={() => {}}
-                />
-
-                <Button className="w-full">
-                  Get Student Details
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
       {/* Total Signups */}
       <Card
         title="Total Signups"
         description="Total student signups across courses."
       >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
-        <div className="rounded-xl border border-border bg-secondary-light p-4">
+        <div className="
+        rounded-lg
+        bg-secondary-light
+        p-4
+        transition-all duration-300 ease-out
+        hover:-translate-y-1
+        hover:bg-primary-light
+        hover:shadow-sm
+      ">
           <p className="text-sm text-text-secondary">NEET PG</p>
           <p className="mt-2 text-2xl font-semibold text-text-primary">
             {dashboard.neetPGCount}
           </p>
         </div>
 
-        <div className="rounded-xl border border-border bg-secondary-light p-4">
+        <div className="
+        rounded-lg
+        bg-secondary-light
+        p-4
+        transition-all duration-300 ease-out
+        hover:-translate-y-1
+        hover:bg-primary-light
+        hover:shadow-sm
+      ">
           <p className="text-sm text-text-secondary">NEET SS</p>
           <p className="mt-2 text-2xl font-semibold text-text-primary">
             {dashboard.neetSSCount}
           </p>
         </div>
 
-        <div className="rounded-xl border border-border bg-secondary-light p-4">
+        <div className="
+        rounded-lg
+        bg-secondary-light
+        p-4
+        transition-all duration-300 ease-out
+        hover:-translate-y-1
+        hover:bg-primary-light
+        hover:shadow-sm
+      ">
           <p className="text-sm text-text-secondary">FMGE</p>
           <p className="mt-2 text-2xl font-semibold text-text-primary">
             {dashboard.fmgeTotalSignUps}
           </p>
         </div>
+
+        <div className="
+        rounded-lg
+        bg-secondary-light
+        p-4
+        transition-all duration-300 ease-out
+        hover:-translate-y-1
+        hover:bg-primary-light
+        hover:shadow-sm
+      ">
+          <p className="text-sm text-text-secondary">PG Residency</p>
+          <p className="mt-2 text-2xl font-semibold text-text-primary">
+            {dashboard.pgResidencyCount}
+          </p>
+        </div>
+
+        <div className="
+        rounded-lg
+        bg-secondary-light
+        p-4
+        transition-all duration-300 ease-out
+        hover:-translate-y-1
+        hover:bg-primary-light
+        hover:shadow-sm
+      ">
+          <p className="text-sm text-text-secondary">MBBS Curriculum</p>
+          <p className="mt-2 text-2xl font-semibold text-text-primary">
+            {dashboard.mbbsCurriculumCount}
+          </p>
+        </div>
       </div>
     </Card>
+
+    {/* Student Details */}
+      <Card
+        title="Student Details"
+        description="View student details based on course and selected date range."
+      >
+        <div className="space-y-5">
+          <div className="max-w-sm">
+            <Select
+            label="Course"
+            value={selectedCourse}
+            options={[
+              { label: "NEET PG", value: "NEET PG" },
+              { label: "NEET SS", value: "NEET SS" },
+              { label: "FMGE", value: "FMGE" },
+              { label: "MBBS Curriculum", value: "MBBS Curriculum" },
+              { label: "PG Residency", value: "PG Residency" },
+            ]}
+            onChange={setSelectedCourse}
+          />
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <DatePicker
+              label="From Date"
+              value=""
+              onChange={() => {}}
+            />
+
+            <DatePicker
+              label="To Date"
+              value=""
+              onChange={() => {}}
+            />
+          </div>
+
+          <div className="flex flex-col gap-3 rounded-lg bg-secondary-light p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-medium text-text-primary">
+                Selected Course
+              </p>
+
+              <p className="mt-1 text-xs text-text-secondary">
+                {selectedCourse}
+              </p>
+            </div>
+
+            <Button>
+              Get Student Details
+            </Button>
+          </div>
+        </div>
+      </Card>
+
+      {/* Course Registrations */}
+      <RegistrationOverview />
+
+      {/* Session Overview */}
+      <SessionOverview />
+
       {/* Device Statistics */}
       <Card
         title="Device Statistics"
         description="Student activity by platform."
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-border bg-secondary-light p-4">
+          <div className="
+              rounded-lg
+              bg-secondary-light
+              p-4
+              transition-all duration-300 ease-out
+              hover:-translate-y-1
+              hover:bg-primary-light
+              hover:shadow-sm
+            ">
             <p className="text-sm text-text-secondary">Android</p>
             <p className="mt-2 text-2xl font-semibold text-text-primary">
               {dashboard.android}
             </p>
           </div>
 
-          <div className="rounded-xl border border-border bg-secondary-light p-4">
+          <div className="
+              rounded-lg
+              bg-secondary-light
+              p-4
+              transition-all duration-300 ease-out
+              hover:-translate-y-1
+              hover:bg-primary-light
+              hover:shadow-sm
+            ">
             <p className="text-sm text-text-secondary">iOS</p>
             <p className="mt-2 text-2xl font-semibold text-text-primary">
               {dashboard.ios}
             </p>
           </div>
 
-          <div className="rounded-xl border border-border bg-secondary-light p-4">
+            <div className="
+              rounded-lg
+              bg-secondary-light
+              p-4
+              transition-all duration-300 ease-out
+              hover:-translate-y-1
+              hover:bg-primary-light
+              hover:shadow-sm
+            ">
             <p className="text-sm text-text-secondary">Website</p>
             <p className="mt-2 text-2xl font-semibold text-text-primary">
               {dashboard.websiteCount}

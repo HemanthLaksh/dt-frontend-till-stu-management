@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import Select from "@/components/ui/Select/Select";
+
 const registrationData = [
   {
     year: 2025,
@@ -42,57 +47,81 @@ const registrationData = [
 ];
 
 function RegistrationOverview() {
+  const [selectedYear, setSelectedYear] = useState("2025");
+
+  const selectedData = registrationData.find(
+    (item) => item.year.toString() === selectedYear,
+  );
+
   return (
-    <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      {/* Section Header */}
-      <div className="border-b border-slate-200 px-6 py-5">
+    <section className="rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+      <div className="flex flex-col gap-4 border-b border-border px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-slate-900">
+          <h3 className="text-lg font-semibold text-text-primary">
             Course Registrations
           </h3>
 
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-text-secondary">
             Registration overview by course and year.
           </p>
         </div>
+
+        <div className="w-full sm:w-40">
+          <Select
+            label="Select Year"
+            value={selectedYear}
+            options={[
+              { label: "2025", value: "2025" },
+              { label: "2024", value: "2024" },
+              { label: "2023", value: "2023" },
+              { label: "2022", value: "2022" },
+            ]}
+            onChange={setSelectedYear}
+          />
+        </div>
       </div>
 
-      {/* Registration Years */}
-      <div className="space-y-6 p-6">
-        {registrationData.map((yearData) => (
-          <div key={yearData.year}>
-            {/* Year */}
-            <div className="mb-3 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-blue-600" />
+      <div className="p-6">
+        {selectedData && (
+          <div>
+            <div className="mb-4 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-primary" />
 
-              <h4 className="text-sm font-semibold text-slate-800">
-                {yearData.year} Registrations
+              <h4 className="text-sm font-semibold text-text-primary">
+                {selectedData.year} Registrations
               </h4>
             </div>
 
-            {/* Courses */}
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {yearData.courses.map((course) => (
+              {selectedData.courses.map((course) => (
                 <div
                   key={course.name}
-                  className="rounded-lg border border-slate-200 bg-slate-50 p-4 transition-all hover:border-blue-200 hover:bg-blue-50"
+                  className="
+                    rounded-lg
+                    bg-secondary-light
+                    p-4
+                    transition-all duration-300 ease-out
+                    hover:-translate-y-1
+                    hover:bg-primary-light
+                    hover:shadow-sm
+                  "
                 >
-                  <p className="text-sm font-medium text-slate-600">
+                  <p className="text-sm font-medium text-text-secondary">
                     {course.name}
                   </p>
 
-                  <p className="mt-2 text-xl font-semibold text-slate-900">
+                  <p className="mt-2 text-xl font-semibold text-text-primary">
                     {course.registrations}
                   </p>
 
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-text-muted">
                     registrations
                   </p>
                 </div>
               ))}
             </div>
           </div>
-        ))}
+        )}
       </div>
     </section>
   );

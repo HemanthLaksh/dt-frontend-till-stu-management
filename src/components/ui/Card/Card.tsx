@@ -18,8 +18,11 @@ export default function Card({
       className={`
         rounded-xl
         border border-border
-        bg-surface
-        shadow-sm
+        bg-white
+        transition-all duration-300 ease-out
+        hover:-translate-y-0.5
+        hover:bg-white
+        hover:shadow-md
         ${className}
       `}
       {...props}
@@ -40,7 +43,9 @@ export default function Card({
         </div>
       )}
 
-      <div className="p-5">{children}</div>
+      <div className="p-5">
+        {children}
+      </div>
     </div>
   );
 }

@@ -149,7 +149,7 @@ export function useAuth() {
       sessionStorage.getItem("dt-admin-auth"),
     );
 
-    router.replace("/");
+    router.replace("/home");
   },
   [dispatch, router],
 );
