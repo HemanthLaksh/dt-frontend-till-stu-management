@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  UserRound,
-} from "lucide-react";
+import { Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
 
@@ -15,15 +10,9 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    login,
-    loading,
-    error,
-  } = useAuth();
+  const { login, loading, error } = useAuth();
 
-  const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!userID.trim() || !password) {
@@ -56,10 +45,7 @@ export default function LoginForm() {
 
         {/* Form */}
         <div className="p-8">
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-5"
-          >
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Username */}
             <div>
               <label
@@ -80,9 +66,7 @@ export default function LoginForm() {
                   name="userID"
                   type="text"
                   value={userID}
-                  onChange={(event) =>
-                    setUserID(event.target.value)
-                  }
+                  onChange={(event) => setUserID(event.target.value)}
                   placeholder="Enter username or email"
                   autoComplete="username"
                   disabled={loading}
@@ -109,15 +93,9 @@ export default function LoginForm() {
                 <input
                   id="password"
                   name="password"
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
+                  type={showPassword ? "text" : "password"}
                   value={password}
-                  onChange={(event) =>
-                    setPassword(event.target.value)
-                  }
+                  onChange={(event) => setPassword(event.target.value)}
                   placeholder="Enter password"
                   autoComplete="current-password"
                   disabled={loading}
@@ -126,17 +104,9 @@ export default function LoginForm() {
 
                 <button
                   type="button"
-                  onClick={() =>
-                    setShowPassword(
-                      (current) => !current,
-                    )
-                  }
+                  onClick={() => setShowPassword((current) => !current)}
                   disabled={loading}
-                  aria-label={
-                    showPassword
-                      ? "Hide password"
-                      : "Show password"
-                  }
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed"
                 >
                   {showPassword ? (
@@ -161,11 +131,7 @@ export default function LoginForm() {
             {/* Sign In */}
             <button
               type="submit"
-              disabled={
-                loading ||
-                !userID.trim() ||
-                !password
-              }
+              disabled={loading || !userID.trim() || !password}
               className="h-12 w-full rounded-lg bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (

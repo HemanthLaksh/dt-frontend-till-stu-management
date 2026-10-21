@@ -63,7 +63,9 @@ interface UseStudentsOptions {
 export function useStudents({ mock = false }: UseStudentsOptions = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [stateCollegeStudents, setStateCollegeStudents] = useState<StateCollegeStudent[]>([]);
+  const [stateCollegeStudents, setStateCollegeStudents] = useState<
+    StateCollegeStudent[]
+  >([]);
   const [neetSSStudents, setNeetSSStudents] = useState<NeetSSStudent[]>([]);
   const [neetPGStudents, setNeetPGStudents] = useState<NeetPGStudent[]>([]);
 
@@ -73,7 +75,9 @@ export function useStudents({ mock = false }: UseStudentsOptions = {}) {
       setError("");
       await request();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to load student details.");
+      setError(
+        err instanceof Error ? err.message : "Unable to load student details.",
+      );
     } finally {
       setLoading(false);
     }

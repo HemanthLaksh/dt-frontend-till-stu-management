@@ -163,30 +163,9 @@ export const fmgePackageData: TrendDataItem[] = [
 /* -------------------------------------------------------------------------- */
 
 export const chartColorSets = [
-  [
-    "#60a5fa",
-    "#bfdbfe",
-    "#2563eb",
-    "#93c5fd",
-    "#1d4ed8",
-    "#3b82f6",
-  ],
-  [
-    "#1d4ed8",
-    "#93c5fd",
-    "#60a5fa",
-    "#bfdbfe",
-    "#2563eb",
-    "#3b82f6",
-  ],
-  [
-    "#93c5fd",
-    "#2563eb",
-    "#bfdbfe",
-    "#1d4ed8",
-    "#60a5fa",
-    "#3b82f6",
-  ],
+  ["#60a5fa", "#bfdbfe", "#2563eb", "#93c5fd", "#1d4ed8", "#3b82f6"],
+  ["#1d4ed8", "#93c5fd", "#60a5fa", "#bfdbfe", "#2563eb", "#3b82f6"],
+  ["#93c5fd", "#2563eb", "#bfdbfe", "#1d4ed8", "#60a5fa", "#3b82f6"],
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -361,10 +340,7 @@ export const trendReportSections: TrendReportSection[] = [
     id: "plan-orders",
     title: "Plan Orders",
     description: "View plan order trends and order details.",
-    reports: [
-      getReport("plan-orders-state"),
-      getReport("plan-orders-date"),
-    ],
+    reports: [getReport("plan-orders-state"), getReport("plan-orders-date")],
   },
   {
     id: "neet-pg",

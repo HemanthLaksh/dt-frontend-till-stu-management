@@ -15,7 +15,8 @@ export default function Input({
   name,
   ...props
 }: InputProps) {
-  const inputId = id ?? name ?? `input-${label?.toLowerCase().replace(/\s+/g, "-")}`;
+  const inputId =
+    id ?? name ?? `input-${label?.toLowerCase().replace(/\s+/g, "-")}`;
 
   return (
     <div className="w-full">
@@ -56,10 +57,7 @@ export default function Input({
       />
 
       {error && (
-        <p
-          id={`${inputId}-error`}
-          className="mt-1.5 text-xs text-error"
-        >
+        <p id={`${inputId}-error`} className="mt-1.5 text-xs text-error">
           {error}
         </p>
       )}

@@ -8,24 +8,23 @@ import type {
 export async function getQuestionBankAnalytics(
   request: QuestionBankAnalyticsRequest,
 ): Promise<QuestionBankAnalyticsResponse> {
-  const response =
-    await apiClient.post<QuestionBankAnalyticsResponse>(
-      "/Operations/getStudentAnalyticsModule",
-      {
-        ...(request.studentid
-          ? {
-              studentID: Number(request.studentid),
-            }
-          : {}),
+  const response = await apiClient.post<QuestionBankAnalyticsResponse>(
+    "/Operations/getStudentAnalyticsModule",
+    {
+      ...(request.studentid
+        ? {
+            studentID: Number(request.studentid),
+          }
+        : {}),
 
-        ...(request.fdate && request.tdate
-          ? {
-              fromDate: request.fdate,
-              toDate: request.tdate,
-            }
-          : {}),
-      },
-    );
+      ...(request.fdate && request.tdate
+        ? {
+            fromDate: request.fdate,
+            toDate: request.tdate,
+          }
+        : {}),
+    },
+  );
 
   return response.data;
 }

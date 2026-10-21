@@ -5,11 +5,11 @@ import type {
 } from "../types/planAccessed.types";
 
 export async function getPlanAccessedReport(
-  payload: PlanAccessedRequest
+  payload: PlanAccessedRequest,
 ): Promise<PlanAccessedResponse> {
   const response = await apiClient.post<PlanAccessedResponse>(
     "/Plan/getAllOrderAttemptsDownload",
-    payload
+    payload,
   );
 
   return response.data;

@@ -1,9 +1,6 @@
 import apiClient from "@/services/api/client";
 
-import type {
-  BDStatsRequest,
-  BDStatsResponse,
-} from "../types/bdStats.types";
+import type { BDStatsRequest, BDStatsResponse } from "../types/bdStats.types";
 
 export async function getBDStats(
   request: BDStatsRequest,

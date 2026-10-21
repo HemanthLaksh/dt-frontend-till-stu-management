@@ -27,22 +27,19 @@ const analyticsModules: AnalyticsModule[] = [
   },
   {
     title: "Test Series",
-    description:
-      "View test series analytics and student performance activity.",
+    description: "View test series analytics and student performance activity.",
     href: "/analytics/test-series",
     icon: <TestTube2 size={24} />,
   },
   {
     title: "Videos Download",
-    description:
-      "View analytics for videos downloaded by students.",
+    description: "View analytics for videos downloaded by students.",
     href: "/analytics/videos-download",
     icon: <Download size={24} />,
   },
   {
     title: "Videos View",
-    description:
-      "View analytics for videos watched and viewed by students.",
+    description: "View analytics for videos watched and viewed by students.",
     href: "/analytics/videos-view",
     icon: <PlayCircle size={24} />,
   },
@@ -55,16 +52,11 @@ export default function Analytics() {
       <div>
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-            <BarChart3
-              size={22}
-              className="text-blue-600"
-            />
+            <BarChart3 size={22} className="text-blue-600" />
           </div>
 
           <div>
-            <h1 className="text-2xl font-semibold text-slate-900">
-              Analytics
-            </h1>
+            <h1 className="text-2xl font-semibold text-slate-900">Analytics</h1>
 
             <p className="mt-1 text-sm text-slate-500">
               View and analyze activity across the platform.

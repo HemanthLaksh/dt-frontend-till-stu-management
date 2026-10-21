@@ -14,7 +14,7 @@ export function usePlanAccessed() {
     adminId: number,
     courseId: number,
     fromDate: string,
-    toDate: string
+    toDate: string,
   ) => {
     try {
       setLoading(true);

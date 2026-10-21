@@ -11,12 +11,7 @@ const options = [
 describe("Filter", () => {
   it("renders the filter label", () => {
     render(
-      <Filter
-        label="Course"
-        value=""
-        options={options}
-        onChange={jest.fn()}
-      />,
+      <Filter label="Course" value="" options={options} onChange={jest.fn()} />,
     );
 
     expect(screen.getByText("Course")).toBeInTheDocument();
@@ -24,12 +19,7 @@ describe("Filter", () => {
 
   it("renders all filter options", () => {
     render(
-      <Filter
-        label="Course"
-        value=""
-        options={options}
-        onChange={jest.fn()}
-      />,
+      <Filter label="Course" value="" options={options} onChange={jest.fn()} />,
     );
 
     expect(screen.getByRole("option", { name: "NEET PG" })).toBeInTheDocument();
@@ -68,9 +58,9 @@ describe("Filter", () => {
       />,
     );
 
-    expect(
-      screen.getByRole("combobox", { name: "Course" }),
-    ).toHaveValue("neet-ss");
+    expect(screen.getByRole("combobox", { name: "Course" })).toHaveValue(
+      "neet-ss",
+    );
   });
 
   it("can be disabled", () => {
@@ -84,8 +74,6 @@ describe("Filter", () => {
       />,
     );
 
-    expect(
-      screen.getByRole("combobox", { name: "Course" }),
-    ).toBeDisabled();
+    expect(screen.getByRole("combobox", { name: "Course" })).toBeDisabled();
   });
 });

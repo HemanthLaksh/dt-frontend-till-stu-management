@@ -20,8 +20,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   outline:
     "border border-border bg-surface text-text-primary hover:bg-secondary-light focus:ring-primary-light",
 
-  danger:
-    "bg-error text-white hover:bg-red-700 focus:ring-red-100",
+  danger: "bg-error text-white hover:bg-red-700 focus:ring-red-100",
 };
 
 export default function Button({

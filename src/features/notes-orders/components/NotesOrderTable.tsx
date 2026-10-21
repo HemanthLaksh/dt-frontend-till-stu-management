@@ -1,15 +1,8 @@
 "use client";
 
-import {
-  Eye,
-  PackageCheck,
-  Truck,
-} from "lucide-react";
+import { Eye, PackageCheck, Truck } from "lucide-react";
 
-import type {
-  NotesOrder,
-  NotesOrderStatus,
-} from "../types/notesOrders.types";
+import type { NotesOrder, NotesOrderStatus } from "../types/notesOrders.types";
 
 interface NotesOrderTableProps {
   orders: NotesOrder[];
@@ -32,9 +25,7 @@ export default function NotesOrderTable({
         <div className="flex flex-col items-center justify-center">
           <div className="h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-blue-600" />
 
-          <p className="mt-4 text-sm text-slate-500">
-            Loading notes orders...
-          </p>
+          <p className="mt-4 text-sm text-slate-500">Loading notes orders...</p>
         </div>
       </div>
     );
@@ -45,10 +36,7 @@ export default function NotesOrderTable({
       <div className="rounded-xl border border-slate-200 bg-white p-12 shadow-sm">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-            <PackageCheck
-              size={26}
-              className="text-slate-400"
-            />
+            <PackageCheck size={26} className="text-slate-400" />
           </div>
 
           <h3 className="mt-4 text-base font-semibold text-slate-800">
@@ -56,8 +44,8 @@ export default function NotesOrderTable({
           </h3>
 
           <p className="mt-1 max-w-md text-sm text-slate-500">
-            Select a course and status, then click Search Orders
-            to view the available notes orders.
+            Select a course and status, then click Search Orders to view the
+            available notes orders.
           </p>
         </div>
       </div>
@@ -73,9 +61,7 @@ export default function NotesOrderTable({
             Notes Orders
           </h2>
 
-          <p className="mt-0.5 text-xs text-slate-500">
-            {status} orders
-          </p>
+          <p className="mt-0.5 text-xs text-slate-500">{status} orders</p>
         </div>
       </div>
 
@@ -169,9 +155,7 @@ export default function NotesOrderTable({
                 </td>
 
                 <td className="max-w-[180px] px-4 py-4 text-sm text-slate-600">
-                  <span className="line-clamp-2">
-                    {order.notes || "—"}
-                  </span>
+                  <span className="line-clamp-2">{order.notes || "—"}</span>
                 </td>
 
                 <td className="whitespace-nowrap px-4 py-4 text-sm text-slate-600">
@@ -194,7 +178,6 @@ export default function NotesOrderTable({
                       className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
                     >
                       <Eye size={15} />
-
                       Student
                     </button>
 
@@ -205,7 +188,6 @@ export default function NotesOrderTable({
                         className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-blue-600 px-3 text-xs font-medium text-white transition hover:bg-blue-700"
                       >
                         <Truck size={15} />
-
                         Update
                       </button>
                     )}
@@ -213,7 +195,6 @@ export default function NotesOrderTable({
                     {status === "Delivered" && (
                       <span className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-emerald-50 px-3 text-xs font-medium text-emerald-700">
                         <PackageCheck size={15} />
-
                         Delivered
                       </span>
                     )}
@@ -228,11 +209,7 @@ export default function NotesOrderTable({
   );
 }
 
-function StatusBadge({
-  status,
-}: {
-  status: NotesOrderStatus;
-}) {
+function StatusBadge({ status }: { status: NotesOrderStatus }) {
   if (status === "New") {
     return (
       <span className="inline-flex rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-700">

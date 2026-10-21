@@ -1,16 +1,11 @@
 "use client";
 
-import {
-  Bookmark,
-  Users,
-} from "lucide-react";
+import { Bookmark, Users } from "lucide-react";
 
 import SubscriberFilters from "./SubscriberFilters";
 import SubscriberReportResult from "./SubscriberReportResult";
 
-import {
-  SUBSCRIBER_REPORT_TYPES,
-} from "../constants/subscribers.constants";
+import { SUBSCRIBER_REPORT_TYPES } from "../constants/subscribers.constants";
 
 import useSubscribers from "../hooks/useSubscribers";
 import { getSubscriberReportTitle } from "../utils/subscribers.utils";
@@ -35,13 +30,11 @@ export default function Subscribers() {
     <div className="space-y-6">
       {/* Page heading */}
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
-          Subscribers
-        </h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Subscribers</h1>
 
         <p className="mt-1 text-sm text-slate-500">
-          Generate and download subscriber reports by status,
-          business type, course, and date range.
+          Generate and download subscriber reports by status, business type,
+          course, and date range.
         </p>
       </div>
 
@@ -54,9 +47,7 @@ export default function Subscribers() {
           </div>
 
           <div>
-            <h2 className="text-base font-bold text-slate-800">
-              {title}
-            </h2>
+            <h2 className="text-base font-bold text-slate-800">{title}</h2>
 
             <p className="mt-0.5 text-xs text-slate-500">
               Select subscriber status and generate the required report.
@@ -68,10 +59,7 @@ export default function Subscribers() {
           {/* Report type */}
           <div className="mb-6">
             <div className="mb-3 flex items-center gap-2">
-              <Users
-                size={17}
-                className="text-blue-600"
-              />
+              <Users size={17} className="text-blue-600" />
 
               <h3 className="text-sm font-semibold text-slate-700">
                 Subscriber Status
@@ -81,14 +69,9 @@ export default function Subscribers() {
             <div className="grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
               <button
                 type="button"
-                onClick={() =>
-                  selectReportType(
-                    SUBSCRIBER_REPORT_TYPES.ACTIVE,
-                  )
-                }
+                onClick={() => selectReportType(SUBSCRIBER_REPORT_TYPES.ACTIVE)}
                 className={`h-11 rounded-lg border px-5 text-sm font-semibold transition-all duration-200 ${
-                  reportType ===
-                  SUBSCRIBER_REPORT_TYPES.ACTIVE
+                  reportType === SUBSCRIBER_REPORT_TYPES.ACTIVE
                     ? "border-blue-600 bg-blue-600 text-white shadow-sm"
                     : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
                 }`}
@@ -99,13 +82,10 @@ export default function Subscribers() {
               <button
                 type="button"
                 onClick={() =>
-                  selectReportType(
-                    SUBSCRIBER_REPORT_TYPES.INACTIVE,
-                  )
+                  selectReportType(SUBSCRIBER_REPORT_TYPES.INACTIVE)
                 }
                 className={`h-11 rounded-lg border px-5 text-sm font-semibold transition-all duration-200 ${
-                  reportType ===
-                  SUBSCRIBER_REPORT_TYPES.INACTIVE
+                  reportType === SUBSCRIBER_REPORT_TYPES.INACTIVE
                     ? "border-blue-600 bg-blue-600 text-white shadow-sm"
                     : "border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
                 }`}

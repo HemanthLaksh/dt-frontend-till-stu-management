@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CreditCard,
-  Download,
-  Loader2,
-  RotateCcw,
-} from "lucide-react";
+import { CreditCard, Download, Loader2, RotateCcw } from "lucide-react";
 
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 
@@ -14,9 +9,7 @@ import { PLAN_ACCESSED_COURSES } from "../constants/planAccessed.constants";
 import { usePlanAccessed } from "../hooks/usePlanAccessed";
 
 export default function PlanAccessed() {
-  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(
-    null
-  );
+  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -36,7 +29,7 @@ export default function PlanAccessed() {
   const adminId = 1;
 
   const selectedCourse = PLAN_ACCESSED_COURSES.find(
-    (course) => course.id === selectedCourseId
+    (course) => course.id === selectedCourseId,
   );
 
   /* =========================================
@@ -65,12 +58,7 @@ export default function PlanAccessed() {
       return;
     }
 
-    await fetchReport(
-      adminId,
-      selectedCourseId,
-      fromDate,
-      toDate
-    );
+    await fetchReport(adminId, selectedCourseId, fromDate, toDate);
   };
 
   /* =========================================
@@ -206,7 +194,6 @@ export default function PlanAccessed() {
                 className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <RotateCcw size={16} />
-
                 Back
               </button>
             </div>
@@ -264,20 +251,12 @@ export default function PlanAccessed() {
               <button
                 type="button"
                 onClick={handleSubmit}
-                disabled={
-                  loading ||
-                  !fromDate ||
-                  !toDate
-                }
+                disabled={loading || !fromDate || !toDate}
                 className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 hover:shadow-md disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none lg:w-auto"
               >
                 {loading ? (
                   <>
-                    <Loader2
-                      size={17}
-                      className="animate-spin"
-                    />
-
+                    <Loader2 size={17} className="animate-spin" />
                     Generating...
                   </>
                 ) : (
@@ -290,12 +269,11 @@ export default function PlanAccessed() {
                 VALIDATION
             ========================================= */}
 
-            {hasSubmitted &&
-              (!fromDate || !toDate) && (
-                <p className="mt-3 text-sm font-medium text-red-500">
-                  Select From Date and To Date.
-                </p>
-              )}
+            {hasSubmitted && (!fromDate || !toDate) && (
+              <p className="mt-3 text-sm font-medium text-red-500">
+                Select From Date and To Date.
+              </p>
+            )}
 
             {/* =========================================
                 ERROR
@@ -308,9 +286,7 @@ export default function PlanAccessed() {
                     Report generation failed
                   </p>
 
-                  <p className="mt-1 text-sm text-red-600">
-                    {error}
-                  </p>
+                  <p className="mt-1 text-sm text-red-600">{error}</p>
                 </div>
               </div>
             )}
@@ -319,43 +295,41 @@ export default function PlanAccessed() {
                 SUCCESS
             ========================================= */}
 
-            {result?.status !== "N" &&
-              result?.reportPath && (
-                <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-5">
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    {/* SUCCESS MESSAGE */}
+            {result?.status !== "N" && result?.reportPath && (
+              <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-5">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  {/* SUCCESS MESSAGE */}
 
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
-                          ✓
-                        </div>
-
-                        <h3 className="text-sm font-semibold text-green-800">
-                          Report generated successfully
-                        </h3>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 text-green-600">
+                        ✓
                       </div>
 
-                      <p className="mt-2 text-sm text-green-700">
-                        Your Plan Accessed Students report is ready.
-                      </p>
+                      <h3 className="text-sm font-semibold text-green-800">
+                        Report generated successfully
+                      </h3>
                     </div>
 
-                    {/* DOWNLOAD */}
-
-                    <a
-                      href={result.reportPath}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md"
-                    >
-                      <Download size={17} />
-
-                      Download Report
-                    </a>
+                    <p className="mt-2 text-sm text-green-700">
+                      Your Plan Accessed Students report is ready.
+                    </p>
                   </div>
+
+                  {/* DOWNLOAD */}
+
+                  <a
+                    href={result.reportPath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-green-700 hover:shadow-md"
+                  >
+                    <Download size={17} />
+                    Download Report
+                  </a>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </section>
       )}

@@ -2,24 +2,24 @@
 
 import { useEffect } from "react";
 import { useAppDispatch } from "@/store/hooks";
-import { hydrateAuth } from "@/features/auth/slices/authSlice";
+import { hydrateAuth, setAuthHydrated } from "@/features/auth/slices/authSlice";
 
 export default function AuthHydrator() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const storedAuth = sessionStorage.getItem("dt-admin-auth");
-
-    if (!storedAuth) {
-      return;
-    }
-
     try {
-      const authState = JSON.parse(storedAuth);
+      const storedAuth = sessionStorage.getItem("dt-admin-auth");
 
-      dispatch(hydrateAuth(authState));
+      if (storedAuth) {
+        const authState = JSON.parse(storedAuth);
+
+        dispatch(hydrateAuth(authState));
+      }
     } catch {
       sessionStorage.removeItem("dt-admin-auth");
+    } finally {
+      dispatch(setAuthHydrated());
     }
   }, [dispatch]);
 

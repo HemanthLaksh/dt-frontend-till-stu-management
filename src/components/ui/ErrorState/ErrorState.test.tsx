@@ -33,9 +33,7 @@ describe("ErrorState", () => {
       }),
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByText("Please try again later."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Please try again later.")).toBeInTheDocument();
   });
 
   it("renders the retry button when onRetry is provided", () => {
@@ -64,12 +62,7 @@ describe("ErrorState", () => {
   });
 
   it("supports a custom retry label", () => {
-    render(
-      <ErrorState
-        onRetry={jest.fn()}
-        retryLabel="Reload Students"
-      />,
-    );
+    render(<ErrorState onRetry={jest.fn()} retryLabel="Reload Students" />);
 
     expect(
       screen.getByRole("button", {
@@ -79,15 +72,9 @@ describe("ErrorState", () => {
   });
 
   it("renders a custom icon", () => {
-    render(
-      <ErrorState
-        icon={<span data-testid="custom-icon">Error</span>}
-      />,
-    );
+    render(<ErrorState icon={<span data-testid="custom-icon">Error</span>} />);
 
-    expect(
-      screen.getByTestId("custom-icon"),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("custom-icon")).toBeInTheDocument();
   });
 
   it("has alert role", () => {

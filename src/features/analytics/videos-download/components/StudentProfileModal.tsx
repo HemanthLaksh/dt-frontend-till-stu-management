@@ -2,9 +2,7 @@
 
 import { X } from "lucide-react";
 
-import type {
-  VideosDownloadAnalyticsItem,
-} from "../types/videosDownloadAnalytics.types";
+import type { VideosDownloadAnalyticsItem } from "../types/videosDownloadAnalytics.types";
 
 interface StudentProfileModalProps {
   student: VideosDownloadAnalyticsItem | null;
@@ -19,9 +17,7 @@ interface DetailRowProps {
 function DetailRow({ label, value }: DetailRowProps) {
   return (
     <div className="grid grid-cols-1 gap-1 border-b border-slate-100 py-3 sm:grid-cols-[220px_1fr] sm:gap-4">
-      <div className="text-sm font-medium text-slate-500">
-        {label}
-      </div>
+      <div className="text-sm font-medium text-slate-500">{label}</div>
 
       <div className="text-sm font-semibold text-slate-800">
         {value !== null && value !== undefined && value !== ""
@@ -76,45 +72,21 @@ export default function StudentProfileModal({
         {/* Content */}
         <div className="overflow-y-auto px-6 py-4">
           <div className="overflow-hidden rounded-xl border border-slate-200">
-            <DetailRow
-              label="Student ID"
-              value={student.studentID}
-            />
+            <DetailRow label="Student ID" value={student.studentID} />
 
-            <DetailRow
-              label="Name"
-              value={student.studentName}
-            />
+            <DetailRow label="Name" value={student.studentName} />
 
-            <DetailRow
-              label="ISD Code"
-              value={student.isdCode}
-            />
+            <DetailRow label="ISD Code" value={student.isdCode} />
 
-            <DetailRow
-              label="Mobile No."
-              value={student.mobileNo}
-            />
+            <DetailRow label="Mobile No." value={student.mobileNo} />
 
-            <DetailRow
-              label="Email"
-              value={student.email}
-            />
+            <DetailRow label="Email" value={student.email} />
 
-            <DetailRow
-              label="Education"
-              value={student.education}
-            />
+            <DetailRow label="Education" value={student.education} />
 
-            <DetailRow
-              label="College"
-              value={student.college}
-            />
+            <DetailRow label="College" value={student.college} />
 
-            <DetailRow
-              label="State"
-              value={student.addressState}
-            />
+            <DetailRow label="State" value={student.addressState} />
 
             <DetailRow
               label="Subscription Taken"
@@ -141,10 +113,7 @@ export default function StudentProfileModal({
               value={student.subscriptionOrderID}
             />
 
-            <DetailRow
-              label="Amount"
-              value={student.amount}
-            />
+            <DetailRow label="Amount" value={student.amount} />
           </div>
         </div>
 

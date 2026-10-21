@@ -47,11 +47,7 @@ export interface NeetPGStudent {
 }
 
 export type StudentView =
-  | "shortcuts"
-  | "stateCollege"
-  | "stateCollegeResults"
-  | "neetSS"
-  | "neetPG";
+  "shortcuts" | "stateCollege" | "stateCollegeResults" | "neetSS" | "neetPG";
 
 export interface StateCollegeRequest {
   state: string;

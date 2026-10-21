@@ -12,10 +12,7 @@ import type { SubscriberFilters as SubscriberFiltersType } from "../types/subscr
 
 interface SubscriberFiltersProps {
   filters: SubscriberFiltersType;
-  onChange: (
-    field: keyof SubscriberFiltersType,
-    value: string,
-  ) => void;
+  onChange: (field: keyof SubscriberFiltersType, value: string) => void;
   onSubmit: () => void;
   isLoading: boolean;
   error: string;
@@ -36,9 +33,7 @@ export default function SubscriberFilters({
           value={filters.businessType}
           options={BUSINESS_TYPE_OPTIONS}
           placeholder="Select Business Type"
-          onChange={(value) =>
-            onChange("businessType", value)
-          }
+          onChange={(value) => onChange("businessType", value)}
           disabled={isLoading}
         />
 
@@ -47,18 +42,14 @@ export default function SubscriberFilters({
           value={filters.courseId}
           options={SUBSCRIBER_COURSE_OPTIONS}
           placeholder="Select Course"
-          onChange={(value) =>
-            onChange("courseId", value)
-          }
+          onChange={(value) => onChange("courseId", value)}
           disabled={isLoading}
         />
 
         <DatePicker
           label="From Date"
           value={filters.fromDate}
-          onChange={(value) =>
-            onChange("fromDate", value)
-          }
+          onChange={(value) => onChange("fromDate", value)}
           disabled={isLoading}
         />
 
@@ -66,9 +57,7 @@ export default function SubscriberFilters({
           label="To Date"
           value={filters.toDate}
           minDate={filters.fromDate}
-          onChange={(value) =>
-            onChange("toDate", value)
-          }
+          onChange={(value) => onChange("toDate", value)}
           disabled={!filters.fromDate || isLoading}
         />
       </div>

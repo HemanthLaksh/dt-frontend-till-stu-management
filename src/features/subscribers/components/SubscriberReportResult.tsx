@@ -19,19 +19,14 @@ export default function SubscriberReportResult({
     return (
       <div className="mt-6 rounded-xl border border-red-200 bg-red-50 p-5">
         <div className="flex items-start gap-3">
-          <AlertCircle
-            size={20}
-            className="mt-0.5 shrink-0 text-red-600"
-          />
+          <AlertCircle size={20} className="mt-0.5 shrink-0 text-red-600" />
 
           <div>
             <h3 className="text-sm font-semibold text-red-800">
               Report Generation Failed
             </h3>
 
-            <p className="mt-1 text-sm text-red-600">
-              {result.message}
-            </p>
+            <p className="mt-1 text-sm text-red-600">{result.message}</p>
           </div>
         </div>
       </div>

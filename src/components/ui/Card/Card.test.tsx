@@ -9,9 +9,7 @@ describe("Card", () => {
       </Card>,
     );
 
-    expect(
-      screen.getByText("Student information"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Student information")).toBeInTheDocument();
   });
 
   it("renders a title", () => {
@@ -30,36 +28,24 @@ describe("Card", () => {
 
   it("renders a description", () => {
     render(
-      <Card
-        title="Student Details"
-        description="View student information."
-      >
+      <Card title="Student Details" description="View student information.">
         <p>Student information</p>
       </Card>,
     );
 
-    expect(
-      screen.getByText("View student information."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("View student information.")).toBeInTheDocument();
   });
 
   it("renders title and description together", () => {
     render(
-      <Card
-        title="Orders"
-        description="View recent orders."
-      >
+      <Card title="Orders" description="View recent orders.">
         <p>Order list</p>
       </Card>,
     );
 
-    expect(
-      screen.getByRole("heading", { name: "Orders" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Orders" })).toBeInTheDocument();
 
-    expect(
-      screen.getByText("View recent orders."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("View recent orders.")).toBeInTheDocument();
 
     expect(screen.getByText("Order list")).toBeInTheDocument();
   });
@@ -71,9 +57,7 @@ describe("Card", () => {
       </Card>,
     );
 
-    expect(screen.getByText("Content").parentElement).toHaveClass(
-      "p-5",
-    );
+    expect(screen.getByText("Content").parentElement).toHaveClass("p-5");
 
     expect(
       screen.getByText("Content").parentElement?.parentElement,

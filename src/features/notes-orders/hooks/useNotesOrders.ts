@@ -7,10 +7,7 @@ import {
   updateNotesOrderStatus,
 } from "../services/notesOrders.service";
 
-import type {
-  NotesOrder,
-  NotesOrderStatus,
-} from "../types/notesOrders.types";
+import type { NotesOrder, NotesOrderStatus } from "../types/notesOrders.types";
 
 export function useNotesOrders() {
   const [orders, setOrders] = useState<NotesOrder[]>([]);
@@ -31,9 +28,7 @@ export function useNotesOrders() {
         setOrders([]);
 
         setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to fetch notes orders",
+          err instanceof Error ? err.message : "Unable to fetch notes orders",
         );
       } finally {
         setLoading(false);
@@ -64,9 +59,7 @@ export function useNotesOrders() {
         };
       } catch (err) {
         const message =
-          err instanceof Error
-            ? err.message
-            : "Unable to update order status";
+          err instanceof Error ? err.message : "Unable to update order status";
 
         setError(message);
 

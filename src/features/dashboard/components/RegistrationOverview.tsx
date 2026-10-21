@@ -1,126 +1,385 @@
 "use client";
 
-import { useState } from "react";
-import Select from "@/components/ui/Select/Select";
+import { useEffect, useState } from "react";
+import {
+  GraduationCap,
+  Stethoscope,
+  HeartPulse,
+  BookOpen,
+  UserRound,
+  CalendarDays,
+  Users,
+} from "lucide-react";
 
-const registrationData = [
+import Select from "@/components/ui/Select/Select";
+import { fetchFastApiDashboard } from "../services/dashboardFastApiService";
+import type { FastApiCourse } from "../services/dashboardFastApiService";
+
+interface RegistrationCourse {
+  name: string;
+  registrations: string;
+}
+
+interface YearRegistration {
+  year: number;
+  courses: RegistrationCourse[];
+}
+
+const courseStyles = [
   {
-    year: 2025,
-    courses: [
-      { name: "NEET PG", registrations: "2,482" },
-      { name: "NEET SS", registrations: "1,842" },
-      { name: "FMGE", registrations: "1,234" },
-      { name: "MBBS Curriculum", registrations: "2,921" },
-      { name: "PG Residency", registrations: "1,102" },
-    ],
+    icon: GraduationCap,
+    iconColor: "text-blue-600",
+    iconBg: "bg-blue-100",
+    accent: "bg-blue-500",
+    valueColor: "text-blue-700",
+    hover: "hover:border-blue-200 hover:shadow-blue-100",
   },
   {
-    year: 2024,
-    courses: [
-      { name: "NEET PG", registrations: "2,184" },
-      { name: "NEET SS", registrations: "1,624" },
-      { name: "FMGE", registrations: "1,108" },
-      { name: "MBBS Curriculum", registrations: "2,642" },
-      { name: "PG Residency", registrations: "986" },
-    ],
+    icon: Stethoscope,
+    iconColor: "text-violet-600",
+    iconBg: "bg-violet-100",
+    accent: "bg-violet-500",
+    valueColor: "text-violet-700",
+    hover: "hover:border-violet-200 hover:shadow-violet-100",
   },
   {
-    year: 2023,
-    courses: [
-      { name: "NEET PG", registrations: "1,942" },
-      { name: "NEET SS", registrations: "1,482" },
-      { name: "FMGE", registrations: "942" },
-      { name: "MBBS Curriculum", registrations: "2,284" },
-      { name: "PG Residency", registrations: "824" },
-    ],
+    icon: HeartPulse,
+    iconColor: "text-emerald-600",
+    iconBg: "bg-emerald-100",
+    accent: "bg-emerald-500",
+    valueColor: "text-emerald-700",
+    hover: "hover:border-emerald-200 hover:shadow-emerald-100",
   },
   {
-    year: 2022,
-    courses: [
-      { name: "NEET PG", registrations: "1,724" },
-      { name: "NEET SS", registrations: "1,284" },
-      { name: "FMGE", registrations: "812" },
-      { name: "MBBS Curriculum", registrations: "1,942" },
-      { name: "PG Residency", registrations: "704" },
-    ],
+    icon: BookOpen,
+    iconColor: "text-orange-600",
+    iconBg: "bg-orange-100",
+    accent: "bg-orange-500",
+    valueColor: "text-orange-700",
+    hover: "hover:border-orange-200 hover:shadow-orange-100",
+  },
+  {
+    icon: UserRound,
+    iconColor: "text-pink-600",
+    iconBg: "bg-pink-100",
+    accent: "bg-pink-500",
+    valueColor: "text-pink-700",
+    hover: "hover:border-pink-200 hover:shadow-pink-100",
   },
 ];
+
+function formatRegistrationCount(value: string): string {
+  if (value === "—" || value.trim() === "") {
+    return "—";
+  }
+
+  const count = Number(value.replace(/,/g, ""));
+
+  if (!Number.isFinite(count)) {
+    return "—";
+  }
+
+  return count.toLocaleString("en-IN");
+}
+
+function getRegistrationData(courses: FastApiCourse[]): YearRegistration[] {
+  const visibleCourses = [
+    { id: 1, name: "NEET PG" },
+    { id: 2, name: "NEET SS" },
+    { id: 3, name: "FMGE" },
+    { id: 4, name: "MBBS Curriculum" },
+    { id: 5, name: "PG Residency" },
+  ];
+
+  const years = Array.from({ length: 9 }, (_, index) => 2026 - index);
+
+  return years.map((year) => ({
+    year,
+    courses: visibleCourses.map((visibleCourse) => {
+      const course = courses.find((item) => item.courseId === visibleCourse.id);
+
+      return {
+        name: visibleCourse.name,
+        registrations:
+          course?.signUpsByYear[String(year)] !== undefined
+            ? String(course.signUpsByYear[String(year)])
+            : "—",
+      };
+    }),
+  }));
+}
 
 function RegistrationOverview() {
   const [selectedYear, setSelectedYear] = useState("2025");
 
-  const selectedData = registrationData.find(
-    (item) => item.year.toString() === selectedYear,
-  );
+  const [dashboardData, setDashboardData] = useState<FastApiCourse[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadRegistrationData() {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetchFastApiDashboard();
+
+        if (isMounted) {
+          setDashboardData(response.courses);
+        }
+      } catch (err: unknown) {
+        if (isMounted) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Failed to load registration data.",
+          );
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadRegistrationData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const registrationData = getRegistrationData(dashboardData);
+
+  const selectedData =
+    selectedYear === "All Registrations"
+      ? registrationData.length > 0
+        ? {
+            year: "All Registrations",
+            courses: registrationData[0].courses.map((course) => {
+              const total = registrationData
+                .flatMap((year) => year.courses)
+                .filter((item) => item.name === course.name)
+                .reduce((sum, item) => {
+                  if (item.registrations === "—") {
+                    return sum;
+                  }
+
+                  const count = Number(item.registrations.replace(/,/g, ""));
+
+                  return Number.isFinite(count) ? sum + count : sum;
+                }, 0);
+
+              const hasAvailableValue = registrationData
+                .flatMap((year) => year.courses)
+                .some(
+                  (item) =>
+                    item.name === course.name &&
+                    item.registrations !== "—" &&
+                    Number.isFinite(
+                      Number(item.registrations.replace(/,/g, "")),
+                    ),
+                );
+
+              return {
+                name: course.name,
+                registrations: hasAvailableValue
+                  ? total.toLocaleString("en-IN")
+                  : "—",
+              };
+            }),
+          }
+        : null
+      : registrationData.find((item) => item.year.toString() === selectedYear);
+
+  const totalRegistrations =
+    selectedData?.courses.reduce((total, course) => {
+      if (course.registrations === "—") {
+        return total;
+      }
+
+      const count = Number(course.registrations.replace(/,/g, ""));
+
+      return Number.isFinite(count) ? total + count : total;
+    }, 0) ?? 0;
+
+  const hasAvailableRegistrations =
+    selectedData?.courses.some((course) => course.registrations !== "—") ??
+    false;
 
   return (
-    <section className="rounded-xl border border-border bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-      <div className="flex flex-col gap-4 border-b border-border px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-text-primary">
-            Course Registrations
-          </h3>
+    <section className="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm transition-all duration-300 hover:shadow-md">
+      {/* Header */}
+      <div className="flex flex-col gap-4 border-b border-slate-100 px-5 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <div className="flex items-start gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
+            <CalendarDays size={22} />
+          </div>
 
-          <p className="mt-1 text-sm text-text-secondary">
-            Registration overview by course and year.
-          </p>
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Course Registrations
+            </h3>
+
+            <p className="mt-1 text-sm text-slate-500">
+              Registration overview by course and year.
+            </p>
+          </div>
         </div>
 
-        <div className="w-full sm:w-40">
+        <div className="w-full sm:w-56">
           <Select
             label="Select Year"
             value={selectedYear}
             options={[
-              { label: "2025", value: "2025" },
-              { label: "2024", value: "2024" },
-              { label: "2023", value: "2023" },
-              { label: "2022", value: "2022" },
+              { label: "All Registrations", value: "All Registrations" },
+              ...Array.from({ length: 9 }, (_, index) => {
+                const year = 2026 - index;
+
+                return {
+                  label: String(year),
+                  value: String(year),
+                };
+              }),
             ]}
             onChange={setSelectedYear}
           />
         </div>
       </div>
 
-      <div className="p-6">
-        {selectedData && (
-          <div>
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-primary" />
+      <div className="space-y-5 p-5 sm:p-6">
+        {/* Loading state */}
+        {isLoading && (
+          <div className="flex items-center justify-center gap-3 py-10">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+            <p className="text-sm text-slate-500">
+              Loading registration data...
+            </p>
+          </div>
+        )}
 
-              <h4 className="text-sm font-semibold text-text-primary">
-                {selectedData.year} Registrations
-              </h4>
-            </div>
+        {/* Error state */}
+        {!isLoading && error && (
+          <div
+            role="alert"
+            className="rounded-lg border border-red-200 bg-red-50 p-4"
+          >
+            <p className="text-sm font-medium text-red-700">
+              Failed to load registration data.
+            </p>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {selectedData.courses.map((course) => (
-                <div
-                  key={course.name}
-                  className="
-                    rounded-lg
-                    bg-secondary-light
-                    p-4
-                    transition-all duration-300 ease-out
-                    hover:-translate-y-1
-                    hover:bg-primary-light
-                    hover:shadow-sm
-                  "
-                >
-                  <p className="text-sm font-medium text-text-secondary">
-                    {course.name}
-                  </p>
+            <p className="mt-1 text-sm text-red-600">{error}</p>
+          </div>
+        )}
 
-                  <p className="mt-2 text-xl font-semibold text-text-primary">
-                    {course.registrations}
-                  </p>
+        {/* Empty state */}
+        {!isLoading && !error && dashboardData.length === 0 && (
+          <p className="py-8 text-center text-sm text-slate-500">
+            No registration data available.
+          </p>
+        )}
 
-                  <p className="mt-1 text-xs text-text-muted">
-                    registrations
+        {/* Registration summary and course cards */}
+        {!isLoading && !error && selectedData && (
+          <>
+            {/* Summary */}
+            <div className="flex flex-col gap-3 rounded-xl border border-blue-100 bg-gradient-to-r from-blue-50 via-white to-violet-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
+                  <Users size={20} />
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-800">
+                    {selectedYear === "All Registrations"
+                      ? "All Years — Total Registrations"
+                      : `${selectedYear} Registrations`}
+                  </h4>
+
+                  <p className="mt-1 text-xs text-slate-500">
+                    Across all five courses
                   </p>
                 </div>
-              ))}
+              </div>
+
+              <div>
+                <p className="text-xs font-medium text-slate-500">
+                  Total Registrations
+                </p>
+
+                <p className="mt-1 text-2xl font-bold tracking-tight text-blue-700">
+                  {hasAvailableRegistrations
+                    ? totalRegistrations.toLocaleString("en-IN")
+                    : "—"}
+                </p>
+              </div>
             </div>
-          </div>
+
+            {/* Course cards */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              {selectedData.courses.map((course, index) => {
+                const style = courseStyles[index];
+                const Icon = style.icon;
+
+                return (
+                  <div
+                    key={course.name}
+                    className={`
+                      group relative overflow-hidden rounded-xl
+                      border border-slate-200/80 bg-white p-4
+                      transition-all duration-300 ease-out
+                      hover:-translate-y-1 hover:shadow-lg
+                      ${style.hover}
+                    `}
+                  >
+                    {/* Top accent */}
+                    <div
+                      className={`absolute inset-x-0 top-0 h-1 ${style.accent}`}
+                    />
+
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium leading-5 text-slate-500">
+                          {course.name}
+                        </p>
+
+                        <p
+                          className={`mt-3 text-2xl font-bold tracking-tight ${style.valueColor}`}
+                        >
+                          {formatRegistrationCount(course.registrations)}
+                        </p>
+                      </div>
+
+                      <div
+                        className={`
+                          flex h-10 w-10 shrink-0 items-center
+                          justify-center rounded-xl
+                          transition-transform duration-300
+                          group-hover:scale-110
+                          ${style.iconBg} ${style.iconColor}
+                        `}
+                      >
+                        <Icon size={20} />
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex items-center gap-2 border-t border-slate-100 pt-3">
+                      <span
+                        className={`h-2 w-2 rounded-full ${style.accent}`}
+                      />
+
+                      <span className="text-xs text-slate-500">
+                        Registrations
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
     </section>

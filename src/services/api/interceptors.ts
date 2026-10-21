@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import apiClient from "./client";
+import fastApiClient from "./fastApiClient";
 import type { AppError } from "@/types/api";
 
 const getAppError = (error: AxiosError): AppError => {
@@ -86,21 +87,28 @@ const getAppError = (error: AxiosError): AppError => {
   }
 };
 
+const responseErrorInterceptor = (error: unknown) => {
+  if (axios.isAxiosError(error)) {
+    const appError = getAppError(error);
+    return Promise.reject(appError);
+  }
+
+  const unknownError: AppError = {
+    code: "UNKNOWN_ERROR",
+    message: "Something went wrong. Please try again.",
+  };
+
+  return Promise.reject(unknownError);
+};
+
+// Existing backend API client
 apiClient.interceptors.response.use(
   (response) => response,
+  responseErrorInterceptor,
+);
 
-  (error: unknown) => {
-    if (axios.isAxiosError(error)) {
-      const appError = getAppError(error);
-
-      return Promise.reject(appError);
-    }
-
-    const unknownError: AppError = {
-      code: "UNKNOWN_ERROR",
-      message: "Something went wrong. Please try again.",
-    };
-
-    return Promise.reject(unknownError);
-  },
+// FastAPI client
+fastApiClient.interceptors.response.use(
+  (response) => response,
+  responseErrorInterceptor,
 );

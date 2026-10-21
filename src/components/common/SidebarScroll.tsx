@@ -59,7 +59,7 @@ export default function SidebarScroll({
   return (
     <nav
       ref={navRef}
-      className={`flex-1 overflow-y-auto px-3 py-6 ${className}`}
+      className={`relative flex-1 overflow-y-auto px-3 py-6 ${className}`}
     >
       {children}
     </nav>

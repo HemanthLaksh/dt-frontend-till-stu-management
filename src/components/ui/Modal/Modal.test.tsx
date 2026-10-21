@@ -5,11 +5,7 @@ import Modal from "./Modal";
 describe("Modal", () => {
   it("does not render when closed", () => {
     render(
-      <Modal
-        isOpen={false}
-        onClose={jest.fn()}
-        title="Student Details"
-      >
+      <Modal isOpen={false} onClose={jest.fn()} title="Student Details">
         <p>Student information</p>
       </Modal>,
     );
@@ -19,11 +15,7 @@ describe("Modal", () => {
 
   it("renders when open", () => {
     render(
-      <Modal
-        isOpen
-        onClose={jest.fn()}
-        title="Student Details"
-      >
+      <Modal isOpen onClose={jest.fn()} title="Student Details">
         <p>Student information</p>
       </Modal>,
     );
@@ -35,9 +27,7 @@ describe("Modal", () => {
       }),
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByText("Student information"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Student information")).toBeInTheDocument();
   });
 
   it("renders description", () => {
@@ -52,9 +42,7 @@ describe("Modal", () => {
       </Modal>,
     );
 
-    expect(
-      screen.getByText("Confirm student activation."),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Confirm student activation.")).toBeInTheDocument();
   });
 
   it("calls onClose when close button is clicked", async () => {
@@ -62,11 +50,7 @@ describe("Modal", () => {
     const handleClose = jest.fn();
 
     render(
-      <Modal
-        isOpen
-        onClose={handleClose}
-        title="Student Details"
-      >
+      <Modal isOpen onClose={handleClose} title="Student Details">
         <p>Content</p>
       </Modal>,
     );
@@ -85,11 +69,7 @@ describe("Modal", () => {
     const handleClose = jest.fn();
 
     render(
-      <Modal
-        isOpen
-        onClose={handleClose}
-        title="Student Details"
-      >
+      <Modal isOpen onClose={handleClose} title="Student Details">
         <p>Content</p>
       </Modal>,
     );
@@ -125,12 +105,7 @@ describe("Modal", () => {
 
   it("renders different modal sizes", () => {
     const { rerender } = render(
-      <Modal
-        isOpen
-        onClose={jest.fn()}
-        title="Student Details"
-        size="sm"
-      >
+      <Modal isOpen onClose={jest.fn()} title="Student Details" size="sm">
         <p>Content</p>
       </Modal>,
     );
@@ -138,12 +113,7 @@ describe("Modal", () => {
     expect(screen.getByRole("dialog")).toHaveClass("max-w-md");
 
     rerender(
-      <Modal
-        isOpen
-        onClose={jest.fn()}
-        title="Student Details"
-        size="xl"
-      >
+      <Modal isOpen onClose={jest.fn()} title="Student Details" size="xl">
         <p>Content</p>
       </Modal>,
     );

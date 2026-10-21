@@ -17,9 +17,7 @@ import {
 
 import { chartColorSets } from "../constants/trends";
 
-import type {
-  TrendChartProps,
-} from "../types/trends.types";
+import type { TrendChartProps } from "../types/trends.types";
 
 const colors = chartColorSets[0];
 
@@ -37,11 +35,7 @@ interface CustomTooltipProps {
   label?: string | number;
 }
 
-function CustomTooltip({
-  active,
-  payload,
-  label,
-}: CustomTooltipProps) {
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload || payload.length === 0) {
     return null;
   }
@@ -51,17 +45,11 @@ function CustomTooltip({
   return (
     <div className="min-w-[160px] rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-lg">
       {label !== undefined && (
-        <p className="mb-1 text-xs font-medium text-slate-500">
-          {label}
-        </p>
+        <p className="mb-1 text-xs font-medium text-slate-500">{label}</p>
       )}
 
       <p className="text-sm font-semibold text-slate-800">
-        {item.name && (
-          <span className="mr-1">
-            {item.name}:
-          </span>
-        )}
+        {item.name && <span className="mr-1">{item.name}:</span>}
 
         {item.value?.toLocaleString()}
       </p>
@@ -73,9 +61,7 @@ function CustomTooltip({
 /*                              Trend Chart                                   */
 /* -------------------------------------------------------------------------- */
 
-export default function TrendChart({
-  report,
-}: TrendChartProps) {
+export default function TrendChart({ report }: TrendChartProps) {
   const xKey = report.xKey ?? "name";
 
   /* ------------------------------------------------------------------------ */
@@ -91,17 +77,12 @@ export default function TrendChart({
             {report.title}
           </h2>
 
-          <p className="mt-1 text-sm text-slate-500">
-            {report.description}
-          </p>
+          <p className="mt-1 text-sm text-slate-500">{report.description}</p>
         </div>
 
         {/* Chart */}
         <div className="h-80 w-full p-5">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-          >
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={report.data}
               margin={{
@@ -185,17 +166,12 @@ export default function TrendChart({
             {report.title}
           </h2>
 
-          <p className="mt-1 text-sm text-slate-500">
-            {report.description}
-          </p>
+          <p className="mt-1 text-sm text-slate-500">{report.description}</p>
         </div>
 
         {/* Chart */}
         <div className="h-80 w-full p-5">
-          <ResponsiveContainer
-            width="100%"
-            height="100%"
-          >
+          <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={report.data}
               margin={{
@@ -247,9 +223,7 @@ export default function TrendChart({
                 {report.data.map((_, index) => (
                   <Cell
                     key={`bar-${index}`}
-                    fill={
-                      colors[index % colors.length]
-                    }
+                    fill={colors[index % colors.length]}
                   />
                 ))}
               </Bar>
@@ -272,17 +246,12 @@ export default function TrendChart({
           {report.title}
         </h2>
 
-        <p className="mt-1 text-sm text-slate-500">
-          {report.description}
-        </p>
+        <p className="mt-1 text-sm text-slate-500">{report.description}</p>
       </div>
 
       {/* Chart */}
       <div className="h-80 w-full p-5">
-        <ResponsiveContainer
-          width="100%"
-          height="100%"
-        >
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={report.data}
@@ -297,16 +266,12 @@ export default function TrendChart({
               {report.data.map((_, index) => (
                 <Cell
                   key={`pie-${index}`}
-                  fill={
-                    colors[index % colors.length]
-                  }
+                  fill={colors[index % colors.length]}
                 />
               ))}
             </Pie>
 
-            <Tooltip
-              content={<CustomTooltip />}
-            />
+            <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
       </div>

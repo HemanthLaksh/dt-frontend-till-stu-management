@@ -19,9 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StoreProvider>
-          <AppLayout>
-            {children}
-          </AppLayout>
+          <AppLayout>{children}</AppLayout>
         </StoreProvider>
       </body>
     </html>

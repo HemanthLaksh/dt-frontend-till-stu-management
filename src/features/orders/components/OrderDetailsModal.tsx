@@ -86,15 +86,10 @@ export default function OrderDetailsModal({
 
             <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex items-center gap-3">
-                <Phone
-                  size={16}
-                  className="text-slate-400"
-                />
+                <Phone size={16} className="text-slate-400" />
 
                 <div>
-                  <p className="text-xs text-slate-500">
-                    Mobile
-                  </p>
+                  <p className="text-xs text-slate-500">Mobile</p>
 
                   <p className="text-sm font-medium text-slate-800">
                     {order.mobileNo}
@@ -103,15 +98,10 @@ export default function OrderDetailsModal({
               </div>
 
               <div className="flex items-center gap-3">
-                <Mail
-                  size={16}
-                  className="text-slate-400"
-                />
+                <Mail size={16} className="text-slate-400" />
 
                 <div>
-                  <p className="text-xs text-slate-500">
-                    Email
-                  </p>
+                  <p className="text-xs text-slate-500">Email</p>
 
                   <p className="break-all text-sm font-medium text-slate-800">
                     {order.email}
@@ -129,9 +119,7 @@ export default function OrderDetailsModal({
 
             <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="rounded-lg border border-slate-200 p-4">
-                <p className="text-xs text-slate-500">
-                  Course
-                </p>
+                <p className="text-xs text-slate-500">Course</p>
 
                 <p className="mt-1 text-sm font-semibold text-slate-800">
                   {order.course}
@@ -139,9 +127,7 @@ export default function OrderDetailsModal({
               </div>
 
               <div className="rounded-lg border border-slate-200 p-4">
-                <p className="text-xs text-slate-500">
-                  Plan
-                </p>
+                <p className="text-xs text-slate-500">Plan</p>
 
                 <p className="mt-1 text-sm font-semibold text-slate-800">
                   {order.planName}
@@ -150,14 +136,9 @@ export default function OrderDetailsModal({
 
               <div className="rounded-lg border border-slate-200 p-4">
                 <div className="flex items-center gap-2">
-                  <CreditCard
-                    size={15}
-                    className="text-slate-400"
-                  />
+                  <CreditCard size={15} className="text-slate-400" />
 
-                  <p className="text-xs text-slate-500">
-                    Payment Method
-                  </p>
+                  <p className="text-xs text-slate-500">Payment Method</p>
                 </div>
 
                 <p className="mt-1 text-sm font-semibold text-slate-800">
@@ -167,14 +148,9 @@ export default function OrderDetailsModal({
 
               <div className="rounded-lg border border-slate-200 p-4">
                 <div className="flex items-center gap-2">
-                  <CalendarDays
-                    size={15}
-                    className="text-slate-400"
-                  />
+                  <CalendarDays size={15} className="text-slate-400" />
 
-                  <p className="text-xs text-slate-500">
-                    Order Date
-                  </p>
+                  <p className="text-xs text-slate-500">Order Date</p>
                 </div>
 
                 <p className="mt-1 text-sm font-semibold text-slate-800">
@@ -187,9 +163,7 @@ export default function OrderDetailsModal({
           {/* Amount + Status */}
           <div className="mt-5 flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs text-slate-500">
-                Order Amount
-              </p>
+              <p className="text-xs text-slate-500">Order Amount</p>
 
               <p className="mt-1 text-2xl font-bold text-slate-900">
                 ₹{order.amount.toLocaleString("en-IN")}

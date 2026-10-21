@@ -29,10 +29,7 @@ export default function StudentDetailsModal({
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-              <User
-                size={20}
-                className="text-blue-600"
-              />
+              <User size={20} className="text-blue-600" />
             </div>
 
             <div>
@@ -59,67 +56,37 @@ export default function StudentDetailsModal({
         <div className="max-h-[calc(90vh-90px)] overflow-y-auto p-6">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <InfoSection title="Student Information">
-              <InfoItem
-                label="Student ID"
-                value={String(order.studentId)}
-              />
+              <InfoItem label="Student ID" value={String(order.studentId)} />
 
-              <InfoItem
-                label="Name"
-                value={order.studentName}
-              />
+              <InfoItem label="Name" value={order.studentName} />
 
-              <InfoItem
-                label="Mobile No."
-                value={order.mobileNo}
-              />
+              <InfoItem label="Mobile No." value={order.mobileNo} />
 
-              <InfoItem
-                label="Education"
-                value={order.education}
-              />
+              <InfoItem label="Education" value={order.education} />
 
-              <InfoItem
-                label="College"
-                value={order.college}
-              />
+              <InfoItem label="College" value={order.college} />
             </InfoSection>
 
             <InfoSection title="Order Information">
-              <InfoItem
-                label="Order ID"
-                value={`#${order.notesOrderId}`}
-              />
+              <InfoItem label="Order ID" value={`#${order.notesOrderId}`} />
 
               <InfoItem
                 label="Amount"
                 value={`₹${order.amount.toLocaleString("en-IN")}`}
               />
 
-              <InfoItem
-                label="Payment Order ID"
-                value={order.paymentOrderId}
-              />
+              <InfoItem label="Payment Order ID" value={order.paymentOrderId} />
 
-              <InfoItem
-                label="Notes"
-                value={order.notes}
-              />
+              <InfoItem label="Notes" value={order.notes} />
 
-              <InfoItem
-                label="Subjects"
-                value={order.subjects}
-              />
+              <InfoItem label="Subjects" value={order.subjects} />
             </InfoSection>
           </div>
 
           <div className="mt-6">
             <InfoSection title="Delivery Address">
               <div className="flex gap-3">
-                <MapPin
-                  size={18}
-                  className="mt-0.5 shrink-0 text-blue-600"
-                />
+                <MapPin size={18} className="mt-0.5 shrink-0 text-blue-600" />
 
                 <p className="text-sm leading-6 text-slate-600">
                   {address || "No address available"}
@@ -154,31 +121,19 @@ function InfoSection({
 }) {
   return (
     <div className="rounded-xl border border-slate-200 p-5">
-      <h3 className="mb-4 text-sm font-semibold text-slate-900">
-        {title}
-      </h3>
+      <h3 className="mb-4 text-sm font-semibold text-slate-900">{title}</h3>
 
       <div className="space-y-3">{children}</div>
     </div>
   );
 }
 
-function InfoItem({
-  label,
-  value,
-}: {
-  label: string;
-  value?: string;
-}) {
+function InfoItem({ label, value }: { label: string; value?: string }) {
   return (
     <div>
-      <p className="text-xs font-medium text-slate-400">
-        {label}
-      </p>
+      <p className="text-xs font-medium text-slate-400">{label}</p>
 
-      <p className="mt-0.5 text-sm text-slate-700">
-        {value || "—"}
-      </p>
+      <p className="mt-0.5 text-sm text-slate-700">{value || "—"}</p>
     </div>
   );
 }

@@ -12,12 +12,7 @@ describe("Input", () => {
   });
 
   it("renders placeholder text", () => {
-    render(
-      <Input
-        label="Student Name"
-        placeholder="Enter student name"
-      />,
-    );
+    render(<Input label="Student Name" placeholder="Enter student name" />);
 
     expect(
       screen.getByPlaceholderText("Enter student name"),
@@ -45,23 +40,14 @@ describe("Input", () => {
   });
 
   it("shows an error message", () => {
-    render(
-      <Input
-        label="Email"
-        error="Please enter a valid email"
-      />,
-    );
+    render(<Input label="Email" error="Please enter a valid email" />);
 
-    expect(
-      screen.getByText("Please enter a valid email"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Please enter a valid email")).toBeInTheDocument();
   });
 
   it("can be disabled", () => {
     render(<Input label="Student ID" disabled />);
 
-    expect(
-      screen.getByRole("textbox", { name: "Student ID" }),
-    ).toBeDisabled();
+    expect(screen.getByRole("textbox", { name: "Student ID" })).toBeDisabled();
   });
 });

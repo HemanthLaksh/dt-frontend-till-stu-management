@@ -11,8 +11,9 @@ import type {
 } from "../types/subscribers.types";
 
 export default function useSubscribers() {
-  const [reportType, setReportType] =
-    useState<SubscriberReportType | null>(null);
+  const [reportType, setReportType] = useState<SubscriberReportType | null>(
+    null,
+  );
 
   const [filters, setFilters] = useState<SubscriberFilters>({
     courseId: "",
@@ -21,25 +22,19 @@ export default function useSubscribers() {
     toDate: "",
   });
 
-  const [result, setResult] =
-    useState<SubscriberReportResponse | null>(null);
+  const [result, setResult] = useState<SubscriberReportResponse | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [error, setError] = useState("");
 
-  const selectReportType = (
-    type: SubscriberReportType,
-  ) => {
+  const selectReportType = (type: SubscriberReportType) => {
     setReportType(type);
     setResult(null);
     setError("");
   };
 
-  const updateFilter = (
-    field: keyof SubscriberFilters,
-    value: string,
-  ) => {
+  const updateFilter = (field: keyof SubscriberFilters, value: string) => {
     setFilters((previous) => ({
       ...previous,
       [field]: value,
@@ -84,21 +79,16 @@ export default function useSubscribers() {
       setError("");
       setResult(null);
 
-      const response = await getSubscribersReport(
-        reportType,
-        {
-          courseId: Number(filters.courseId),
-          businessType: filters.businessType,
-          fromDate: filters.fromDate,
-          toDate: filters.toDate,
-        },
-      );
+      const response = await getSubscribersReport(reportType, {
+        courseId: Number(filters.courseId),
+        businessType: filters.businessType,
+        fromDate: filters.fromDate,
+        toDate: filters.toDate,
+      });
 
       setResult(response);
     } catch {
-      setError(
-        "Unable to generate subscriber report. Please try again.",
-      );
+      setError("Unable to generate subscriber report. Please try again.");
     } finally {
       setIsLoading(false);
     }

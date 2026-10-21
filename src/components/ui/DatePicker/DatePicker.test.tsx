@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import DatePicker from "./DatePicker";
 
 describe("DatePicker", () => {
@@ -10,90 +10,80 @@ describe("DatePicker", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    Object.defineProperty(window, "scrollTo", {
+      writable: true,
+      value: jest.fn(),
+    });
+
+    Object.defineProperty(window, "scrollBy", {
+      writable: true,
+      value: jest.fn(),
+    });
   });
 
   it("renders the label and placeholder", () => {
     render(<DatePicker {...defaultProps} />);
 
     expect(screen.getByText("From Date")).toBeInTheDocument();
+
     expect(screen.getByText("Select date")).toBeInTheDocument();
   });
 
   it("opens the calendar when clicked", () => {
     render(<DatePicker {...defaultProps} />);
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "From Date",
+      }),
+    );
 
-    expect(
-      screen.getByText("Today"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Today")).toBeInTheDocument();
 
-    expect(
-      screen.getByText("MO"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("MO")).toBeInTheDocument();
 
-    expect(
-      screen.getByText("TU"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("TU")).toBeInTheDocument();
   });
 
   it("displays the selected date", () => {
-    render(
-      <DatePicker
-        {...defaultProps}
-        value="2026-10-15"
-      />,
-    );
+    render(<DatePicker {...defaultProps} value="2026-10-15" />);
 
-    expect(
-      screen.getByText("15 Oct 2026"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("15 Oct 2026")).toBeInTheDocument();
   });
 
   it("calls onChange when a date is selected", () => {
     const onChange = jest.fn();
 
     render(
-      <DatePicker
-        {...defaultProps}
-        onChange={onChange}
-        value="2026-10-15"
-      />,
+      <DatePicker {...defaultProps} onChange={onChange} value="2026-10-15" />,
     );
 
     fireEvent.click(
       screen.getByRole("button", {
-        name: /15/i,
+        name: "From Date",
       }),
     );
 
-    // The selected date button is already rendered,
-    // so selecting another date is tested below.
     fireEvent.click(
       screen.getByRole("button", {
         name: "20",
       }),
     );
 
-    expect(onChange).toHaveBeenCalledWith(
-      "2026-10-20",
-    );
+    expect(onChange).toHaveBeenCalledWith("2026-10-20");
   });
 
   it("clears the selected date", () => {
     const onChange = jest.fn();
 
     render(
-      <DatePicker
-        {...defaultProps}
-        value="2026-10-15"
-        onChange={onChange}
-      />,
+      <DatePicker {...defaultProps} value="2026-10-15" onChange={onChange} />,
     );
 
     fireEvent.click(
       screen.getByRole("button", {
-        name: /15 Oct 2026/i,
+        name: "From Date",
       }),
     );
 
@@ -107,14 +97,13 @@ describe("DatePicker", () => {
   });
 
   it("supports minimum date", () => {
-    render(
-      <DatePicker
-        {...defaultProps}
-        minDate="2026-10-15"
-      />,
-    );
+    render(<DatePicker {...defaultProps} minDate="2026-10-15" />);
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "From Date",
+      }),
+    );
 
     const dateButton = screen.getByRole("button", {
       name: "10",
@@ -127,14 +116,14 @@ describe("DatePicker", () => {
     const onChange = jest.fn();
 
     render(
-      <DatePicker
-        {...defaultProps}
-        minDate="2026-10-15"
-        onChange={onChange}
-      />,
+      <DatePicker {...defaultProps} minDate="2026-10-15" onChange={onChange} />,
     );
 
-    fireEvent.click(screen.getByRole("button"));
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "From Date",
+      }),
+    );
 
     fireEvent.click(
       screen.getByRole("button", {
@@ -142,25 +131,20 @@ describe("DatePicker", () => {
       }),
     );
 
-    expect(onChange).toHaveBeenCalledWith(
-      "2026-10-20",
-    );
+    expect(onChange).toHaveBeenCalledWith("2026-10-20");
   });
 
   it("can be disabled", () => {
-    render(
-      <DatePicker
-        {...defaultProps}
-        disabled
-      />,
-    );
+    render(<DatePicker {...defaultProps} disabled />);
 
     expect(
-      screen.getByRole("button"),
+      screen.getByRole("button", {
+        name: "From Date",
+      }),
     ).toBeDisabled();
   });
 
-  it("closes the calendar when clicking outside", () => {
+  it("closes the calendar when clicking outside", async () => {
     render(
       <div>
         <DatePicker {...defaultProps} />
@@ -168,11 +152,13 @@ describe("DatePicker", () => {
       </div>,
     );
 
-    fireEvent.click(screen.getAllByRole("button")[0]);
+    fireEvent.click(
+      screen.getByRole("button", {
+        name: "From Date",
+      }),
+    );
 
-    expect(
-      screen.getByText("Today"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Today")).toBeInTheDocument();
 
     fireEvent.mouseDown(
       screen.getByRole("button", {
@@ -180,31 +166,22 @@ describe("DatePicker", () => {
       }),
     );
 
-    expect(
-      screen.queryByText("Today"),
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText("Today")).not.toBeInTheDocument();
+    });
   });
 
   it("opens with the selected month and year", () => {
-    render(
-      <DatePicker
-        {...defaultProps}
-        value="2026-10-15"
-      />,
-    );
+    render(<DatePicker {...defaultProps} value="2026-10-15" />);
 
     fireEvent.click(
       screen.getByRole("button", {
-        name: /15 Oct 2026/i,
+        name: "From Date",
       }),
     );
 
-    expect(
-      screen.getByText("October"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("October")).toBeInTheDocument();
 
-    expect(
-      screen.getByText("2026"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("2026")).toBeInTheDocument();
   });
 });

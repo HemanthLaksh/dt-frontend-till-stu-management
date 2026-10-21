@@ -2,9 +2,7 @@
 
 import { X } from "lucide-react";
 
-import type {
-  VideoDownloadDetails,
-} from "../types/videosDownloadAnalytics.types";
+import type { VideoDownloadDetails } from "../types/videosDownloadAnalytics.types";
 
 interface VideoDownloadDetailsModalProps {
   video: VideoDownloadDetails | null;
@@ -19,9 +17,7 @@ interface DetailRowProps {
 function DetailRow({ label, value }: DetailRowProps) {
   return (
     <div className="grid grid-cols-1 gap-1 border-b border-slate-100 py-3 sm:grid-cols-[220px_1fr] sm:gap-4">
-      <div className="text-sm font-medium text-slate-500">
-        {label}
-      </div>
+      <div className="text-sm font-medium text-slate-500">{label}</div>
 
       <div className="text-sm font-semibold text-slate-800">
         {value !== null && value !== undefined && value !== ""
@@ -76,35 +72,17 @@ export default function VideoDownloadDetailsModal({
         {/* Content */}
         <div className="overflow-y-auto px-6 py-4">
           <div className="overflow-hidden rounded-xl border border-slate-200">
-            <DetailRow
-              label="Video Sequence No."
-              value={video.videoSeqNo}
-            />
+            <DetailRow label="Video Sequence No." value={video.videoSeqNo} />
 
-            <DetailRow
-              label="Video Subject"
-              value={video.videoSubject}
-            />
+            <DetailRow label="Video Subject" value={video.videoSubject} />
 
-            <DetailRow
-              label="Video Topic"
-              value={video.videoTopic}
-            />
+            <DetailRow label="Video Topic" value={video.videoTopic} />
 
-            <DetailRow
-              label="Video Sub Topic"
-              value={video.videoSubTopic}
-            />
+            <DetailRow label="Video Sub Topic" value={video.videoSubTopic} />
 
-            <DetailRow
-              label="Video Name"
-              value={video.videoName}
-            />
+            <DetailRow label="Video Name" value={video.videoName} />
 
-            <DetailRow
-              label="Video Status"
-              value={video.videoStatus}
-            />
+            <DetailRow label="Video Status" value={video.videoStatus} />
 
             <DetailRow
               label="Video Downloaded At"

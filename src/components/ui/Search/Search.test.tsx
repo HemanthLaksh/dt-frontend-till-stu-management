@@ -13,11 +13,7 @@ describe("Search", () => {
 
   it("renders a custom placeholder", () => {
     render(
-      <Search
-        value=""
-        onChange={jest.fn()}
-        placeholder="Search students..."
-      />,
+      <Search value="" onChange={jest.fn()} placeholder="Search students..." />,
     );
 
     expect(
@@ -31,12 +27,7 @@ describe("Search", () => {
     const user = userEvent.setup();
     const handleChange = jest.fn();
 
-    render(
-      <Search
-        value=""
-        onChange={handleChange}
-      />,
-    );
+    render(<Search value="" onChange={handleChange} />);
 
     const searchInput = screen.getByRole("searchbox");
 
@@ -47,12 +38,7 @@ describe("Search", () => {
   });
 
   it("shows the clear button when a value exists", () => {
-    render(
-      <Search
-        value="John"
-        onChange={jest.fn()}
-      />,
-    );
+    render(<Search value="John" onChange={jest.fn()} />);
 
     expect(
       screen.getByRole("button", { name: "Clear search" }),
@@ -63,12 +49,7 @@ describe("Search", () => {
     const user = userEvent.setup();
     const handleChange = jest.fn();
 
-    render(
-      <Search
-        value="John"
-        onChange={handleChange}
-      />,
-    );
+    render(<Search value="John" onChange={handleChange} />);
 
     await user.click(
       screen.getByRole("button", {
@@ -80,13 +61,7 @@ describe("Search", () => {
   });
 
   it("can be disabled", () => {
-    render(
-      <Search
-        value=""
-        onChange={jest.fn()}
-        disabled
-      />,
-    );
+    render(<Search value="" onChange={jest.fn()} disabled />);
 
     expect(screen.getByRole("searchbox")).toBeDisabled();
   });

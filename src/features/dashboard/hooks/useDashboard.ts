@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { getDashboard } from "../services/dashboardService";
-import type { DashboardResponse } from "../types/dashboard.types";
+import { fetchDashboardData } from "../services/dashboardService";
+import type { OperationsDashboardData } from "../services/dashboardService";
 
 export function useDashboard() {
-  const [data, setData] = useState<DashboardResponse | null>(null);
+  const [data, setData] = useState<OperationsDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,12 +14,7 @@ export function useDashboard() {
       setLoading(true);
       setError(null);
 
-      const response = await getDashboard();
-
-      if (response.status !== "Y") {
-        setError(response.message || "Unable to load dashboard data.");
-        return;
-      }
+      const response = await fetchDashboardData();
 
       setData(response);
     } catch (error) {
@@ -34,7 +29,11 @@ export function useDashboard() {
   }, []);
 
   useEffect(() => {
-    void fetchDashboard();
+    const timeout = window.setTimeout(() => {
+      void fetchDashboard();
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, [fetchDashboard]);
 
   return {

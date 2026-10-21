@@ -9,9 +9,7 @@ import { navigationItems } from "../constants/home.constants";
 import type { ProfileDetail } from "../types/home.types";
 
 export default function Home() {
-  const admin = useAppSelector(
-    (state) => state.auth.admin,
-  );
+  const admin = useAppSelector((state) => state.auth.admin);
 
   /*
    * Administrator information received from
@@ -47,11 +45,9 @@ export default function Home() {
     },
   ];
 
-  const isActive =
-    admin?.adminStatus === "A";
+  const isActive = admin?.adminStatus === "A";
 
-  const firstLetter =
-    admin?.name?.charAt(0).toUpperCase() ?? "A";
+  const firstLetter = admin?.name?.charAt(0).toUpperCase() ?? "A";
 
   return (
     <div className="space-y-6">
@@ -79,9 +75,7 @@ export default function Home() {
           />
         </svg>
 
-        <span className="text-slate-500">
-          Overview
-        </span>
+        <span className="text-slate-500">Overview</span>
       </div>
 
       {/* =====================================================
@@ -96,15 +90,13 @@ export default function Home() {
             </div>
 
             <h2 className="text-2xl font-semibold tracking-tight text-slate-900">
-              Welcome back,{" "}
-              {admin?.name ?? "Admin"}
+              Welcome back, {admin?.name ?? "Admin"}
             </h2>
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-              Welcome to the DocTutorials Admin Portal.
-              Manage students, monitor platform activity,
-              and access important administrative
-              information from one place.
+              Welcome to the DocTutorials Admin Portal. Manage students, monitor
+              platform activity, and access important administrative information
+              from one place.
             </p>
           </div>
 
@@ -136,11 +128,7 @@ export default function Home() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <circle
-                    cx="12"
-                    cy="8"
-                    r="4"
-                  />
+                  <circle cx="12" cy="8" r="4" />
                   <path d="M4 21a8 8 0 0 1 16 0" />
                 </svg>
               </div>
@@ -190,9 +178,7 @@ export default function Home() {
 
           <div
             className={`mt-6 flex items-center gap-4 rounded-xl p-4 ${
-              isActive
-                ? "bg-green-50"
-                : "bg-red-50"
+              isActive ? "bg-green-50" : "bg-red-50"
             }`}
           >
             <div
@@ -233,21 +219,15 @@ export default function Home() {
             <div>
               <p
                 className={`text-sm font-semibold ${
-                  isActive
-                    ? "text-green-800"
-                    : "text-red-800"
+                  isActive ? "text-green-800" : "text-red-800"
                 }`}
               >
-                {isActive
-                  ? "Active"
-                  : admin?.adminStatus ?? "Unknown"}
+                {isActive ? "Active" : (admin?.adminStatus ?? "Unknown")}
               </p>
 
               <p
                 className={`mt-0.5 text-xs ${
-                  isActive
-                    ? "text-green-700"
-                    : "text-red-700"
+                  isActive ? "text-green-700" : "text-red-700"
                 }`}
               >
                 {isActive
@@ -285,8 +265,7 @@ export default function Home() {
             </h3>
 
             <p className="mt-1 text-sm text-slate-500">
-              Navigate to the different sections of the
-              admin portal.
+              Navigate to the different sections of the admin portal.
             </p>
           </div>
         </div>

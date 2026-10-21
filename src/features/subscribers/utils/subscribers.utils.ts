@@ -8,10 +8,7 @@ export const getSubscriberReportTitle = (
     : "In-Active Subscribers Report Download";
 };
 
-export const isValidDateRange = (
-  fromDate: string,
-  toDate: string,
-): boolean => {
+export const isValidDateRange = (fromDate: string, toDate: string): boolean => {
   if (!fromDate || !toDate) {
     return false;
   }

@@ -32,11 +32,7 @@ export default function Loading({
         aria-hidden="true"
       />
 
-      {message && (
-        <span className="text-sm font-medium">
-          {message}
-        </span>
-      )}
+      {message && <span className="text-sm font-medium">{message}</span>}
     </div>
   );
 }

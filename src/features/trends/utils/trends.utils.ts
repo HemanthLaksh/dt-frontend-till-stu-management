@@ -1,7 +1,4 @@
-export const isValidDateRange = (
-  fromDate: string,
-  toDate: string,
-): boolean => {
+export const isValidDateRange = (fromDate: string, toDate: string): boolean => {
   if (!fromDate || !toDate) {
     return false;
   }
@@ -9,10 +6,7 @@ export const isValidDateRange = (
   return fromDate <= toDate;
 };
 
-export const getDateRangeError = (
-  fromDate: string,
-  toDate: string,
-): string => {
+export const getDateRangeError = (fromDate: string, toDate: string): string => {
   if (!fromDate) {
     return "Please select a From Date.";
   }

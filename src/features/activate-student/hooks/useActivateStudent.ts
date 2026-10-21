@@ -11,13 +11,12 @@ import type {
 
 export default function useActivateStudent() {
   const [isLoading, setIsLoading] = useState(false);
-  const [response, setResponse] =
-    useState<ActivateStudentResponse | null>(null);
+  const [response, setResponse] = useState<ActivateStudentResponse | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
 
-  const submitActivation = async (
-    form: ActivateStudentForm,
-  ) => {
+  const submitActivation = async (form: ActivateStudentForm) => {
     setIsLoading(true);
     setResponse(null);
     setError(null);
@@ -28,9 +27,7 @@ export default function useActivateStudent() {
       const email = form.email.trim();
 
       const result = await activateStudent({
-        studentID: studentId
-          ? Number(studentId)
-          : undefined,
+        studentID: studentId ? Number(studentId) : undefined,
         mobile: mobile || undefined,
         email: email || undefined,
       });
@@ -39,8 +36,7 @@ export default function useActivateStudent() {
 
       return result;
     } catch {
-      const message =
-        "Unable to activate student. Please try again.";
+      const message = "Unable to activate student. Please try again.";
 
       setError(message);
 

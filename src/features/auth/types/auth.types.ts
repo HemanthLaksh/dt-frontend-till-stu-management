@@ -20,6 +20,7 @@ export interface AuthState {
   admin: AdminUser | null;
   isAuthenticated: boolean;
   otpPending: boolean;
+  isHydrated: boolean;
 }
 
 export interface LoginCredentials {

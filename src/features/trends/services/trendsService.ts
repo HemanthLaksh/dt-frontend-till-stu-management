@@ -1,9 +1,6 @@
 import { trendReports } from "../constants/trends";
 
-import type {
-  GetTrendReportParams,
-  TrendReport,
-} from "../types/trends.types";
+import type { GetTrendReportParams, TrendReport } from "../types/trends.types";
 
 export const getTrendReport = async ({
   reportId,
@@ -32,9 +29,7 @@ export const getTrendReport = async ({
   void fromDate;
   void toDate;
 
-  const report = trendReports.find(
-    (item) => item.id === reportId,
-  );
+  const report = trendReports.find((item) => item.id === reportId);
 
   return report ?? null;
 };

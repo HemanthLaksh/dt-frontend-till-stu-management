@@ -29,10 +29,7 @@ describe("Badge", () => {
   it("uses the error variant", () => {
     render(<Badge variant="error">Failed</Badge>);
 
-    expect(screen.getByText("Failed")).toHaveClass(
-      "bg-red-50",
-      "text-error",
-    );
+    expect(screen.getByText("Failed")).toHaveClass("bg-red-50", "text-error");
   });
 
   it("uses the info variant", () => {

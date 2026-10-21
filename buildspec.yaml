@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+  pre_build:
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run build
+  post_build:
+    commands:
+      - ls
+      - aws s3 sync ./out s3://$S3_BUCKET --acl bucket-owner-full-control
+      - aws cloudfront create-invalidation --distribution-id=$DISTRIBUTION_ID --paths '/*'
+      - echo Build completed on `date`

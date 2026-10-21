@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Eye,
-  Search,
-  UserRound,
-} from "lucide-react";
+import { Eye, Search, UserRound } from "lucide-react";
 
 import type { Order } from "../types/orders.types";
 
@@ -101,10 +97,7 @@ export default function OrderTable({
           <tbody className="divide-y divide-slate-100">
             {loading ? (
               <tr>
-                <td
-                  colSpan={10}
-                  className="px-6 py-16 text-center"
-                >
+                <td colSpan={10} className="px-6 py-16 text-center">
                   <div className="flex flex-col items-center">
                     <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-blue-600" />
 
@@ -116,10 +109,7 @@ export default function OrderTable({
               </tr>
             ) : orders.length === 0 ? (
               <tr>
-                <td
-                  colSpan={10}
-                  className="px-6 py-16 text-center"
-                >
+                <td colSpan={10} className="px-6 py-16 text-center">
                   <div className="mx-auto flex max-w-sm flex-col items-center">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
                       <Search size={21} />
@@ -130,8 +120,7 @@ export default function OrderTable({
                     </h3>
 
                     <p className="mt-1 text-sm text-slate-500">
-                      Try changing your filters or search
-                      criteria.
+                      Try changing your filters or search criteria.
                     </p>
                   </div>
                 </td>

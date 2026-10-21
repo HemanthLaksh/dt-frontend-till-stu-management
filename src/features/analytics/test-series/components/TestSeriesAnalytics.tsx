@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft,Search, X } from "lucide-react";
+import { ArrowLeft, Search, X } from "lucide-react";
 
 import Link from "next/link";
 
@@ -16,18 +16,11 @@ import {
 import StudentProfileModal from "./StudentProfileModal";
 import TestSeriesDetailsModal from "./TestSeriesDetailsModal";
 
-import type {
-  TestSeriesAnalyticsItem,
-} from "../types/testSeriesAnalytics.types";
+import type { TestSeriesAnalyticsItem } from "../types/testSeriesAnalytics.types";
 
 export default function TestSeriesAnalytics() {
-  const {
-    data,
-    loading,
-    error,
-    fetchAnalytics,
-    clearAnalytics,
-  } = useTestSeriesAnalytics();
+  const { data, loading, error, fetchAnalytics, clearAnalytics } =
+    useTestSeriesAnalytics();
 
   const [studentId, setStudentId] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -38,8 +31,9 @@ export default function TestSeriesAnalytics() {
   const [selectedStudent, setSelectedStudent] =
     useState<TestSeriesAnalyticsItem | null>(null);
 
-  const [selectedTest, setSelectedTest] =
-    useState<TestSeriesAnalyticsItem["test"] | null>(null);
+  const [selectedTest, setSelectedTest] = useState<
+    TestSeriesAnalyticsItem["test"] | null
+  >(null);
 
   /*
    * The old page automatically loaded the analytics
@@ -145,25 +139,25 @@ export default function TestSeriesAnalytics() {
       {/* ========================================================= */}
       {/* PAGE HEADER                                               */}
       {/* ========================================================= */}
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {TEST_SERIES_ANALYTICS_TITLE}
-            </h1>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {TEST_SERIES_ANALYTICS_TITLE}
+          </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
-              View student test series activity and performance details.
-            </p>
-          </div>
-
-          <Link
-            href="/analytics"
-            className="inline-flex h-10 items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Link>
+          <p className="mt-1 text-sm text-slate-500">
+            View student test series activity and performance details.
+          </p>
         </div>
+
+        <Link
+          href="/analytics"
+          className="inline-flex h-10 items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </Link>
+      </div>
 
       {/* ========================================================= */}
       {/* FILTER CARD                                               */}
@@ -211,11 +205,7 @@ export default function TestSeriesAnalytics() {
 
           {/* To Date */}
           <div>
-            <DatePicker
-              label="To Date"
-              value={toDate}
-              onChange={setToDate}
-            />
+            <DatePicker label="To Date" value={toDate} onChange={setToDate} />
           </div>
 
           {/* Search */}
@@ -341,9 +331,7 @@ export default function TestSeriesAnalytics() {
                 Unable to load analytics
               </h3>
 
-              <p className="mt-2 text-sm text-slate-500">
-                {error}
-              </p>
+              <p className="mt-2 text-sm text-slate-500">{error}</p>
 
               <button
                 type="button"
@@ -447,9 +435,7 @@ export default function TestSeriesAnalytics() {
                     <td className="px-5 py-4">
                       <button
                         type="button"
-                        onClick={() =>
-                          setSelectedTest(student.test ?? null)
-                        }
+                        onClick={() => setSelectedTest(student.test ?? null)}
                         disabled={!student.test}
                         className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50"
                       >

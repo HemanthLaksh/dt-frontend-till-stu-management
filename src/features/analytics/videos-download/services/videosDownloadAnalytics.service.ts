@@ -32,11 +32,10 @@ export async function getVideosDownloadAnalytics(
    * If no filter is supplied, payload remains {}
    */
 
-  const response =
-    await apiClient.post<VideosDownloadAnalyticsResponse>(
-      "/BVRBackEndCore/Operations/getStudentAnalyticsVideosDownload",
-      payload,
-    );
+  const response = await apiClient.post<VideosDownloadAnalyticsResponse>(
+    "/BVRBackEndCore/Operations/getStudentAnalyticsVideosDownload",
+    payload,
+  );
 
   return response.data;
 }

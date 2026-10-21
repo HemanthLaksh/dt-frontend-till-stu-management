@@ -66,9 +66,7 @@ function StudentListModal({
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-4">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">
-              {title}
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-900">{title}</h2>
 
             <p className="mt-1 text-sm text-slate-500">
               {students.length} student
@@ -119,9 +117,7 @@ function StudentListModal({
                 <Search className="h-5 w-5 text-slate-400" />
               </div>
 
-              <p className="font-medium text-slate-700">
-                No students found
-              </p>
+              <p className="font-medium text-slate-700">No students found</p>
 
               <p className="mt-1 text-sm text-slate-500">
                 Try changing your search.
@@ -209,9 +205,7 @@ function StudentListModal({
                       </td>
 
                       <td className="max-w-[240px] px-4 py-3 text-sm text-slate-600">
-                        <span title={student.testName}>
-                          {student.testName}
-                        </span>
+                        <span title={student.testName}>{student.testName}</span>
                       </td>
 
                       <td className="px-4 py-3 text-sm text-slate-600">
@@ -250,11 +244,7 @@ interface ActivityCountCardProps {
   onClick: () => void;
 }
 
-function ActivityCountCard({
-  label,
-  count,
-  onClick,
-}: ActivityCountCardProps) {
+function ActivityCountCard({ label, count, onClick }: ActivityCountCardProps) {
   const clickable = count > 0;
 
   return (
@@ -271,16 +261,12 @@ function ActivityCountCard({
             {count}
           </button>
         ) : (
-          <span className="text-3xl font-semibold text-slate-400">
-            {count}
-          </span>
+          <span className="text-3xl font-semibold text-slate-400">{count}</span>
         )}
       </div>
 
       {clickable && (
-        <p className="mt-2 text-xs text-slate-400">
-          Click to view students
-        </p>
+        <p className="mt-2 text-xs text-slate-400">Click to view students</p>
       )}
     </div>
   );
@@ -296,10 +282,7 @@ interface ActivitySectionProps {
     grandTestsCount: number;
     questionBankModulesAttempted: number;
   };
-  onCountClick: (
-    period: ActivityPeriod,
-    category: ActivityCategory,
-  ) => void;
+  onCountClick: (period: ActivityPeriod, category: ActivityCategory) => void;
 }
 
 function ActivitySection({
@@ -311,9 +294,7 @@ function ActivitySection({
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 bg-slate-50 px-6 py-4">
-        <h2 className="text-base font-semibold text-slate-900">
-          {title}
-        </h2>
+        <h2 className="text-base font-semibold text-slate-900">{title}</h2>
       </div>
 
       <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 xl:grid-cols-5">
@@ -361,13 +342,8 @@ export default function ActivitySummary() {
   const [modalStudents, setModalStudents] = useState<ActivityStudent[]>([]);
   const [modalLoading, setModalLoading] = useState(false);
 
-  const {
-    data,
-    loading,
-    error,
-    fetchActivitySummary,
-    clearActivitySummary,
-  } = useActivitySummary();
+  const { data, loading, error, fetchActivitySummary, clearActivitySummary } =
+    useActivitySummary();
 
   const handleSubmit = async () => {
     if (!selectedDate) {
@@ -412,8 +388,7 @@ export default function ActivitySummary() {
 
         case "questionBankModules":
           return (
-            data.summarySelectedDate
-              ?.questionBankModuleAttemptedStudents ?? []
+            data.summarySelectedDate?.questionBankModuleAttemptedStudents ?? []
           );
       }
     }
@@ -434,8 +409,8 @@ export default function ActivitySummary() {
 
         case "questionBankModules":
           return (
-            data.summaryLastOneWeek
-              ?.weekQuestionBankModuleAttemptedStudents ?? []
+            data.summaryLastOneWeek?.weekQuestionBankModuleAttemptedStudents ??
+            []
           );
       }
     }
@@ -455,8 +430,8 @@ export default function ActivitySummary() {
 
       case "questionBankModules":
         return (
-          data.summaryLastOneMonth
-            ?.monthQuestionBankModuleAttemptedStudents ?? []
+          data.summaryLastOneMonth?.monthQuestionBankModuleAttemptedStudents ??
+          []
         );
     }
   };
@@ -619,9 +594,7 @@ export default function ActivitySummary() {
                       Unable to load Activity Summary
                     </h3>
 
-                    <p className="mt-1 text-sm text-red-700">
-                      {error}
-                    </p>
+                    <p className="mt-1 text-sm text-red-700">{error}</p>
                   </div>
                 </div>
               </div>

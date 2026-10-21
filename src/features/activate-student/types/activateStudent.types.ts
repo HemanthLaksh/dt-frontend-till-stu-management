@@ -1,7 +1,4 @@
-export type ActivationMethod =
-  | "studentId"
-  | "mobile"
-  | "email";
+export type ActivationMethod = "studentId" | "mobile" | "email";
 
 export interface ActivateStudentRequest {
   studentID?: number;

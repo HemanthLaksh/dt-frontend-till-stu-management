@@ -1,8 +1,6 @@
 import apiClient from "@/services/api/client";
 
-import type {
-  ActivitySummaryResponse,
-} from "../types/activitySummary.types";
+import type { ActivitySummaryResponse } from "../types/activitySummary.types";
 
 export async function getActivitySummary(
   date: string,

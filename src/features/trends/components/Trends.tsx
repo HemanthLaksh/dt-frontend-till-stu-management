@@ -28,15 +28,12 @@ export default function Trends() {
 
   return (
     <div className="space-y-6">
-
       {/* ------------------------------------------------------------------ */}
       {/* PAGE HEADER                                                        */}
       {/* ------------------------------------------------------------------ */}
 
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
-          Trends
-        </h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Trends</h1>
 
         <p className="mt-1 text-sm text-slate-500">
           Select a report to view trend data.
@@ -94,16 +91,11 @@ export default function Trends() {
 
       {selectedReport && (
         <div className="space-y-4">
-
           {/* Back Button */}
-          <BackButton
-            onClick={goBack}
-            label="Back to Reports"
-          />
+          <BackButton onClick={goBack} label="Back to Reports" />
 
           {/* Selected Report */}
           <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-
             {/* Report Header */}
             <div className="border-b border-slate-200 bg-blue-50 px-6 py-5">
               <div>

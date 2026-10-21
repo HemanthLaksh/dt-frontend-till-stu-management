@@ -2,9 +2,7 @@
 
 import { X } from "lucide-react";
 
-import type {
-  TestSeriesAnalyticsTest,
-} from "../types/testSeriesAnalytics.types";
+import type { TestSeriesAnalyticsTest } from "../types/testSeriesAnalytics.types";
 
 interface TestSeriesDetailsModalProps {
   test: TestSeriesAnalyticsTest | null;
@@ -19,9 +17,7 @@ interface DetailRowProps {
 function DetailRow({ label, value }: DetailRowProps) {
   return (
     <div className="grid grid-cols-1 gap-1 border-b border-slate-100 py-3 sm:grid-cols-[220px_1fr] sm:gap-4">
-      <div className="text-sm font-medium text-slate-500">
-        {label}
-      </div>
+      <div className="text-sm font-medium text-slate-500">{label}</div>
 
       <div className="text-sm font-semibold text-slate-800">
         {value !== null && value !== undefined && value !== ""
@@ -76,75 +72,39 @@ export default function TestSeriesDetailsModal({
         {/* Content */}
         <div className="overflow-y-auto px-6 py-4">
           <div className="overflow-hidden rounded-xl border border-slate-200">
-            <DetailRow
-              label="Test Paper ID"
-              value={test.testPaperID}
-            />
+            <DetailRow label="Test Paper ID" value={test.testPaperID} />
 
-            <DetailRow
-              label="Test Paper Name"
-              value={test.testPaperName}
-            />
+            <DetailRow label="Test Paper Name" value={test.testPaperName} />
 
-            <DetailRow
-              label="Test Paper Type"
-              value={test.testPaperType}
-            />
+            <DetailRow label="Test Paper Type" value={test.testPaperType} />
 
-            <DetailRow
-              label="Finished"
-              value={test.finished}
-            />
+            <DetailRow label="Finished" value={test.finished} />
 
-            <DetailRow
-              label="Test Taken At"
-              value={test.testTakenAt}
-            />
+            <DetailRow label="Test Taken At" value={test.testTakenAt} />
 
-            <DetailRow
-              label="Test Duration"
-              value={test.testDuration}
-            />
+            <DetailRow label="Test Duration" value={test.testDuration} />
 
-            <DetailRow
-              label="Max Marks"
-              value={test.maxMarks}
-            />
+            <DetailRow label="Max Marks" value={test.maxMarks} />
 
-            <DetailRow
-              label="Scored Marks"
-              value={test.scoredMarks}
-            />
+            <DetailRow label="Scored Marks" value={test.scoredMarks} />
 
-            <DetailRow
-              label="Correct Answers"
-              value={test.correctAnswers}
-            />
+            <DetailRow label="Correct Answers" value={test.correctAnswers} />
 
             <DetailRow
               label="Incorrect Answers"
               value={test.incorrectAnswers}
             />
 
-            <DetailRow
-              label="Guessed Score"
-              value={test.guessedScore}
-            />
+            <DetailRow label="Guessed Score" value={test.guessedScore} />
 
-            <DetailRow
-              label="Guessed Correct"
-              value={test.guessedCorrect}
-            />
+            <DetailRow label="Guessed Correct" value={test.guessedCorrect} />
 
             <DetailRow
               label="Guessed Incorrect"
               value={test.guessedIncorrect}
             />
 
-            <DetailRow
-              label="Test Status"
-              value={test.testStatus}
-            />
+            <DetailRow label="Test Status" value={test.testStatus} />
           </div>
         </div>
 

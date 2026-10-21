@@ -11,17 +11,10 @@ const options = [
 describe("Select", () => {
   it("renders the label", () => {
     render(
-      <Select
-        label="Course"
-        value=""
-        options={options}
-        onChange={jest.fn()}
-      />,
+      <Select label="Course" value="" options={options} onChange={jest.fn()} />,
     );
 
-    expect(
-      screen.getByText("Course"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Course")).toBeInTheDocument();
   });
 
   it("renders the placeholder when no option is selected", () => {
@@ -45,21 +38,12 @@ describe("Select", () => {
     const user = userEvent.setup();
 
     render(
-      <Select
-        label="Course"
-        value=""
-        options={options}
-        onChange={jest.fn()}
-      />,
+      <Select label="Course" value="" options={options} onChange={jest.fn()} />,
     );
 
-    await user.click(
-      screen.getByRole("button"),
-    );
+    await user.click(screen.getByRole("button"));
 
-    expect(
-      screen.getByRole("listbox"),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
 
     expect(
       screen.getByRole("option", {
@@ -93,9 +77,7 @@ describe("Select", () => {
       />,
     );
 
-    await user.click(
-      screen.getByRole("button"),
-    );
+    await user.click(screen.getByRole("button"));
 
     await user.click(
       screen.getByRole("option", {
@@ -103,25 +85,15 @@ describe("Select", () => {
       }),
     );
 
-    expect(handleChange).toHaveBeenCalledWith(
-      "neet-pg",
-    );
+    expect(handleChange).toHaveBeenCalledWith("neet-pg");
   });
 
   it("closes the dropdown after selecting an option", async () => {
     const user = userEvent.setup();
 
-    render(
-      <Select
-        value=""
-        options={options}
-        onChange={jest.fn()}
-      />,
-    );
+    render(<Select value="" options={options} onChange={jest.fn()} />);
 
-    await user.click(
-      screen.getByRole("button"),
-    );
+    await user.click(screen.getByRole("button"));
 
     await user.click(
       screen.getByRole("option", {
@@ -129,19 +101,11 @@ describe("Select", () => {
       }),
     );
 
-    expect(
-      screen.queryByRole("listbox"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 
   it("displays the selected option", () => {
-    render(
-      <Select
-        value="fmge"
-        options={options}
-        onChange={jest.fn()}
-      />,
-    );
+    render(<Select value="fmge" options={options} onChange={jest.fn()} />);
 
     expect(
       screen.getByRole("button", {
@@ -153,36 +117,17 @@ describe("Select", () => {
   it("shows no options message when options are empty", async () => {
     const user = userEvent.setup();
 
-    render(
-      <Select
-        value=""
-        options={[]}
-        onChange={jest.fn()}
-      />,
-    );
+    render(<Select value="" options={[]} onChange={jest.fn()} />);
 
-    await user.click(
-      screen.getByRole("button"),
-    );
+    await user.click(screen.getByRole("button"));
 
-    expect(
-      screen.getByText("No options available"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("No options available")).toBeInTheDocument();
   });
 
   it("can be disabled", () => {
-    render(
-      <Select
-        value=""
-        options={options}
-        onChange={jest.fn()}
-        disabled
-      />,
-    );
+    render(<Select value="" options={options} onChange={jest.fn()} disabled />);
 
-    expect(
-      screen.getByRole("button"),
-    ).toBeDisabled();
+    expect(screen.getByRole("button")).toBeDisabled();
   });
 
   it("closes when clicking outside", async () => {
@@ -190,15 +135,9 @@ describe("Select", () => {
 
     render(
       <div>
-        <Select
-          value=""
-          options={options}
-          onChange={jest.fn()}
-        />
+        <Select value="" options={options} onChange={jest.fn()} />
 
-        <button type="button">
-          Outside
-        </button>
+        <button type="button">Outside</button>
       </div>,
     );
 
@@ -208,9 +147,7 @@ describe("Select", () => {
       }),
     );
 
-    expect(
-      screen.getByRole("listbox"),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
 
     await user.click(
       screen.getByRole("button", {
@@ -218,8 +155,6 @@ describe("Select", () => {
       }),
     );
 
-    expect(
-      screen.queryByRole("listbox"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
   });
 });

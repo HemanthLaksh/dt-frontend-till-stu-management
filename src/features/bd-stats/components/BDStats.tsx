@@ -15,13 +15,7 @@ import {
 import { useBDStats } from "../hooks/useBDStats";
 
 export default function BDStats() {
-  const {
-    data,
-    loading,
-    error,
-    fetchBDStats,
-    clearBDStats,
-  } = useBDStats();
+  const { data, loading, error, fetchBDStats, clearBDStats } = useBDStats();
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -55,9 +49,7 @@ export default function BDStats() {
 
   const selectedCourseName = useMemo(() => {
     return (
-      BD_STATS_COURSES.find(
-        (course) => course.value === courseId,
-      )?.label ?? ""
+      BD_STATS_COURSES.find((course) => course.value === courseId)?.label ?? ""
     );
   }, [courseId]);
 
@@ -142,9 +134,7 @@ export default function BDStats() {
      */
 
     if (!fromDate && !toDate && !courseId) {
-      setValidationError(
-        "Enter from and to dates or select any course.",
-      );
+      setValidationError("Enter from and to dates or select any course.");
 
       return;
     }
@@ -154,10 +144,7 @@ export default function BDStats() {
      * → Enter both dates
      */
 
-    if (
-      (fromDate && !toDate) ||
-      (!fromDate && toDate)
-    ) {
+    if ((fromDate && !toDate) || (!fromDate && toDate)) {
       setValidationError("Enter from and to dates.");
 
       return;
@@ -168,9 +155,7 @@ export default function BDStats() {
      */
 
     if (fromDate && toDate && fromDate > toDate) {
-      setValidationError(
-        "From Date cannot be later than To Date.",
-      );
+      setValidationError("From Date cannot be later than To Date.");
 
       return;
     }
@@ -179,9 +164,7 @@ export default function BDStats() {
      * Convert course ID to number.
      */
 
-    const parsedCourseId = courseId
-      ? Number(courseId)
-      : null;
+    const parsedCourseId = courseId ? Number(courseId) : null;
 
     await fetchBDStats({
       fromDate: fromDate || "",
@@ -218,8 +201,7 @@ export default function BDStats() {
         </h1>
 
         <p className="mt-1 text-sm text-slate-500">
-          View business development access and conversion
-          statistics.
+          View business development access and conversion statistics.
         </p>
       </div>
 
@@ -231,13 +213,10 @@ export default function BDStats() {
         {/* Section Header */}
 
         <div className="border-b border-slate-200 px-6 py-5">
-          <h2 className="text-lg font-semibold text-slate-900">
-            BD Stats
-          </h2>
+          <h2 className="text-lg font-semibold text-slate-900">BD Stats</h2>
 
           <p className="mt-1 text-sm text-slate-500">
-            Select a date range, a course, or both to view
-            statistics.
+            Select a date range, a course, or both to view statistics.
           </p>
         </div>
 
@@ -288,9 +267,7 @@ export default function BDStats() {
                   id="bd-stats-search"
                   type="text"
                   value={searchTerm}
-                  onChange={(event) =>
-                    setSearchTerm(event.target.value)
-                  }
+                  onChange={(event) => setSearchTerm(event.target.value)}
                   placeholder="Search BD, email or course..."
                   className="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-10 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
@@ -327,9 +304,7 @@ export default function BDStats() {
             <div className="mt-5 flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
               <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-500" />
 
-              <p className="text-sm font-medium text-red-700">
-                {error}
-              </p>
+              <p className="text-sm font-medium text-red-700">{error}</p>
             </div>
           )}
 
@@ -367,18 +342,14 @@ export default function BDStats() {
         <div className="border-b border-slate-200 px-6 py-5">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">
-                BD Stats
-              </h2>
+              <h2 className="text-lg font-semibold text-slate-900">BD Stats</h2>
 
               <p className="mt-1 text-sm text-slate-500">
                 {loading
                   ? "Loading statistics..."
                   : filteredData.length > 0
                     ? `${filteredData.length} result${
-                        filteredData.length === 1
-                          ? ""
-                          : "s"
+                        filteredData.length === 1 ? "" : "s"
                       } found`
                     : "No results loaded"}
               </p>
@@ -386,8 +357,7 @@ export default function BDStats() {
 
             {/* Selected Filters */}
 
-            {(selectedCourseName ||
-              (fromDate && toDate)) && (
+            {(selectedCourseName || (fromDate && toDate)) && (
               <div className="flex flex-wrap gap-2">
                 {selectedCourseName && (
                   <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
@@ -425,144 +395,122 @@ export default function BDStats() {
             EMPTY
         ==================================================== */}
 
-        {!loading &&
-          !error &&
-          filteredData.length === 0 && (
-            <div className="flex min-h-[300px] items-center justify-center px-6">
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-                  <Search className="h-5 w-5 text-slate-400" />
-                </div>
-
-                <h3 className="mt-4 text-base font-semibold text-slate-900">
-                  No Records Found
-                </h3>
-
-                <p className="mt-2 text-sm text-slate-500">
-                  Select a course or date range and click
-                  Submit.
-                </p>
+        {!loading && !error && filteredData.length === 0 && (
+          <div className="flex min-h-[300px] items-center justify-center px-6">
+            <div className="text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                <Search className="h-5 w-5 text-slate-400" />
               </div>
+
+              <h3 className="mt-4 text-base font-semibold text-slate-900">
+                No Records Found
+              </h3>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Select a course or date range and click Submit.
+              </p>
             </div>
-          )}
+          </div>
+        )}
 
         {/* ===================================================
             TABLE
         ==================================================== */}
 
-        {!loading &&
-          !error &&
-          filteredData.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="min-w-[900px] w-full">
-                <thead>
-                  {/* Dynamic Result Title */}
+        {!loading && !error && filteredData.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="min-w-[900px] w-full">
+              <thead>
+                {/* Dynamic Result Title */}
 
-                  <tr>
-                    <th
-                      colSpan={6}
-                      className="border-b border-slate-200 bg-blue-50 px-5 py-4 text-center text-sm font-semibold text-slate-800"
-                    >
-                      BD Stats For{" "}
-
-                      {selectedCourseName && (
-                        <span>
-                          {selectedCourseName}
-                        </span>
-                      )}
-
-                      {selectedCourseName &&
-                        fromDate &&
-                        toDate && (
-                          <span> </span>
-                        )}
-
-                      {fromDate && toDate && (
-                        <span>
-                          between {fromDate} and{" "}
-                          {toDate}
-                        </span>
-                      )}
-                    </th>
-                  </tr>
-
-                  {/* Column Headers */}
-
-                  <tr className="border-b border-slate-200 bg-slate-50">
-                    {BD_STATS_TABLE_COLUMNS.map(
-                      (column) => (
-                        <th
-                          key={column}
-                          className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
-                        >
-                          {column}
-                        </th>
-                      ),
+                <tr>
+                  <th
+                    colSpan={6}
+                    className="border-b border-slate-200 bg-blue-50 px-5 py-4 text-center text-sm font-semibold text-slate-800"
+                  >
+                    BD Stats For{" "}
+                    {selectedCourseName && <span>{selectedCourseName}</span>}
+                    {selectedCourseName && fromDate && toDate && <span> </span>}
+                    {fromDate && toDate && (
+                      <span>
+                        between {fromDate} and {toDate}
+                      </span>
                     )}
-                  </tr>
-                </thead>
+                  </th>
+                </tr>
 
-                <tbody className="divide-y divide-slate-100">
-                  {filteredData.map((item, index) => (
-                    <tr
-                      key={`${item.bdEmail}-${item.courseName}-${index}`}
-                      className="transition hover:bg-slate-50"
+                {/* Column Headers */}
+
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  {BD_STATS_TABLE_COLUMNS.map((column) => (
+                    <th
+                      key={column}
+                      className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
                     >
-                      {/* Sl No */}
-
-                      <td className="px-5 py-4 text-sm text-slate-600">
-                        {index + 1}
-                      </td>
-
-                      {/* BD Name */}
-
-                      <td className="px-5 py-4 text-sm font-medium text-slate-800">
-                        {item.bdName || "-"}
-                      </td>
-
-                      {/* BD Email */}
-
-                      <td className="px-5 py-4 text-sm text-slate-600">
-                        {item.bdEmail || "-"}
-                      </td>
-
-                      {/* Course */}
-
-                      <td className="px-5 py-4 text-sm text-slate-600">
-                        {item.courseName || "-"}
-                      </td>
-
-                      {/* Total Access Given */}
-
-                      <td className="px-5 py-4 text-sm font-medium text-slate-800">
-                        {item.totalAccessGiven ?? 0}
-                      </td>
-
-                      {/* Total Converted */}
-
-                      <td className="px-5 py-4 text-sm font-medium text-slate-800">
-                        {item.totalConverted ?? 0}
-                      </td>
-                    </tr>
+                      {column}
+                    </th>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-slate-100">
+                {filteredData.map((item, index) => (
+                  <tr
+                    key={`${item.bdEmail}-${item.courseName}-${index}`}
+                    className="transition hover:bg-slate-50"
+                  >
+                    {/* Sl No */}
+
+                    <td className="px-5 py-4 text-sm text-slate-600">
+                      {index + 1}
+                    </td>
+
+                    {/* BD Name */}
+
+                    <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                      {item.bdName || "-"}
+                    </td>
+
+                    {/* BD Email */}
+
+                    <td className="px-5 py-4 text-sm text-slate-600">
+                      {item.bdEmail || "-"}
+                    </td>
+
+                    {/* Course */}
+
+                    <td className="px-5 py-4 text-sm text-slate-600">
+                      {item.courseName || "-"}
+                    </td>
+
+                    {/* Total Access Given */}
+
+                    <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                      {item.totalAccessGiven ?? 0}
+                    </td>
+
+                    {/* Total Converted */}
+
+                    <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                      {item.totalConverted ?? 0}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Results Footer */}
 
-        {!loading &&
-          !error &&
-          filteredData.length > 0 && (
-            <div className="border-t border-slate-200 bg-slate-50 px-6 py-3">
-              <p className="text-xs text-slate-500">
-                Showing {filteredData.length} of{" "}
-                {data.length} result
-                {data.length === 1 ? "" : "s"}.
-              </p>
-            </div>
-          )}
+        {!loading && !error && filteredData.length > 0 && (
+          <div className="border-t border-slate-200 bg-slate-50 px-6 py-3">
+            <p className="text-xs text-slate-500">
+              Showing {filteredData.length} of {data.length} result
+              {data.length === 1 ? "" : "s"}.
+            </p>
+          </div>
+        )}
       </section>
     </div>
   );

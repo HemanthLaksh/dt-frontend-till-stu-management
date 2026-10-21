@@ -4,21 +4,18 @@ import { useState } from "react";
 
 import { getTrendReport } from "../services/trendsService";
 
-import type {
-  TrendReport,
-} from "../types/trends.types";
+import type { TrendReport } from "../types/trends.types";
 
-import {
-  getDateRangeError,
-  isValidDateRange,
-} from "../utils/trends.utils";
+import { getDateRangeError, isValidDateRange } from "../utils/trends.utils";
 
 export const useTrends = () => {
-  const [selectedReport, setSelectedReport] =
-    useState<TrendReport | null>(null);
+  const [selectedReport, setSelectedReport] = useState<TrendReport | null>(
+    null,
+  );
 
-  const [generatedReport, setGeneratedReport] =
-    useState<TrendReport | null>(null);
+  const [generatedReport, setGeneratedReport] = useState<TrendReport | null>(
+    null,
+  );
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
@@ -49,10 +46,7 @@ export const useTrends = () => {
   };
 
   const generateReport = async () => {
-    const validationError = getDateRangeError(
-      fromDate,
-      toDate,
-    );
+    const validationError = getDateRangeError(fromDate, toDate);
 
     if (validationError) {
       setError(validationError);
@@ -87,9 +81,7 @@ export const useTrends = () => {
 
       setGeneratedReport(report);
     } catch {
-      setError(
-        "Unable to generate the report. Please try again.",
-      );
+      setError("Unable to generate the report. Please try again.");
     } finally {
       setIsLoading(false);
     }

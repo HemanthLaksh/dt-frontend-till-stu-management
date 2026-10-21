@@ -14,12 +14,7 @@ describe("BackButton", () => {
   });
 
   it("renders with a custom label", () => {
-    render(
-      <BackButton
-        onClick={jest.fn()}
-        label="Go Back"
-      />,
-    );
+    render(<BackButton onClick={jest.fn()} label="Go Back" />);
 
     expect(
       screen.getByRole("button", {
@@ -32,9 +27,7 @@ describe("BackButton", () => {
     const user = userEvent.setup();
     const handleClick = jest.fn();
 
-    render(
-      <BackButton onClick={handleClick} />,
-    );
+    render(<BackButton onClick={handleClick} />);
 
     await user.click(
       screen.getByRole("button", {
@@ -48,9 +41,7 @@ describe("BackButton", () => {
   it("calls onClick only when the button is clicked", () => {
     const handleClick = jest.fn();
 
-    render(
-      <BackButton onClick={handleClick} />,
-    );
+    render(<BackButton onClick={handleClick} />);
 
     expect(handleClick).not.toHaveBeenCalled();
   });

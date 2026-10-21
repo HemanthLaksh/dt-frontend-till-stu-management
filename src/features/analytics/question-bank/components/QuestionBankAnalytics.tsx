@@ -1,12 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  BarChart3,
-  Search,
-  RotateCcw,
-} from "lucide-react";
+import { ArrowLeft, BarChart3, Search, RotateCcw } from "lucide-react";
 
 import Link from "next/link";
 
@@ -31,16 +26,12 @@ export default function QuestionBankAnalytics() {
   const [selectedStudent, setSelectedStudent] =
     useState<QuestionBankAnalyticsItem | null>(null);
 
-  const [selectedModule, setSelectedModule] =
-    useState<QuestionBankAnalyticsItem["module"] | null>(null);
+  const [selectedModule, setSelectedModule] = useState<
+    QuestionBankAnalyticsItem["module"] | null
+  >(null);
 
-  const {
-    data,
-    loading,
-    error,
-    fetchAnalytics,
-    clearAnalytics,
-  } = useQuestionBankAnalytics();
+  const { data, loading, error, fetchAnalytics, clearAnalytics } =
+    useQuestionBankAnalytics();
 
   const filteredData = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
@@ -100,10 +91,7 @@ export default function QuestionBankAnalytics() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-              <BarChart3
-                size={22}
-                className="text-blue-600"
-              />
+              <BarChart3 size={22} className="text-blue-600" />
             </div>
 
             <div>
@@ -122,7 +110,6 @@ export default function QuestionBankAnalytics() {
             className="inline-flex h-10 items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50 sm:self-auto"
           >
             <ArrowLeft size={16} />
-
             Back
           </Link>
         </div>
@@ -149,9 +136,7 @@ export default function QuestionBankAnalytics() {
               <input
                 type="text"
                 value={studentId}
-                onChange={(event) =>
-                  setStudentId(event.target.value)
-                }
+                onChange={(event) => setStudentId(event.target.value)}
                 placeholder="Enter Student ID"
                 disabled={loading}
                 className="h-11 w-full rounded-lg border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-50 disabled:bg-slate-100"
@@ -196,7 +181,6 @@ export default function QuestionBankAnalytics() {
               className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
             >
               <RotateCcw size={16} />
-
               Clear
             </button>
           </div>
@@ -234,9 +218,7 @@ export default function QuestionBankAnalytics() {
                   <input
                     type="text"
                     value={search}
-                    onChange={(event) =>
-                      setSearch(event.target.value)
-                    }
+                    onChange={(event) => setSearch(event.target.value)}
                     placeholder="Search results..."
                     className="h-10 w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
                   />
@@ -256,10 +238,7 @@ export default function QuestionBankAnalytics() {
           ) : filteredData.length === 0 ? (
             <div className="flex min-h-72 flex-col items-center justify-center px-6 text-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-                <BarChart3
-                  size={26}
-                  className="text-slate-400"
-                />
+                <BarChart3 size={26} className="text-slate-400" />
               </div>
 
               <h3 className="mt-4 text-base font-semibold text-slate-800">
@@ -267,8 +246,7 @@ export default function QuestionBankAnalytics() {
               </h3>
 
               <p className="mt-1 max-w-md text-sm text-slate-500">
-                No Question Bank analytics records match the
-                selected criteria.
+                No Question Bank analytics records match the selected criteria.
               </p>
             </div>
           ) : (
@@ -319,9 +297,7 @@ export default function QuestionBankAnalytics() {
                       <td className="px-5 py-4">
                         <button
                           type="button"
-                          onClick={() =>
-                            setSelectedStudent(item)
-                          }
+                          onClick={() => setSelectedStudent(item)}
                           className="text-left text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
                         >
                           {item.studentName}
@@ -340,18 +316,14 @@ export default function QuestionBankAnalytics() {
                               : "bg-slate-100 text-slate-600"
                           }`}
                         >
-                          {item.subscribedYN === "Y"
-                            ? "Yes"
-                            : "No"}
+                          {item.subscribedYN === "Y" ? "Yes" : "No"}
                         </span>
                       </td>
 
                       <td className="px-5 py-4 text-right">
                         <button
                           type="button"
-                          onClick={() =>
-                            setSelectedModule(item.module)
-                          }
+                          onClick={() => setSelectedModule(item.module)}
                           className="inline-flex h-9 items-center rounded-lg bg-blue-600 px-4 text-xs font-medium text-white transition hover:bg-blue-700"
                         >
                           View

@@ -31,11 +31,10 @@ export async function getVideosViewAnalytics(
    * payload remains {}.
    */
 
-  const response =
-    await apiClient.post<VideosViewAnalyticsResponse>(
-      "/BVRBackEndCore/Operations/getStudentAnalyticsVideosView",
-      payload,
-    );
+  const response = await apiClient.post<VideosViewAnalyticsResponse>(
+    "/BVRBackEndCore/Operations/getStudentAnalyticsVideosView",
+    payload,
+  );
 
   return response.data;
 }

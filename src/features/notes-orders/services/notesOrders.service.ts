@@ -1,9 +1,6 @@
 import apiClient from "@/services/api/client";
 
-import type {
-  NotesOrder,
-  NotesOrderStatus,
-} from "../types/notesOrders.types";
+import type { NotesOrder, NotesOrderStatus } from "../types/notesOrders.types";
 
 interface GetNotesOrdersResponse {
   gatewayResponse?: {
@@ -30,18 +27,17 @@ export async function getNotesOrders(
   courseId: number,
   status: NotesOrderStatus,
 ): Promise<NotesOrder[]> {
-  const response =
-    await apiClient.post<GetNotesOrdersResponse>(
-      "/api/admin/get-hard-notes-orders/",
-      {
-        gatewayRequest: {
-          request: {
-            courseId,
-            status,
-          },
+  const response = await apiClient.post<GetNotesOrdersResponse>(
+    "/api/admin/get-hard-notes-orders/",
+    {
+      gatewayRequest: {
+        request: {
+          courseId,
+          status,
         },
       },
-    );
+    },
+  );
 
   const gatewayResponse = response.data.gatewayResponse;
 
@@ -59,19 +55,18 @@ export async function updateNotesOrderStatus(
   status: NotesOrderStatus,
   courierTrackingNo: string = "",
 ): Promise<string> {
-  const response =
-    await apiClient.post<UpdateNotesOrderResponse>(
-      "/api/admin/update-hard-notes-status/",
-      {
-        gatewayRequest: {
-          request: {
-            notesOrderId,
-            status,
-            courierTrackingNo,
-          },
+  const response = await apiClient.post<UpdateNotesOrderResponse>(
+    "/api/admin/update-hard-notes-status/",
+    {
+      gatewayRequest: {
+        request: {
+          notesOrderId,
+          status,
+          courierTrackingNo,
         },
       },
-    );
+    },
+  );
 
   const gatewayResponse = response.data.gatewayResponse;
 

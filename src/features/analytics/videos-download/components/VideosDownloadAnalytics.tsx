@@ -18,18 +18,11 @@ import {
 import StudentProfileModal from "./StudentProfileModal";
 import VideoDownloadDetailsModal from "./VideoDownloadDetailsModal";
 
-import type {
-  VideosDownloadAnalyticsItem,
-} from "../types/videosDownloadAnalytics.types";
+import type { VideosDownloadAnalyticsItem } from "../types/videosDownloadAnalytics.types";
 
 export default function VideosDownloadAnalytics() {
-  const {
-    data,
-    loading,
-    error,
-    fetchAnalytics,
-    clearAnalytics,
-  } = useVideosDownloadAnalytics();
+  const { data, loading, error, fetchAnalytics, clearAnalytics } =
+    useVideosDownloadAnalytics();
 
   const [studentId, setStudentId] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -40,10 +33,9 @@ export default function VideosDownloadAnalytics() {
   const [selectedStudent, setSelectedStudent] =
     useState<VideosDownloadAnalyticsItem | null>(null);
 
-  const [selectedVideo, setSelectedVideo] =
-    useState<VideosDownloadAnalyticsItem["videoDownload"] | null>(
-      null,
-    );
+  const [selectedVideo, setSelectedVideo] = useState<
+    VideosDownloadAnalyticsItem["videoDownload"] | null
+  >(null);
 
   /*
    * Old PHP page automatically loads analytics
@@ -69,24 +61,12 @@ export default function VideosDownloadAnalytics() {
 
     return data.filter((item) => {
       return (
-        String(item.studentID)
-          .toLowerCase()
-          .includes(search) ||
-        item.studentName
-          ?.toLowerCase()
-          .includes(search) ||
-        item.mobileNo
-          ?.toLowerCase()
-          .includes(search) ||
-        item.videoDownload?.videoName
-          ?.toLowerCase()
-          .includes(search) ||
-        item.videoDownload?.videoSubject
-          ?.toLowerCase()
-          .includes(search) ||
-        item.videoDownload?.videoTopic
-          ?.toLowerCase()
-          .includes(search)
+        String(item.studentID).toLowerCase().includes(search) ||
+        item.studentName?.toLowerCase().includes(search) ||
+        item.mobileNo?.toLowerCase().includes(search) ||
+        item.videoDownload?.videoName?.toLowerCase().includes(search) ||
+        item.videoDownload?.videoSubject?.toLowerCase().includes(search) ||
+        item.videoDownload?.videoTopic?.toLowerCase().includes(search)
       );
     });
   }, [data, searchTerm]);
@@ -169,25 +149,24 @@ export default function VideosDownloadAnalytics() {
       {/* ===================================================== */}
 
       <div className="flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {VIDEOS_DOWNLOAD_ANALYTICS_TITLE}
-            </h1>
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {VIDEOS_DOWNLOAD_ANALYTICS_TITLE}
+          </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
-              View student video download activity and details.
-            </p>
-          </div>
-
-          <Link
-            href="/analytics"
-            className="inline-flex h-10 items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-          >
-            <ArrowLeft size={16} />
-            Back
-          </Link>
+          <p className="mt-1 text-sm text-slate-500">
+            View student video download activity and details.
+          </p>
         </div>
 
+        <Link
+          href="/analytics"
+          className="inline-flex h-10 items-center gap-2 self-start rounded-lg border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </Link>
+      </div>
 
       {/* ===================================================== */}
       {/* FILTER CARD                                           */}
@@ -200,8 +179,7 @@ export default function VideosDownloadAnalytics() {
           </h2>
 
           <p className="mt-1 text-sm text-slate-500">
-            Search video download analytics using Student ID or
-            a date range.
+            Search video download analytics using Student ID or a date range.
           </p>
         </div>
 
@@ -219,9 +197,7 @@ export default function VideosDownloadAnalytics() {
               id="videos-download-student-id"
               type="text"
               value={studentId}
-              onChange={(event) =>
-                setStudentId(event.target.value)
-              }
+              onChange={(event) => setStudentId(event.target.value)}
               placeholder="Enter Student ID"
               className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             />
@@ -238,11 +214,7 @@ export default function VideosDownloadAnalytics() {
 
           {/* To Date */}
           <div>
-            <DatePicker
-              label="To Date"
-              value={toDate}
-              onChange={setToDate}
-            />
+            <DatePicker label="To Date" value={toDate} onChange={setToDate} />
           </div>
 
           {/* Search */}
@@ -261,9 +233,7 @@ export default function VideosDownloadAnalytics() {
                 id="videos-download-search"
                 type="text"
                 value={searchTerm}
-                onChange={(event) =>
-                  setSearchTerm(event.target.value)
-                }
+                onChange={(event) => setSearchTerm(event.target.value)}
                 placeholder="Search results..."
                 className="h-11 w-full rounded-lg border border-slate-300 bg-white pl-10 pr-10 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
@@ -326,9 +296,7 @@ export default function VideosDownloadAnalytics() {
               {loading
                 ? "Loading analytics..."
                 : `${filteredData.length} result${
-                    filteredData.length === 1
-                      ? ""
-                      : "s"
+                    filteredData.length === 1 ? "" : "s"
                   } found`}
             </p>
           </div>
@@ -371,9 +339,7 @@ export default function VideosDownloadAnalytics() {
                 Unable to load analytics
               </h3>
 
-              <p className="mt-2 text-sm text-slate-500">
-                {error}
-              </p>
+              <p className="mt-2 text-sm text-slate-500">{error}</p>
 
               <button
                 type="button"
@@ -390,135 +356,120 @@ export default function VideosDownloadAnalytics() {
         {/* EMPTY                                               */}
         {/* =================================================== */}
 
-        {!loading &&
-          !error &&
-          filteredData.length === 0 && (
-            <div className="flex min-h-64 items-center justify-center px-6 py-12">
-              <div className="text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
-                  <Search className="h-5 w-5 text-slate-400" />
-                </div>
-
-                <h3 className="mt-4 text-base font-semibold text-slate-900">
-                  No analytics found
-                </h3>
-
-                <p className="mt-2 text-sm text-slate-500">
-                  Try changing your filters or search term.
-                </p>
+        {!loading && !error && filteredData.length === 0 && (
+          <div className="flex min-h-64 items-center justify-center px-6 py-12">
+            <div className="text-center">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+                <Search className="h-5 w-5 text-slate-400" />
               </div>
+
+              <h3 className="mt-4 text-base font-semibold text-slate-900">
+                No analytics found
+              </h3>
+
+              <p className="mt-2 text-sm text-slate-500">
+                Try changing your filters or search term.
+              </p>
             </div>
-          )}
+          </div>
+        )}
 
         {/* =================================================== */}
         {/* TABLE                                                */}
         {/* =================================================== */}
 
-        {!loading &&
-          !error &&
-          filteredData.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="min-w-[900px] w-full">
-                <thead>
-                  <tr className="border-b border-slate-200 bg-slate-50">
-                    {VIDEOS_DOWNLOAD_ANALYTICS_TABLE_COLUMNS.map(
-                      (column) => (
-                        <th
-                          key={column}
-                          className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
-                        >
-                          {column}
-                        </th>
-                      ),
-                    )}
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-slate-100">
-                  {filteredData.map((student, index) => (
-                    <tr
-                      key={`${student.studentID}-${index}`}
-                      className="transition hover:bg-slate-50"
+        {!loading && !error && filteredData.length > 0 && (
+          <div className="overflow-x-auto">
+            <table className="min-w-[900px] w-full">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50">
+                  {VIDEOS_DOWNLOAD_ANALYTICS_TABLE_COLUMNS.map((column) => (
+                    <th
+                      key={column}
+                      className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-slate-500"
                     >
-                      {/* Sl No */}
-                      <td className="px-5 py-4 text-sm text-slate-600">
-                        {index + 1}
-                      </td>
-
-                      {/* Student ID */}
-                      <td className="px-5 py-4 text-sm font-medium text-slate-800">
-                        {student.studentID}
-                      </td>
-
-                      {/* Name */}
-                      <td className="px-5 py-4">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedStudent(student)
-                          }
-                          className="text-left text-sm font-semibold text-blue-600 transition hover:text-blue-800 hover:underline"
-                        >
-                          {student.studentName || "-"}
-                        </button>
-                      </td>
-
-                      {/* Mobile */}
-                      <td className="px-5 py-4 text-sm text-slate-600">
-                        {student.mobileNo || "-"}
-                      </td>
-
-                      {/* Subscribed */}
-                      <td className="px-5 py-4">
-                        <span
-                          className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
-                            student.subscribedYN?.toLowerCase() ===
-                            "y"
-                              ? "bg-green-50 text-green-700"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
-                        >
-                          {student.subscribedYN?.toLowerCase() ===
-                          "y"
-                            ? "Yes"
-                            : "No"}
-                        </span>
-                      </td>
-
-                      {/* Video View */}
-                      <td className="px-5 py-4">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedVideo(
-                              student.videoDownload ?? null,
-                            )
-                          }
-                          disabled={!student.videoDownload}
-                          className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                          View
-                        </button>
-                      </td>
-                    </tr>
+                      {column}
+                    </th>
                   ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-slate-100">
+                {filteredData.map((student, index) => (
+                  <tr
+                    key={`${student.studentID}-${index}`}
+                    className="transition hover:bg-slate-50"
+                  >
+                    {/* Sl No */}
+                    <td className="px-5 py-4 text-sm text-slate-600">
+                      {index + 1}
+                    </td>
+
+                    {/* Student ID */}
+                    <td className="px-5 py-4 text-sm font-medium text-slate-800">
+                      {student.studentID}
+                    </td>
+
+                    {/* Name */}
+                    <td className="px-5 py-4">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedStudent(student)}
+                        className="text-left text-sm font-semibold text-blue-600 transition hover:text-blue-800 hover:underline"
+                      >
+                        {student.studentName || "-"}
+                      </button>
+                    </td>
+
+                    {/* Mobile */}
+                    <td className="px-5 py-4 text-sm text-slate-600">
+                      {student.mobileNo || "-"}
+                    </td>
+
+                    {/* Subscribed */}
+                    <td className="px-5 py-4">
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
+                          student.subscribedYN?.toLowerCase() === "y"
+                            ? "bg-green-50 text-green-700"
+                            : "bg-slate-100 text-slate-600"
+                        }`}
+                      >
+                        {student.subscribedYN?.toLowerCase() === "y"
+                          ? "Yes"
+                          : "No"}
+                      </span>
+                    </td>
+
+                    {/* Video View */}
+                    <td className="px-5 py-4">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedVideo(student.videoDownload ?? null)
+                        }
+                        disabled={!student.videoDownload}
+                        className="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
         {/* Footer */}
-        {!loading &&
-          !error &&
-          filteredData.length > 0 && (
-            <div className="border-t border-slate-200 bg-slate-50 px-6 py-3">
-              <p className="text-xs text-slate-500">
-                Showing {filteredData.length} of {data.length}{" "}
-                result
-                {data.length === 1 ? "" : "s"}.
-              </p>
-            </div>
-          )}
+        {!loading && !error && filteredData.length > 0 && (
+          <div className="border-t border-slate-200 bg-slate-50 px-6 py-3">
+            <p className="text-xs text-slate-500">
+              Showing {filteredData.length} of {data.length} result
+              {data.length === 1 ? "" : "s"}.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* ===================================================== */}

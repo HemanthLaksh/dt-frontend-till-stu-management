@@ -2,9 +2,7 @@
 
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 
-import type {
-  TrendDateFilterProps,
-} from "../types/trends.types";
+import type { TrendDateFilterProps } from "../types/trends.types";
 
 export default function TrendDateFilter({
   fromDate,
@@ -43,20 +41,14 @@ export default function TrendDateFilter({
       </div>
 
       {error && (
-        <p className="mt-3 text-sm font-medium text-red-600">
-          {error}
-        </p>
+        <p className="mt-3 text-sm font-medium text-red-600">{error}</p>
       )}
 
       <div className="mt-5 flex justify-end">
         <button
           type="button"
           onClick={onGenerateReport}
-          disabled={
-            disabled ||
-            !fromDate ||
-            !toDate
-          }
+          disabled={disabled || !fromDate || !toDate}
           className="
             rounded-lg
             bg-blue-600
@@ -75,9 +67,7 @@ export default function TrendDateFilter({
             disabled:bg-slate-300
           "
         >
-          {disabled
-            ? "Generating..."
-            : "Generate Report"}
+          {disabled ? "Generating..." : "Generate Report"}
         </button>
       </div>
     </div>

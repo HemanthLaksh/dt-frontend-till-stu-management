@@ -85,9 +85,7 @@ function RegistrationOverview() {
                     {course.registrations}
                   </p>
 
-                  <p className="mt-1 text-xs text-slate-400">
-                    registrations
-                  </p>
+                  <p className="mt-1 text-xs text-slate-400">registrations</p>
                 </div>
               ))}
             </div>

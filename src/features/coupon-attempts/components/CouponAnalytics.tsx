@@ -112,9 +112,7 @@ const DUMMY_STUDENTS: CouponStudent[] = [
   },
 ];
 
-export default function CouponAnalytics({
-  course,
-}: CouponAnalyticsProps) {
+export default function CouponAnalytics({ course }: CouponAnalyticsProps) {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
 
@@ -122,14 +120,13 @@ export default function CouponAnalytics({
 
   const [search, setSearch] = useState("");
 
-  const [students, setStudents] =
-    useState<CouponStudent[]>(DUMMY_STUDENTS);
+  const [students, setStudents] = useState<CouponStudent[]>(DUMMY_STUDENTS);
 
-  const [hasSearched, setHasSearched] =
-    useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
-  const [selectedStudent, setSelectedStudent] =
-    useState<CouponStudent | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<CouponStudent | null>(
+    null,
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -140,39 +137,23 @@ export default function CouponAnalytics({
   ========================================= */
 
   const filteredStudents = useMemo(() => {
-    const searchValue = search
-      .trim()
-      .toLowerCase();
+    const searchValue = search.trim().toLowerCase();
 
-    const couponValue = couponCode
-      .trim()
-      .toLowerCase();
+    const couponValue = couponCode.trim().toLowerCase();
 
     return students.filter((student) => {
       const matchesSearch =
         !searchValue ||
-        student.studentName
-          .toLowerCase()
-          .includes(searchValue) ||
-        String(student.studentID)
-          .includes(searchValue) ||
-        student.mobileNo.includes(
-          searchValue
-        ) ||
-        student.email
-          ?.toLowerCase()
-          .includes(searchValue);
+        student.studentName.toLowerCase().includes(searchValue) ||
+        String(student.studentID).includes(searchValue) ||
+        student.mobileNo.includes(searchValue) ||
+        student.email?.toLowerCase().includes(searchValue);
 
       const matchesCoupon =
         !couponValue ||
-        student.couponCodeUsed
-          ?.toLowerCase()
-          .includes(couponValue);
+        student.couponCodeUsed?.toLowerCase().includes(couponValue);
 
-      return (
-        matchesSearch &&
-        matchesCoupon
-      );
+      return matchesSearch && matchesCoupon;
     });
   }, [students, search, couponCode]);
 
@@ -190,9 +171,7 @@ export default function CouponAnalytics({
      * useCouponAttempts().
      */
 
-    await new Promise((resolve) =>
-      setTimeout(resolve, 400)
-    );
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     setLoading(false);
   };
@@ -224,15 +203,12 @@ export default function CouponAnalytics({
      * This will be connected to the actual
      * backend report endpoint.
      */
-    console.info(
-      "Coupon report download requested",
-      {
-        courseId: course.id,
-        fromDate,
-        toDate,
-        couponCode,
-      }
-    );
+    console.info("Coupon report download requested", {
+      courseId: course.id,
+      fromDate,
+      toDate,
+      couponCode,
+    });
   };
 
   return (
@@ -254,16 +230,12 @@ export default function CouponAnalytics({
               </h2>
 
               <p className="mt-1 text-sm text-slate-500">
-                Search and view coupon attempts for{" "}
-                {course.name}.
+                Search and view coupon attempts for {course.name}.
               </p>
             </div>
 
             <div className="flex items-center gap-2 rounded-lg border border-blue-100 bg-white px-3 py-2">
-              <CalendarDays
-                size={16}
-                className="text-blue-600"
-              />
+              <CalendarDays size={16} className="text-blue-600" />
 
               <span className="text-xs font-medium text-slate-600">
                 Course ID: {course.id}
@@ -279,9 +251,7 @@ export default function CouponAnalytics({
         <div className="p-6">
           <div
             className={`grid grid-cols-1 gap-5 ${
-              isNeetPg
-                ? "lg:grid-cols-3"
-                : "lg:grid-cols-3"
+              isNeetPg ? "lg:grid-cols-3" : "lg:grid-cols-3"
             }`}
           >
             {/* FROM DATE */}
@@ -292,10 +262,7 @@ export default function CouponAnalytics({
               onChange={(value) => {
                 setFromDate(value);
 
-                if (
-                  toDate &&
-                  value > toDate
-                ) {
+                if (toDate && value > toDate) {
                   setToDate("");
                 }
               }}
@@ -323,9 +290,7 @@ export default function CouponAnalytics({
               >
                 <Search size={17} />
 
-                {loading
-                  ? "Searching..."
-                  : "Search"}
+                {loading ? "Searching..." : "Search"}
               </button>
             </div>
           </div>
@@ -342,21 +307,16 @@ export default function CouponAnalytics({
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <RotateCcw size={16} />
-
               Clear
             </button>
 
             <button
               type="button"
               onClick={handleDownload}
-              disabled={
-                loading ||
-                filteredStudents.length === 0
-              }
+              disabled={loading || filteredStudents.length === 0}
               className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Download size={16} />
-
               Download Report
             </button>
           </div>
@@ -375,8 +335,7 @@ export default function CouponAnalytics({
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              {filteredStudents.length}{" "}
-              records found
+              {filteredStudents.length} records found
             </p>
           </div>
 
@@ -389,11 +348,7 @@ export default function CouponAnalytics({
             <input
               type="text"
               value={search}
-              onChange={(event) =>
-                setSearch(
-                  event.target.value
-                )
-              }
+              onChange={(event) => setSearch(event.target.value)}
               placeholder="Search student..."
               className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-800 outline-none transition-all placeholder:text-slate-400 hover:border-slate-300 hover:bg-white focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"
             />
@@ -454,11 +409,7 @@ export default function CouponAnalytics({
               {loading ? (
                 <tr>
                   <td
-                    colSpan={
-                      isNeetPg
-                        ? 8
-                        : 6
-                    }
+                    colSpan={isNeetPg ? 8 : 6}
                     className="px-6 py-16 text-center"
                   >
                     <div className="flex flex-col items-center justify-center">
@@ -470,15 +421,10 @@ export default function CouponAnalytics({
                     </div>
                   </td>
                 </tr>
-              ) : filteredStudents.length ===
-                0 ? (
+              ) : filteredStudents.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={
-                      isNeetPg
-                        ? 8
-                        : 6
-                    }
+                    colSpan={isNeetPg ? 8 : 6}
                     className="px-6 py-16 text-center"
                   >
                     <div className="mx-auto flex max-w-sm flex-col items-center">
@@ -491,115 +437,93 @@ export default function CouponAnalytics({
                       </h3>
 
                       <p className="mt-1 text-sm text-slate-500">
-                        Try changing your filters
-                        or search criteria.
+                        Try changing your filters or search criteria.
                       </p>
                     </div>
                   </td>
                 </tr>
               ) : (
-                filteredStudents.map(
-                  (
-                    student,
-                    index
-                  ) => (
-                    <tr
-                      key={
-                        student.studentID
-                      }
-                      className="transition-colors hover:bg-blue-50/40"
-                    >
-                      {/* SL NO */}
+                filteredStudents.map((student, index) => (
+                  <tr
+                    key={student.studentID}
+                    className="transition-colors hover:bg-blue-50/40"
+                  >
+                    {/* SL NO */}
 
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
-                        {index + 1}
-                      </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-500">
+                      {index + 1}
+                    </td>
 
-                      {/* STUDENT ID */}
+                    {/* STUDENT ID */}
 
-                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-700">
-                        {student.studentID}
-                      </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-700">
+                      {student.studentID}
+                    </td>
 
-                      {/* NAME */}
+                    {/* NAME */}
 
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
-                            <UserRound
-                              size={15}
-                            />
-                          </div>
-
-                          <span className="text-sm font-medium text-slate-800">
-                            {
-                              student.studentName
-                            }
-                          </span>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                          <UserRound size={15} />
                         </div>
-                      </td>
 
-                      {/* MOBILE */}
+                        <span className="text-sm font-medium text-slate-800">
+                          {student.studentName}
+                        </span>
+                      </div>
+                    </td>
 
-                      <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
-                        {student.mobileNo}
-                      </td>
+                    {/* MOBILE */}
 
-                      {/* NEET PG FIELDS */}
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-600">
+                      {student.mobileNo}
+                    </td>
 
-                      {isNeetPg ? (
-                        <>
-                          <td className="px-6 py-4 text-sm text-slate-600">
-                            {student.email ||
-                              "—"}
-                          </td>
+                    {/* NEET PG FIELDS */}
 
-                          <td className="px-6 py-4 text-sm text-slate-600">
-                            {student.education ||
-                              "—"}
-                          </td>
-
-                          <td className="px-6 py-4 text-sm text-slate-600">
-                            {student.college ||
-                              "—"}
-                          </td>
-                        </>
-                      ) : (
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
-                              student.subscribedYN ===
-                              "Yes"
-                                ? "bg-green-50 text-green-700"
-                                : "bg-slate-100 text-slate-600"
-                            }`}
-                          >
-                            {student.subscribedYN ||
-                              "No"}
-                          </span>
+                    {isNeetPg ? (
+                      <>
+                        <td className="px-6 py-4 text-sm text-slate-600">
+                          {student.email || "—"}
                         </td>
-                      )}
 
-                      {/* REPORT */}
+                        <td className="px-6 py-4 text-sm text-slate-600">
+                          {student.education || "—"}
+                        </td>
 
+                        <td className="px-6 py-4 text-sm text-slate-600">
+                          {student.college || "—"}
+                        </td>
+                      </>
+                    ) : (
                       <td className="px-6 py-4">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setSelectedStudent(
-                              student
-                            )
-                          }
-                          className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-100"
+                        <span
+                          className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            student.subscribedYN === "Yes"
+                              ? "bg-green-50 text-green-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
                         >
-                          <Eye size={15} />
-
-                          View
-                        </button>
+                          {student.subscribedYN || "No"}
+                        </span>
                       </td>
-                    </tr>
-                  )
-                )
+                    )}
+
+                    {/* REPORT */}
+
+                    <td className="px-6 py-4">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedStudent(student)}
+                        className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-100"
+                      >
+                        <Eye size={15} />
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
@@ -622,25 +546,17 @@ export default function CouponAnalytics({
                 </p>
 
                 <h3 className="mt-1 text-lg font-semibold text-slate-900">
-                  {
-                    selectedStudent.studentName
-                  }
+                  {selectedStudent.studentName}
                 </h3>
               </div>
 
               <button
                 type="button"
-                onClick={() =>
-                  setSelectedStudent(
-                    null
-                  )
-                }
+                onClick={() => setSelectedStudent(null)}
                 className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
                 aria-label="Close"
               >
-                <span className="text-xl leading-none">
-                  ×
-                </span>
+                <span className="text-xl leading-none">×</span>
               </button>
             </div>
 
@@ -654,21 +570,15 @@ export default function CouponAnalytics({
                   </p>
 
                   <p className="mt-1 text-sm font-semibold text-slate-800">
-                    {
-                      selectedStudent.studentID
-                    }
+                    {selectedStudent.studentID}
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-slate-50 p-4">
-                  <p className="text-xs font-medium text-slate-500">
-                    Mobile
-                  </p>
+                  <p className="text-xs font-medium text-slate-500">Mobile</p>
 
                   <p className="mt-1 text-sm font-semibold text-slate-800">
-                    {
-                      selectedStudent.mobileNo
-                    }
+                    {selectedStudent.mobileNo}
                   </p>
                 </div>
               </div>
@@ -679,20 +589,16 @@ export default function CouponAnalytics({
                 </p>
 
                 <p className="mt-1 text-sm font-semibold text-blue-600">
-                  {selectedStudent.couponCodeUsed ||
-                    "—"}
+                  {selectedStudent.couponCodeUsed || "—"}
                 </p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs font-medium text-slate-500">
-                    Plan
-                  </p>
+                  <p className="text-xs font-medium text-slate-500">Plan</p>
 
                   <p className="mt-1 text-sm font-medium text-slate-800">
-                    {selectedStudent.planName ||
-                      "—"}
+                    {selectedStudent.planName || "—"}
                   </p>
                 </div>
 
@@ -702,8 +608,7 @@ export default function CouponAnalytics({
                   </p>
 
                   <p className="mt-1 text-sm font-medium text-slate-800">
-                    {selectedStudent.subscribedDate ||
-                      "—"}
+                    {selectedStudent.subscribedDate || "—"}
                   </p>
                 </div>
               </div>
@@ -714,11 +619,7 @@ export default function CouponAnalytics({
             <div className="flex justify-end border-t border-slate-200 px-6 py-4">
               <button
                 type="button"
-                onClick={() =>
-                  setSelectedStudent(
-                    null
-                  )
-                }
+                onClick={() => setSelectedStudent(null)}
                 className="rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
               >
                 Close

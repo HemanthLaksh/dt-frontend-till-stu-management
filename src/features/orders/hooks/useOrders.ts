@@ -2,14 +2,9 @@
 
 import { useMemo, useState } from "react";
 
-import {
-  DUMMY_ORDERS,
-} from "../constants/orders.constants";
+import { DUMMY_ORDERS } from "../constants/orders.constants";
 
-import type {
-  Order,
-  OrderFilters,
-} from "../types/orders.types";
+import type { Order, OrderFilters } from "../types/orders.types";
 
 export default function useOrders() {
   const [filters, setFilters] = useState<OrderFilters>({
@@ -22,9 +17,7 @@ export default function useOrders() {
 
   const [loading, setLoading] = useState(false);
 
-  const [orders, setOrders] = useState<Order[]>(
-    [...DUMMY_ORDERS] as Order[],
-  );
+  const [orders, setOrders] = useState<Order[]>([...DUMMY_ORDERS] as Order[]);
 
   const filteredOrders = useMemo(() => {
     const searchValue = filters.search.trim().toLowerCase();
@@ -39,20 +32,16 @@ export default function useOrders() {
         order.email.toLowerCase().includes(searchValue);
 
       const matchesCourse =
-        filters.course === "All Courses" ||
-        order.course === filters.course;
+        filters.course === "All Courses" || order.course === filters.course;
 
       const matchesStatus =
-        filters.status === "All Status" ||
-        order.status === filters.status;
+        filters.status === "All Status" || order.status === filters.status;
 
       const matchesFromDate =
-        !filters.fromDate ||
-        order.orderDate >= filters.fromDate;
+        !filters.fromDate || order.orderDate >= filters.fromDate;
 
       const matchesToDate =
-        !filters.toDate ||
-        order.orderDate <= filters.toDate;
+        !filters.toDate || order.orderDate <= filters.toDate;
 
       return (
         matchesSearch &&
@@ -67,9 +56,7 @@ export default function useOrders() {
   const searchOrders = async () => {
     setLoading(true);
 
-    await new Promise((resolve) =>
-      setTimeout(resolve, 400),
-    );
+    await new Promise((resolve) => setTimeout(resolve, 400));
 
     setLoading(false);
   };

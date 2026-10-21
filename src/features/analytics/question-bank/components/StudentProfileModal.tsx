@@ -20,10 +20,7 @@ export default function StudentProfileModal({
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-              <User
-                size={20}
-                className="text-blue-600"
-              />
+              <User size={20} className="text-blue-600" />
             </div>
 
             <div>
@@ -49,75 +46,39 @@ export default function StudentProfileModal({
         {/* Content */}
         <div className="max-h-[calc(90vh-90px)] overflow-y-auto p-6">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <InfoItem
-              label="Student ID"
-              value={String(student.studentID)}
-            />
+            <InfoItem label="Student ID" value={String(student.studentID)} />
 
-            <InfoItem
-              label="Name"
-              value={student.studentName}
-            />
+            <InfoItem label="Name" value={student.studentName} />
 
-            <InfoItem
-              label="ISD Code"
-              value={student.isdCode}
-            />
+            <InfoItem label="ISD Code" value={student.isdCode} />
 
-            <InfoItem
-              label="Mobile No."
-              value={student.mobileNo}
-            />
+            <InfoItem label="Mobile No." value={student.mobileNo} />
 
-            <InfoItem
-              label="Email"
-              value={student.email}
-            />
+            <InfoItem label="Email" value={student.email} />
 
-            <InfoItem
-              label="Education"
-              value={student.education}
-            />
+            <InfoItem label="Education" value={student.education} />
 
-            <InfoItem
-              label="College"
-              value={student.college}
-            />
+            <InfoItem label="College" value={student.college} />
 
-            <InfoItem
-              label="State"
-              value={student.addressState}
-            />
+            <InfoItem label="State" value={student.addressState} />
 
-            <InfoItem
-              label="Subscription Taken"
-              value={student.subscribedYN}
-            />
+            <InfoItem label="Subscription Taken" value={student.subscribedYN} />
 
-            <InfoItem
-              label="Plan Subscribed"
-              value={student.subsribedToPlan}
-            />
+            <InfoItem label="Plan Subscribed" value={student.subsribedToPlan} />
 
             <InfoItem
               label="Subscription Date"
               value={student.subscribedDate}
             />
 
-            <InfoItem
-              label="Coupon Code Used"
-              value={student.couponCodeUsed}
-            />
+            <InfoItem label="Coupon Code Used" value={student.couponCodeUsed} />
 
             <InfoItem
               label="Subscription Order ID"
               value={student.subscriptionOrderID}
             />
 
-            <InfoItem
-              label="Amount"
-              value={String(student.amount)}
-            />
+            <InfoItem label="Amount" value={String(student.amount)} />
           </div>
         </div>
       </div>
@@ -125,22 +86,12 @@ export default function StudentProfileModal({
   );
 }
 
-function InfoItem({
-  label,
-  value,
-}: {
-  label: string;
-  value?: string;
-}) {
+function InfoItem({ label, value }: { label: string; value?: string }) {
   return (
     <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-      <p className="text-xs font-medium text-slate-400">
-        {label}
-      </p>
+      <p className="text-xs font-medium text-slate-400">{label}</p>
 
-      <p className="mt-1 text-sm font-medium text-slate-800">
-        {value || "—"}
-      </p>
+      <p className="mt-1 text-sm font-medium text-slate-800">{value || "—"}</p>
     </div>
   );
 }

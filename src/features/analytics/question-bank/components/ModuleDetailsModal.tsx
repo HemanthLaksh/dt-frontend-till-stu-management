@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  BarChart3,
-  CheckCircle2,
-  Clock3,
-  X,
-  XCircle,
-} from "lucide-react";
+import { BarChart3, CheckCircle2, Clock3, X, XCircle } from "lucide-react";
 
 import type { QuestionBankAnalyticsItem } from "../types/questionBankAnalytics.types";
 
@@ -26,10 +20,7 @@ export default function ModuleDetailsModal({
         <div className="flex items-center justify-between border-b border-slate-200 px-6 py-5">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50">
-              <BarChart3
-                size={20}
-                className="text-blue-600"
-              />
+              <BarChart3 size={20} className="text-blue-600" />
             </div>
 
             <div>
@@ -37,9 +28,7 @@ export default function ModuleDetailsModal({
                 Module Details
               </h2>
 
-              <p className="text-xs text-slate-500">
-                Question Bank activity
-              </p>
+              <p className="text-xs text-slate-500">Question Bank activity</p>
             </div>
           </div>
 
@@ -127,14 +116,10 @@ function InfoCard({
       <div className="flex items-center gap-2 text-slate-400">
         {icon}
 
-        <span className="text-xs font-medium">
-          {label}
-        </span>
+        <span className="text-xs font-medium">{label}</span>
       </div>
 
-      <p
-        className={`mt-2 text-sm font-semibold ${valueClassName}`}
-      >
+      <p className={`mt-2 text-sm font-semibold ${valueClassName}`}>
         {value || "—"}
       </p>
     </div>

@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  BarChart3,
-  ChevronRight,
-} from "lucide-react";
+import { BarChart3, ChevronRight } from "lucide-react";
 
-import type {
-  TrendReportCardProps,
-} from "../types/trends.types";
+import type { TrendReportCardProps } from "../types/trends.types";
 
 export default function TrendReportCard({
   report,
@@ -87,9 +82,7 @@ export default function TrendReportCard({
         />
       </div>
 
-      <p className="mt-1 text-xs text-slate-400">
-        {report.description}
-      </p>
+      <p className="mt-1 text-xs text-slate-400">{report.description}</p>
     </button>
   );
 }

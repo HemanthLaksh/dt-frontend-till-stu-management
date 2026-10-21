@@ -27,7 +27,6 @@ export async function loginAdmin(
   return response.data;
 }
 
-
 export async function verifyAdminOtp(
   adminEmail: string,
   otp: string,

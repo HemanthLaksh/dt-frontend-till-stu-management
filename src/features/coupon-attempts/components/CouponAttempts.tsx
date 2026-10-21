@@ -1,10 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  CreditCard,
-  ChevronRight,
-} from "lucide-react";
+import { CreditCard, ChevronRight } from "lucide-react";
 
 import BackButton from "@/components/ui/BackButton/BackButton";
 
@@ -16,12 +13,11 @@ import {
 import CouponAnalytics from "./CouponAnalytics";
 
 export default function CouponAttempts() {
-  const [selectedCourse, setSelectedCourse] =
-    useState<CouponCourse | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<CouponCourse | null>(
+    null,
+  );
 
-  const handleCourseSelect = (
-    course: CouponCourse
-  ) => {
+  const handleCourseSelect = (course: CouponCourse) => {
     setSelectedCourse(course);
   };
 
@@ -74,37 +70,31 @@ export default function CouponAttempts() {
           {/* COURSE CARDS */}
 
           <div className="grid grid-cols-1 gap-4 p-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {COUPON_ATTEMPTS_COURSES.map(
-              (course) => (
-                <button
-                  key={course.id}
-                  type="button"
-                  onClick={() =>
-                    handleCourseSelect(course)
-                  }
-                  className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-600">
-                      <CreditCard size={21} />
-                    </div>
-
-                    <ChevronRight
-                      size={18}
-                      className="text-slate-300 transition-all group-hover:translate-x-1 group-hover:text-blue-500"
-                    />
+            {COUPON_ATTEMPTS_COURSES.map((course) => (
+              <button
+                key={course.id}
+                type="button"
+                onClick={() => handleCourseSelect(course)}
+                className="group rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:shadow-md"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-colors group-hover:bg-blue-100 group-hover:text-blue-600">
+                    <CreditCard size={21} />
                   </div>
 
-                  <h3 className="mt-4 text-sm font-semibold text-slate-800">
-                    {course.name}
-                  </h3>
+                  <ChevronRight
+                    size={18}
+                    className="text-slate-300 transition-all group-hover:translate-x-1 group-hover:text-blue-500"
+                  />
+                </div>
 
-                  <p className="mt-1 text-xs text-slate-500">
-                    Coupon Analytics
-                  </p>
-                </button>
-              )
-            )}
+                <h3 className="mt-4 text-sm font-semibold text-slate-800">
+                  {course.name}
+                </h3>
+
+                <p className="mt-1 text-xs text-slate-500">Coupon Analytics</p>
+              </button>
+            ))}
           </div>
         </section>
       )}
@@ -115,14 +105,9 @@ export default function CouponAttempts() {
         <div className="space-y-4">
           {/* BACK */}
 
-          <BackButton
-            onClick={handleBack}
-            label="Back to Courses"
-          />
+          <BackButton onClick={handleBack} label="Back to Courses" />
 
-          <CouponAnalytics
-            course={selectedCourse}
-          />
+          <CouponAnalytics course={selectedCourse} />
         </div>
       )}
     </div>

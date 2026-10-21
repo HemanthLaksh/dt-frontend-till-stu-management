@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,38 +11,18 @@ import { useAuth } from "../hooks/useAuth";
 
 export default function OtpVerification() {
   const router = useRouter();
-  const admin = useAppSelector(
-    (state) => state.auth.admin,
-  );
+  const admin = useAppSelector((state) => state.auth.admin);
 
-  const otpPending = useAppSelector(
-    (state) => state.auth.otpPending,
-  );
+  const otpPending = useAppSelector((state) => state.auth.otpPending);
 
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.isAuthenticated,
-  );
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
-  const [otp, setOtp] = useState([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]);
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
 
-  const inputRefs = useRef<
-    Array<HTMLInputElement | null>
-  >([]);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
-  const {
-    verifyOtp,
-    completeAuthentication,
-    loading,
-    error,
-    setError,
-  } = useAuth();
+  const { verifyOtp, completeAuthentication, loading, error, setError } =
+    useAuth();
 
   /*
    * If the user reaches this page directly
@@ -54,44 +30,31 @@ export default function OtpVerification() {
    * send them back to login.
    */
   useEffect(() => {
-    if (
-      !isAuthenticated &&
-      (!otpPending || !admin)
-    ) {
+    if (!isAuthenticated && (!otpPending || !admin)) {
       router.replace("/login");
     }
-  }, [
-    admin,
-    otpPending,
-    isAuthenticated,
-    router,
-  ]);
+  }, [admin, otpPending, isAuthenticated, router]);
 
-  /*
-   * Temporary authentication state debugging.
-   */
-  useEffect(() => {
-    console.log("Auth state changed:", {
-      isAuthenticated,
-      admin,
-      otpPending,
-    });
-  }, [
-    isAuthenticated,
-    admin,
-    otpPending,
-  ]);
+  // /*
+  //  * Temporary authentication state debugging.
+  //  */
+  // useEffect(() => {
+  //   console.log("Auth state changed:", {
+  //     isAuthenticated,
+  //     admin,
+  //     otpPending,
+  //   });
+  // }, [
+  //   isAuthenticated,
+  //   admin,
+  //   otpPending,
+  // ]);
 
   /*
    * Handle entering one digit.
    */
-  const handleChange = (
-    index: number,
-    value: string,
-  ) => {
-    const digit = value
-      .replace(/\D/g, "")
-      .slice(-1);
+  const handleChange = (index: number, value: string) => {
+    const digit = value.replace(/\D/g, "").slice(-1);
 
     const updatedOtp = [...otp];
 
@@ -115,11 +78,7 @@ export default function OtpVerification() {
     index: number,
     event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (
-      event.key === "Backspace" &&
-      !otp[index] &&
-      index > 0
-    ) {
+    if (event.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -127,9 +86,7 @@ export default function OtpVerification() {
   /*
    * Allow the user to paste the complete OTP.
    */
-  const handlePaste = (
-    event: React.ClipboardEvent<HTMLInputElement>,
-  ) => {
+  const handlePaste = (event: React.ClipboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
     const pastedOtp = event.clipboardData
@@ -149,10 +106,7 @@ export default function OtpVerification() {
     setOtp(updatedOtp);
     setError(null);
 
-    const focusIndex = Math.min(
-      pastedOtp.length,
-      5,
-    );
+    const focusIndex = Math.min(pastedOtp.length, 5);
 
     inputRefs.current[focusIndex]?.focus();
   };
@@ -160,17 +114,13 @@ export default function OtpVerification() {
   /*
    * Submit OTP.
    */
-  const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
-  ) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const otpValue = otp.join("");
 
     if (otpValue.length !== 6) {
-      setError(
-        "Please enter the 6 digit OTP.",
-      );
+      setError("Please enter the 6 digit OTP.");
       return;
     }
 
@@ -179,25 +129,21 @@ export default function OtpVerification() {
       return;
     }
 
-    const verified = await verifyOtp(
-      admin.adminEmail,
-      otpValue,
-    );
+    const verified = await verifyOtp(admin.adminEmail, otpValue);
 
-    console.log("OTP verified:", verified);
-    console.log("Admin:", admin);
+    // console.log("OTP verified:", verified);
+    // console.log("Admin:", admin);
 
     if (!verified) {
-      console.log(
-        "OTP verification failed",
-      );
+      // console.log(
+      //   "OTP verification failed",
+      // );
       return;
     }
 
-    console.log(
-      "OTP verification successful",
-    );
-console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
+    // console.log(
+    //   "OTP verification successful",
+    // );
 
     /*
      * OTP successfully verified.
@@ -221,9 +167,7 @@ console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
               Admin Login
             </h1>
 
-            <p className="mt-1 text-sm text-blue-100">
-              Verify your identity
-            </p>
+            <p className="mt-1 text-sm text-blue-100">Verify your identity</p>
           </div>
 
           {/* Content */}
@@ -234,23 +178,18 @@ console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
               </h2>
 
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                Enter the OTP sent to your registered
-                email or Outlook account.
+                Enter the OTP sent to your registered email or Outlook account.
               </p>
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              className="mt-7"
-            >
+            <form onSubmit={handleSubmit} className="mt-7">
               {/* OTP Inputs */}
               <div className="flex justify-center gap-2 sm:gap-3">
                 {otp.map((digit, index) => (
                   <input
                     key={index}
                     ref={(element) => {
-                      inputRefs.current[index] =
-                        element;
+                      inputRefs.current[index] = element;
                     }}
                     id={`otp-${index}`}
                     type="text"
@@ -259,26 +198,12 @@ console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
                     value={digit}
                     disabled={loading}
                     onChange={(event) =>
-                      handleChange(
-                        index,
-                        event.target.value,
-                      )
+                      handleChange(index, event.target.value)
                     }
-                    onKeyDown={(event) =>
-                      handleKeyDown(
-                        index,
-                        event,
-                      )
-                    }
+                    onKeyDown={(event) => handleKeyDown(index, event)}
                     onPaste={handlePaste}
-                    autoComplete={
-                      index === 0
-                        ? "one-time-code"
-                        : "off"
-                    }
-                    aria-label={`OTP digit ${
-                      index + 1
-                    }`}
+                    autoComplete={index === 0 ? "one-time-code" : "off"}
+                    aria-label={`OTP digit ${index + 1}`}
                     className="h-12 w-11 rounded-lg border border-slate-200 bg-slate-50 text-center text-lg font-semibold text-slate-900 outline-none transition hover:border-slate-300 hover:bg-white focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50 disabled:cursor-not-allowed disabled:opacity-60 sm:h-14 sm:w-12"
                   />
                 ))}
@@ -297,10 +222,7 @@ console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
               {/* Submit */}
               <button
                 type="submit"
-                disabled={
-                  loading ||
-                  otp.join("").length !== 6
-                }
+                disabled={loading || otp.join("").length !== 6}
                 className="mt-6 h-12 w-full rounded-lg bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? (
@@ -318,9 +240,7 @@ console.log("🔥 ABOUT TO CALL COMPLETE AUTH");
             <button
               type="button"
               disabled={loading}
-              onClick={() =>
-                router.replace("/login")
-              }
+              onClick={() => router.replace("/login")}
               className="mx-auto mt-5 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ArrowLeft className="h-4 w-4" />
