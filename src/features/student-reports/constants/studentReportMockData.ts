@@ -1,24 +1,18 @@
 import type {
   ReportLocationOption,
-  StudentReportCourse,
   StudentReportOption,
 } from "../types/student-report.types";
+
+import { COURSE_OPTIONS } from "@/constants/courseOptions";
 
 /**
  * Courses available in the legacy Student Reports module.
  * Course IDs match the existing PHP implementation.
  */
-export const STUDENT_REPORT_COURSES: {
-  id: number;
-  label: StudentReportCourse;
-}[] = [
-  { id: 1, label: "NEET PG" },
-  { id: 2, label: "NEET SS" },
-  { id: 3, label: "FMGE" },
-  { id: 4, label: "MBBS CURRICULUM" },
-  { id: 5, label: "PG RESIDENCY" },
-  { id: 0, label: "All Course" },
-];
+export const STUDENT_REPORT_COURSES = COURSE_OPTIONS.map(({ id, label }) => ({
+  id,
+  label,
+}));
 
 /**
  * Report options displayed for each course.

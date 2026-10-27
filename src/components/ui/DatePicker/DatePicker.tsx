@@ -27,6 +27,8 @@ interface DatePickerProps {
 
 type CalendarView = "days" | "months" | "years";
 
+const MIN_YEAR = 2018;
+
 const WEEK_DAYS = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
 const MONTHS = [
@@ -185,8 +187,8 @@ export default function DatePicker({
 
   const [calendarView, setCalendarView] = useState<CalendarView>("days");
 
-  const [yearPage, setYearPage] = useState(
-    Math.floor(initialDate.getFullYear() / 12) * 12,
+  const [yearPage, setYearPage] = useState(() =>
+    Math.max(MIN_YEAR, Math.floor(initialDate.getFullYear() / 12) * 12),
   );
 
   const calendarDays = useMemo(
@@ -213,11 +215,15 @@ export default function DatePicker({
   };
 
   const yearIsAllowed = (year: number) => {
-    const yearStart = `${year}-01-01`;
+    if (year < MIN_YEAR) return false;
 
+    const yearStart = `${year}-01-01`;
     const yearEnd = `${year}-12-31`;
 
-    return !(minDate && yearEnd < minDate) && !(maxDate && yearStart > maxDate);
+    return !(
+      (minDate && yearEnd < minDate) ||
+      (maxDate && yearStart > maxDate)
+    );
   };
 
   const closeCalendar = () => {
@@ -370,7 +376,9 @@ export default function DatePicker({
             : selected;
 
       setVisibleMonth(getMonthStart(clamped));
-      setYearPage(Math.floor(clamped.getFullYear() / 12) * 12);
+      setYearPage(
+        Math.max(MIN_YEAR, Math.floor(clamped.getFullYear() / 12) * 12),
+      );
     });
 
     return () => cancelAnimationFrame(frame);
@@ -381,19 +389,66 @@ export default function DatePicker({
 
     if (open) {
       closeCalendar();
-
       return;
     }
 
-    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+    }
 
-    setOpen(true);
+    // Calculate the position before displaying the calendar.
+    const trigger = containerRef.current;
+    if (!trigger) return;
 
+    const triggerRect = trigger.getBoundingClientRect();
+    const viewportPadding = 12;
+    const gap = 8;
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const width = Math.min(340, viewportWidth - viewportPadding * 2);
+
+    const left = Math.max(
+      viewportPadding,
+      Math.min(triggerRect.left, viewportWidth - width - viewportPadding),
+    );
+
+    // Estimate the calendar height before it is rendered.
+    const estimatedHeight = 420;
+    const availableBelow =
+      viewportHeight - triggerRect.bottom - gap - viewportPadding;
+    const availableAbove = triggerRect.top - gap - viewportPadding;
+
+    const shouldOpenAbove =
+      availableBelow < estimatedHeight && availableAbove > availableBelow;
+
+    const maxHeight = Math.max(
+      160,
+      Math.min(
+        viewportHeight - viewportPadding * 2,
+        shouldOpenAbove ? availableAbove : availableBelow,
+      ),
+    );
+
+    const top = shouldOpenAbove
+      ? Math.max(
+          viewportPadding,
+          triggerRect.top - gap - Math.min(estimatedHeight, maxHeight),
+        )
+      : triggerRect.bottom + gap;
+
+    setPopupPosition({ top, left, width, maxHeight });
+    setOpenAbove(shouldOpenAbove);
     setCalendarView("days");
 
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => setCalendarVisible(true)),
-    );
+    // Display only after the position has been set.
+    setOpen(true);
+    setCalendarVisible(false);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setCalendarVisible(true);
+      });
+    });
   };
 
   const handleDateSelect = (date: Date) => {
@@ -526,9 +581,7 @@ export default function DatePicker({
         currentMonth >= maxBound.getMonth())),
   );
 
-  const previousYearsDisabled = Boolean(
-    minBound && yearPage <= Math.floor(minBound.getFullYear() / 12) * 12,
-  );
+  const previousYearsDisabled = yearPage <= MIN_YEAR;
 
   const nextYearsDisabled = Boolean(
     maxBound &&

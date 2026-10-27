@@ -6,6 +6,7 @@ const initialState: AuthState = {
   admin: null,
   isAuthenticated: false,
   otpPending: false,
+  otpVerified: false,
   isHydrated: false,
 };
 
@@ -17,12 +18,24 @@ const authSlice = createSlice({
     setOtpPending: (state, action: PayloadAction<AdminUser>) => {
       state.admin = action.payload;
       state.otpPending = true;
+      state.otpVerified = false;
       state.isAuthenticated = false;
+    },
+
+    clearOtpPending: (state) => {
+      state.admin = null;
+      state.otpPending = false;
+      state.otpVerified = false;
+    },
+
+    setOtpVerified: (state) => {
+      state.otpVerified = true;
     },
 
     setAuthenticated: (state, action: PayloadAction<AdminUser>) => {
       state.admin = action.payload;
       state.otpPending = false;
+      state.otpVerified = false;
       state.isAuthenticated = true;
     },
 
@@ -30,6 +43,7 @@ const authSlice = createSlice({
       state.admin = action.payload.admin;
       state.isAuthenticated = action.payload.isAuthenticated;
       state.otpPending = action.payload.otpPending;
+      state.otpVerified = action.payload.otpVerified;
       state.isHydrated = true;
     },
 
@@ -41,13 +55,16 @@ const authSlice = createSlice({
       state.admin = null;
       state.isAuthenticated = false;
       state.otpPending = false;
+      state.otpVerified = false;
     },
   },
 });
 
 export const {
   setOtpPending,
+  setOtpVerified,
   setAuthenticated,
+  clearOtpPending,
   hydrateAuth,
   setAuthHydrated,
   logout,

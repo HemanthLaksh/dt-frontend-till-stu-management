@@ -44,7 +44,7 @@ export default function DashboardStatCard({
   const formattedValue =
     typeof value === "number" ? value.toLocaleString("en-IN") : value;
 
-  const styles = colorStyles[color];
+  const styles = colorStyles[color] ?? colorStyles.blue;
 
   return (
     <Card

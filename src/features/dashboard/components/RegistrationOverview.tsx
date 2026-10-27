@@ -110,7 +110,7 @@ function getRegistrationData(courses: FastApiCourse[]): YearRegistration[] {
 }
 
 function RegistrationOverview() {
-  const [selectedYear, setSelectedYear] = useState("2025");
+  const [selectedYear, setSelectedYear] = useState("All Registrations");
 
   const [dashboardData, setDashboardData] = useState<FastApiCourse[]>([]);
 

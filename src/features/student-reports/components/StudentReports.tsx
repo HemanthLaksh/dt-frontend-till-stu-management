@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-
 import {
+  RotateCcw,
   ArrowLeft,
   Mail,
   FileBarChart,
@@ -11,12 +11,10 @@ import {
   Users,
   CheckCircle2,
 } from "lucide-react";
-
 import Card from "@/components/ui/Card/Card";
 import Button from "@/components/ui/Button/Button";
 import Select from "@/components/ui/Select/Select";
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
-
 import {
   STUDENT_REPORT_COUNTRIES,
   STUDENT_REPORT_COURSES,
@@ -54,6 +52,13 @@ type GeneratedReport = {
   rowCount?: number;
 };
 
+interface ReportResult {
+  message: string;
+  recipientEmail?: string;
+  fileName?: string;
+  rowCount?: number;
+}
+
 const reportIcons = {
   students: Users,
   "state-wise": MapPin,
@@ -64,30 +69,24 @@ export default function StudentReports() {
   const [studentRecords, setStudentRecords] = useState<StudentReportRecord[]>(
     [],
   );
-
   const [recordCount, setRecordCount] = useState(0);
-
   const [selectedCourse, setSelectedCourse] =
     useState<StudentReportCourse>("NEET PG");
-
   const [selectedReport, setSelectedReport] =
     useState<StudentReportType | null>(null);
-
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [stateName, setStateName] = useState("");
   const [countryCode, setCountryCode] = useState("");
-
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [generatedReport, setGeneratedReport] =
     useState<GeneratedReport | null>(null);
+  const [result, setResult] = useState<ReportResult | null>(null);
 
   const selectedCourseDetails = STUDENT_REPORT_COURSES.find(
     (course) => course.label === selectedCourse,
   );
-
   const resetReport = () => {
     setSelectedReport(null);
     setFromDate("");
@@ -100,12 +99,19 @@ export default function StudentReports() {
     setStudentRecords([]);
     setRecordCount(0);
   };
-
+  function handleReset() {
+    setFromDate("");
+    setToDate("");
+    setError("");
+    setLoading(false);
+    setStateName("");
+    setCountryCode("");
+    setGeneratedReport(null);
+  }
   const handleCourseChange = (course: StudentReportCourse) => {
     setSelectedCourse(course);
     resetReport();
   };
-
   const handleReportSelect = (reportType: StudentReportType) => {
     setSelectedReport(reportType);
     setFromDate("");
@@ -117,20 +123,16 @@ export default function StudentReports() {
     setStudentRecords([]);
     setRecordCount(0);
   };
-
   const handleSubmit = async () => {
     if (!selectedReport || !selectedCourseDetails) {
       setError("Please select a report and course.");
       return;
     }
-
     const dateError = validateReportDates(fromDate, toDate);
-
     if (dateError) {
       setError(dateError);
       return;
     }
-
     const locationError = validateReportLocation({
       courseId: selectedCourseDetails.id,
       courseName: selectedCourse,
@@ -140,28 +142,23 @@ export default function StudentReports() {
       ...(selectedReport === "state-wise" && { stateName }),
       ...(selectedReport === "country-wise" && { countryCode }),
     });
-
     if (locationError) {
       setError(locationError);
       return;
     }
-
     if (selectedReport === "country-wise" && !countryCode) {
       setError("Please select a country.");
       return;
     }
-
     if (selectedReport === "state-wise" && !stateName) {
       setError("Please select a state.");
       return;
     }
-
     setError("");
     setLoading(true);
     setGeneratedReport(null);
     setStudentRecords([]);
     setRecordCount(0);
-
     try {
       const response =
         selectedReport === "state-wise"
@@ -187,22 +184,17 @@ export default function StudentReports() {
                 course_id: selectedCourseDetails.id,
                 send_mail: "Y",
               });
-
       if (!response.success) {
         throw new Error(
           response.message || "Failed to send the student report.",
         );
       }
-
       const records = response.data?.results ?? [];
       const responseData = response.data;
-
       setStudentRecords(records);
-
       setRecordCount(
         responseData?.row_count ?? responseData?.count ?? records.length,
       );
-
       setGeneratedReport({
         courseName: selectedCourse,
         reportType: selectedReport,
@@ -230,7 +222,6 @@ export default function StudentReports() {
         };
         message?: string;
       };
-
       if (axiosError.response?.status === 401) {
         setError(
           "Authentication failed. Your development Bearer Token may be missing or expired. Please update it and try again.",
@@ -247,13 +238,11 @@ export default function StudentReports() {
       setLoading(false);
     }
   };
-
   const handleDownload = () => {
     if (!generatedReport || studentRecords.length === 0) {
       setError("No student records available to download.");
       return;
     }
-
     const headers: (keyof StudentReportRecord)[] = [
       "student_id",
       "name",
@@ -269,34 +258,44 @@ export default function StudentReports() {
       "created_at",
       "updated_at",
     ];
-
     const escapeCsvValue = (value: unknown) =>
       `"${String(value ?? "").replace(/"/g, '""')}"`;
-
     const csvContent = [
       headers.map(escapeCsvValue).join(","),
       ...studentRecords.map((record) =>
         headers.map((header) => escapeCsvValue(record[header])).join(","),
       ),
     ].join("\r\n");
-
     const blob = new Blob(["\uFEFF", csvContent], {
       type: "text/csv;charset=utf-8;",
     });
-
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-
     link.href = url;
     link.download = "student-report.csv";
-
     document.body.appendChild(link);
     link.click();
     link.remove();
-
     URL.revokeObjectURL(url);
   };
+  function getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
+  function handleFromDateChange(value: string) {
+    setFromDate(value);
+
+    if (!value || (toDate && value > toDate)) {
+      setToDate("");
+    }
+
+    setError("");
+    setResult(null);
+  }
   return (
     <div className="space-y-6 pb-8">
       {/* Page heading */}
@@ -305,15 +304,10 @@ export default function StudentReports() {
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
             <FileBarChart size={23} />
           </div>
-
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
               Student Reports
             </h1>
-
-            <p className="mt-1 text-sm text-slate-500">
-              Generate student account reports by course, date, and location.
-            </p>
           </div>
         </div>
       </div>
@@ -325,32 +319,30 @@ export default function StudentReports() {
             <h2 className="text-base font-semibold text-slate-900">
               Generate Student Reports
             </h2>
-
             <p className="mt-1 text-sm text-slate-500">
               Select a course to view the available report types.
             </p>
           </div>
 
-          {/* Course tabs */}
-          <div className="flex gap-2 overflow-x-auto border-b border-slate-200 pb-0">
-            {STUDENT_REPORT_COURSES.map((course) => {
-              const active = selectedCourse === course.label;
-
-              return (
-                <button
-                  key={course.id}
-                  type="button"
-                  onClick={() => handleCourseChange(course.label)}
-                  className={`-mb-px shrink-0 border-b-2 px-4 py-3 text-sm font-medium transition-colors ${
-                    active
-                      ? "border-blue-600 text-blue-700"
-                      : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800"
-                  }`}
-                >
-                  {course.label}
-                </button>
-              );
-            })}
+          {/* Course Selection */}
+          <div className="max-w-md">
+            <Select
+              label="Course"
+              value={selectedCourseDetails?.id.toString() ?? ""}
+              options={STUDENT_REPORT_COURSES.map((course) => ({
+                label: course.label,
+                value: String(course.id),
+              }))}
+              placeholder="Select a course"
+              onChange={(value) => {
+                const course = STUDENT_REPORT_COURSES.find(
+                  (item) => String(item.id) === value,
+                );
+                if (course) {
+                  handleCourseChange(course.label);
+                }
+              }}
+            />
           </div>
 
           {/* Report options */}
@@ -358,7 +350,6 @@ export default function StudentReports() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {STUDENT_REPORT_OPTIONS.map((option) => {
                 const Icon = reportIcons[option.id];
-
                 return (
                   <button
                     key={option.id}
@@ -369,15 +360,12 @@ export default function StudentReports() {
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-100">
                       <Icon size={22} />
                     </div>
-
                     <h3 className="mt-4 font-semibold text-slate-900">
                       {option.title}
                     </h3>
-
                     <p className="mt-2 text-sm leading-6 text-slate-500">
                       {option.description}
                     </p>
-
                     <span className="mt-4 inline-flex items-center text-sm font-medium text-blue-700">
                       Generate report
                       <span className="ml-2 transition-transform group-hover:translate-x-1">
@@ -424,13 +412,8 @@ export default function StudentReports() {
                   <DatePicker
                     label="From Date"
                     value={fromDate}
-                    onChange={(value) => {
-                      setFromDate(value);
-
-                      if (toDate && value > toDate) {
-                        setToDate("");
-                      }
-                    }}
+                    maxDate={getTodayDate()}
+                    onChange={handleFromDateChange}
                   />
                 </div>
 
@@ -438,7 +421,14 @@ export default function StudentReports() {
                   <DatePicker
                     label="To Date"
                     value={toDate}
-                    onChange={setToDate}
+                    minDate={fromDate || undefined}
+                    maxDate={getTodayDate()}
+                    disabled={!fromDate}
+                    onChange={(value) => {
+                      setToDate(value);
+                      setError("");
+                      setResult(null);
+                    }}
                   />
                 </div>
 
@@ -488,12 +478,11 @@ export default function StudentReports() {
                   {loading ? "Sending Report..." : "Send Mail"}
                 </Button>
 
-                <Button
-                  variant="outline"
-                  onClick={resetReport}
-                  disabled={loading}
-                >
-                  Cancel
+                <Button type="button" variant="secondary" onClick={handleReset}>
+                  <span className="flex items-center gap-2">
+                    <RotateCcw className="h-4 w-4" />
+                    Reset
+                  </span>
                 </Button>
               </div>
             </div>

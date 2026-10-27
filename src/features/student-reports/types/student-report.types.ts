@@ -1,10 +1,6 @@
-export type StudentReportCourse =
-  | "NEET PG"
-  | "NEET SS"
-  | "FMGE"
-  | "MBBS CURRICULUM"
-  | "PG RESIDENCY"
-  | "All Course";
+import type { CourseName } from "@/constants/courseOptions";
+
+export type StudentReportCourse = CourseName;
 
 export type StudentReportType = "students" | "state-wise" | "country-wise";
 

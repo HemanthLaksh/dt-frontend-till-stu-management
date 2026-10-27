@@ -8,6 +8,7 @@ import Card from "@/components/ui/Card/Card";
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 import Select from "@/components/ui/Select/Select";
 import { sendSubscriptionOrderReport } from "../services/subscriptionOrderReportService";
+import { COURSE_OPTIONS } from "@/constants/courseOptions";
 
 const ACADEMIC_YEARS = [
   {
@@ -36,12 +37,11 @@ const ACADEMIC_YEARS = [
   },
 ];
 
-const COURSE_OPTIONS = [
-  { label: "NEET PG", value: "1" },
-  { label: "NEET SS", value: "2" },
-  { label: "FMGE", value: "3" },
-  { label: "MBBS Curriculum", value: "4" },
-  { label: "PG Residency", value: "5" },
+const SUBSCRIPTION_ORDER_COURSE_OPTIONS = [
+  ...COURSE_OPTIONS.map(({ label, value }) => ({
+    label,
+    value,
+  })),
   { label: "All Courses", value: "0" },
 ];
 
@@ -135,11 +135,7 @@ export default function SubscriptionOrderReports() {
   function handleStartDateChange(value: string) {
     setStartDate(value);
     setResult(null);
-
-    if (endDate && value > endDate) {
-      setEndDate("");
-    }
-
+    setEndDate("");
     setStatusMessage("");
   }
 
@@ -151,6 +147,7 @@ export default function SubscriptionOrderReports() {
     setSearchTerm("");
     setCurrentPage(1);
     setStatusMessage("");
+    setResult(null);
   }
 
   async function handleSendMail() {
@@ -246,10 +243,6 @@ export default function SubscriptionOrderReports() {
             <h1 className="text-2xl font-semibold tracking-tight text-text-primary">
               Subscription Order Reports
             </h1>
-
-            <p className="mt-1 text-sm text-text-secondary">
-              Review order records by academic year, date range, and course.
-            </p>
           </div>
         </div>
       </div>
@@ -302,7 +295,7 @@ export default function SubscriptionOrderReports() {
             <Select
               label="Course"
               value={courseId}
-              options={COURSE_OPTIONS}
+              options={SUBSCRIPTION_ORDER_COURSE_OPTIONS}
               onChange={(value) => {
                 setCourseId(value);
                 setStatusMessage("");

@@ -21,8 +21,14 @@ export default function OtpVerification() {
 
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
-  const { verifyOtp, completeAuthentication, loading, error, setError } =
-    useAuth();
+  const {
+    verifyOtp,
+    backToLogin,
+    completeAuthentication,
+    loading,
+    error,
+    setError,
+  } = useAuth();
 
   /*
    * If the user reaches this page directly
@@ -34,21 +40,6 @@ export default function OtpVerification() {
       router.replace("/login");
     }
   }, [admin, otpPending, isAuthenticated, router]);
-
-  // /*
-  //  * Temporary authentication state debugging.
-  //  */
-  // useEffect(() => {
-  //   console.log("Auth state changed:", {
-  //     isAuthenticated,
-  //     admin,
-  //     otpPending,
-  //   });
-  // }, [
-  //   isAuthenticated,
-  //   admin,
-  //   otpPending,
-  // ]);
 
   /*
    * Handle entering one digit.
@@ -131,26 +122,11 @@ export default function OtpVerification() {
 
     const verified = await verifyOtp(admin.adminEmail, otpValue);
 
-    // console.log("OTP verified:", verified);
-    // console.log("Admin:", admin);
-
     if (!verified) {
-      // console.log(
-      //   "OTP verification failed",
-      // );
       return;
     }
 
-    // console.log(
-    //   "OTP verification successful",
-    // );
-
-    /*
-     * OTP successfully verified.
-     *
-     * Authentication is now complete.
-     */
-    completeAuthentication(admin);
+    await completeAuthentication(admin, verified);
   };
 
   return (
@@ -240,7 +216,7 @@ export default function OtpVerification() {
             <button
               type="button"
               disabled={loading}
-              onClick={() => router.replace("/login")}
+              onClick={backToLogin}
               className="mx-auto mt-5 flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ArrowLeft className="h-4 w-4" />

@@ -17,7 +17,17 @@ export type TrendReportId =
   | "fmge-date"
   | "fmge-state-wise"
   | "fmge-college"
-  | "fmge-package";
+  | "fmge-package"
+  | "mbbs-curriculum-state"
+  | "mbbs-curriculum-date"
+  | "mbbs-curriculum-state-wise"
+  | "mbbs-curriculum-college"
+  | "mbbs-curriculum-package"
+  | "pg-residency-state"
+  | "pg-residency-date"
+  | "pg-residency-state-wise"
+  | "pg-residency-college"
+  | "pg-residency-package";
 
 export interface TrendDataItem {
   [key: string]: string | number;
@@ -47,6 +57,7 @@ export interface TrendDateRange {
 
 export interface GetTrendReportParams extends TrendDateRange {
   reportId: TrendReportId;
+  state?: string;
 }
 
 export interface TrendReportCardProps {
@@ -66,4 +77,8 @@ export interface TrendDateFilterProps {
   onGenerateReport: () => void;
   error?: string;
   disabled?: boolean;
+  state?: string;
+  onStateChange?: (state: string) => void;
+  showStateFilter?: boolean;
+  onClear: () => void;
 }

@@ -6,16 +6,15 @@ import Button from "@/components/ui/Button/Button";
 import Card from "@/components/ui/Card/Card";
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 import Select from "@/components/ui/Select/Select";
-import { CheckCircle2, FileBarChart } from "lucide-react";
+import { RotateCcw, CheckCircle2, FileBarChart } from "lucide-react";
 
-import {
-  ACCOUNTS_REPORT_COURSES,
-  ACCOUNTS_REPORT_OPTIONS,
-} from "../constants/accountsReportMockData";
+import { ACCOUNTS_REPORT_OPTIONS } from "../constants/accountsReportMockData";
 
 import { validateAccountsReport } from "../utils/accountsReportUtils";
 
 import { sendAccountsReportEmail } from "../services/accountsReportService";
+
+import { COURSE_OPTIONS } from "@/constants/courseOptions";
 
 import type { AccountsReportType } from "../types/accounts-report.types";
 
@@ -28,7 +27,7 @@ export default function AccountsReport() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const courseOptions = ACCOUNTS_REPORT_COURSES.map((course) => ({
+  const courseOptions = COURSE_OPTIONS.map((course) => ({
     label: course.label,
     value: String(course.id),
   }));
@@ -95,7 +94,33 @@ export default function AccountsReport() {
       setIsSubmitting(false);
     }
   }
+  function handleClear() {
+    setCourseId("1");
+    setFromDate("");
+    setToDate("");
+    setReportType("");
+    setError("");
+    setResult(null);
+  }
+  function getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
+    return `${year}-${month}-${day}`;
+  }
+
+  function handleFromDateChange(value: string) {
+    setFromDate(value);
+
+    if (!value || (toDate && value > toDate)) {
+      setToDate("");
+    }
+
+    setError("");
+    setResult(null);
+  }
   return (
     <div className="space-y-6">
       {/* Page heading */}
@@ -109,11 +134,6 @@ export default function AccountsReport() {
             <h1 className="text-2xl font-semibold tracking-tight text-text-primary">
               Accounts Reports
             </h1>
-
-            <p className="mt-1 text-sm text-text-secondary">
-              Generate account reports using course, date range, and report
-              type.
-            </p>
           </div>
         </div>
       </div>
@@ -148,13 +168,8 @@ export default function AccountsReport() {
             <DatePicker
               label="From Date"
               value={fromDate}
-              onChange={(value) => {
-                setFromDate(value);
-
-                if (toDate && value > toDate) {
-                  setToDate("");
-                }
-              }}
+              maxDate={getTodayDate()}
+              onChange={handleFromDateChange}
             />
 
             {/* To Date */}
@@ -162,7 +177,12 @@ export default function AccountsReport() {
               label="To Date"
               value={toDate}
               minDate={fromDate || undefined}
-              onChange={setToDate}
+              maxDate={getTodayDate()}
+              onChange={(value) => {
+                setToDate(value);
+                setError("");
+                setResult(null);
+              }}
               disabled={!fromDate}
             />
           </div>
@@ -208,7 +228,7 @@ export default function AccountsReport() {
                 {result.recipientEmail && (
                   <div>
                     <p className="text-xs font-medium text-emerald-700">
-                      Recipient Email
+                      Email
                     </p>
 
                     <p className="mt-1 break-all text-sm font-medium text-emerald-900">
@@ -244,7 +264,15 @@ export default function AccountsReport() {
             </div>
           )}
           {/* Submit */}
-          <div className="flex justify-end border-t border-border pt-5">
+
+          <div className="flex flex-col-reverse gap-3 border-t border-border pt-5 sm:flex-row sm:justify-end">
+            <Button type="button" variant="secondary" onClick={handleClear}>
+              <span className="flex items-center gap-2">
+                <RotateCcw className="h-4 w-4" />
+                Reset
+              </span>
+            </Button>
+
             <Button type="submit" variant="primary" disabled={isSubmitting}>
               {isSubmitting ? "Sending Report..." : "Send Report to Email"}
             </Button>

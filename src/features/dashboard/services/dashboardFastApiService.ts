@@ -102,19 +102,14 @@ export async function fetchFastApiDashboard(): Promise<FastApiDashboardResponse>
 // POST /api/Operations/sendEmailDailyStats
 // ============================================================
 
-export async function sendFastApiDailyStats(
-  payload: FastApiDailyStatsRequest,
-): Promise<FastApiDailyStatsResponse> {
-  const response = await fastApiClient.post<FastApiDailyStatsResponse>(
-    "/Operations/sendEmailDailyStats",
-    payload,
-  );
-
-  if (response.data.status !== "Y") {
-    throw new Error(
-      response.data.message || "Failed to fetch daily statistics.",
-    );
-  }
+export async function sendFastApiDailyStats(params: {
+  fromDate: string;
+  toDate: string;
+}) {
+  const response = await fastApiClient.post("/Operations/sendEmailDailyStats", {
+    fromDate: params.fromDate,
+    toDate: params.toDate,
+  });
 
   return response.data;
 }

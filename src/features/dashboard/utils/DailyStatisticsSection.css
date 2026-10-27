@@ -1,0 +1,23 @@
+.daily-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 24px;
+  font-size: 14px;
+}
+
+.daily-stats-table th,
+.daily-stats-table td {
+  border: 1px solid #e2e8f0;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.daily-stats-table th {
+  background: #eff6ff;
+  color: #334155;
+  font-weight: 600;
+}
+
+.daily-stats-table tr:nth-child(even) td {
+  background: #f8fafc;
+}

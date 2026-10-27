@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { getTrendReport } from "../services/trendsService";
-
 import type { TrendReport } from "../types/trends.types";
 
 import { getDateRangeError, isValidDateRange } from "../utils/trends.utils";
@@ -19,6 +18,7 @@ export const useTrends = () => {
 
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [state, setState] = useState("");
 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,12 +28,14 @@ export const useTrends = () => {
     setGeneratedReport(null);
     setFromDate("");
     setToDate("");
+    setState("");
     setError("");
   };
 
   const changeFromDate = (date: string) => {
     setFromDate(date);
     setError("");
+    setGeneratedReport(null);
 
     if (toDate && date > toDate) {
       setToDate("");
@@ -43,6 +45,13 @@ export const useTrends = () => {
   const changeToDate = (date: string) => {
     setToDate(date);
     setError("");
+    setGeneratedReport(null);
+  };
+
+  const changeState = (value: string) => {
+    setState(value);
+    setError("");
+    setGeneratedReport(null);
   };
 
   const generateReport = async () => {
@@ -63,6 +72,13 @@ export const useTrends = () => {
       return;
     }
 
+    const isStateWiseReport = selectedReport.id.endsWith("-state-wise");
+
+    if (isStateWiseReport && !state.trim()) {
+      setError("Please enter a state.");
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError("");
@@ -72,6 +88,7 @@ export const useTrends = () => {
         reportId: selectedReport.id,
         fromDate,
         toDate,
+        ...(isStateWiseReport ? { state: state.trim() } : {}),
       });
 
       if (!report) {
@@ -79,9 +96,18 @@ export const useTrends = () => {
         return;
       }
 
-      setGeneratedReport(report);
-    } catch {
-      setError("Unable to generate the report. Please try again.");
+      setGeneratedReport({
+        ...report,
+        title: "Generated Report",
+        description: "Insights based on your selected date range and filters",
+      });
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Unable to generate the report. Please try again.";
+
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -92,22 +118,31 @@ export const useTrends = () => {
     setGeneratedReport(null);
     setFromDate("");
     setToDate("");
+    setState("");
     setError("");
+  };
+
+  const clearFilters = () => {
+    setFromDate("");
+    setToDate("");
+    setState("");
+    setError("");
+    setGeneratedReport(null);
   };
 
   return {
     selectedReport,
     generatedReport,
-
     fromDate,
     toDate,
-
+    state,
     error,
     isLoading,
-
     selectReport,
     changeFromDate,
     changeToDate,
+    changeState,
+    clearFilters,
     generateReport,
     goBack,
   };

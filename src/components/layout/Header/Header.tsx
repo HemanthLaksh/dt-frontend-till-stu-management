@@ -128,7 +128,7 @@ export default function Header({
 
   return (
     <header
-      className={`fixed right-0 top-0 z-30 flex h-20 items-center gap-5 border-b border-slate-200 bg-white px-6 transition-[left] duration-300 sm:px-8 ${
+      className={`fixed right-0 top-0 z-30 flex h-20 items-center gap-4 border-b border-slate-200 bg-white px-5 transition-[left] duration-300 lg:gap-6 lg:px-8 ${
         isSidebarCollapsed ? "left-0" : "left-64"
       }`}
     >
@@ -143,30 +143,21 @@ export default function Header({
         <Menu size={26} strokeWidth={2} />
       </button>
 
-      {/* Page Title */}
-      <div className="w-[240px] min-w-0 shrink-0">
-        <h1
-          className="truncate text-lg font-semibold text-slate-900"
-          title={currentModuleTitle}
-        >
-          {currentModuleTitle}
-        </h1>
-
-        <p
-          className="truncate text-sm text-slate-500"
-          title={`Welcome back, ${admin?.name ?? "Administrator"}`}
-        >
-          Welcome back, {admin?.name ?? "Administrator"}
-        </p>
+      <div className="w-[200px] min-w-[150px] shrink-0">
+        <div className="flex flex-col items-start justify-center">
+          <p className="text-md font-medium leading-5 text-slate-600">
+            Welcome back,
+          </p>
+          <h1 className="truncate text-lg font-semibold leading-6 text-slate-800">
+            {admin?.name ?? "Administrator"}
+          </h1>
+        </div>
       </div>
 
       {/* Module Navigation Search */}
-      <div
-        ref={searchRef}
-        className="relative flex min-w-0 flex-1 justify-center"
-      >
-        <div className="flex w-full max-w-2xl items-center rounded-lg border border-slate-200 bg-slate-50 px-4 py-2.5 transition-colors focus-within:border-blue-300 focus-within:bg-white">
-          <Search size={18} className="shrink-0 text-slate-400" />
+      <div ref={searchRef} className="relative hidden md:flex flex-1 lg:flex">
+        <div className="flex h-11 w-full min-w-0 items-center gap-3 rounded-lg border border-slate-200 bg-slate-50 px-4 transition-colors focus-within:border-blue-300 focus-within:bg-white">
+          <Search size={20} className="shrink-0 text-slate-400" />
 
           <input
             type="text"
@@ -188,34 +179,19 @@ export default function Header({
             }}
             placeholder="Search modules..."
             aria-label="Search modules"
-            // aria-expanded={isSearchOpen && searchQuery.trim().length > 0}
             aria-autocomplete="list"
-            className="ml-3 min-w-0 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
+            className="h-full w-full min-w-0 flex-1 bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
           />
 
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => {
-                setSearchQuery("");
-                setIsSearchOpen(false);
-              }}
-              aria-label="Clear search"
-              className="ml-2 rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
-            >
-              <X size={16} />
-            </button>
-          )}
-
-          <span className="ml-3 shrink-0 rounded border border-slate-200 bg-white px-2 py-1 text-xs text-slate-400">
+          <kbd className="hidden shrink-0 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs text-slate-500 xl:inline-flex">
             ⌘ K
-          </span>
+          </kbd>
         </div>
 
         {isSearchOpen && searchQuery.trim() && (
           <div
             role="listbox"
-            className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-200/60"
+            className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-xl"
           >
             {filteredModules.length > 0 ? (
               filteredModules.map((module) => (
@@ -241,7 +217,7 @@ export default function Header({
       </div>
 
       {/* Right Side */}
-      <div className="flex shrink-0 items-center gap-5">
+      <div className="ml-auto flex shrink-0 items-center gap-3 lg:gap-5">
         {/* Divider */}
         <div className="h-8 w-px bg-slate-200" />
 

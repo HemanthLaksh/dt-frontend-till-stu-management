@@ -232,22 +232,6 @@ function SessionOverview() {
             })}
           </div>
         )}
-
-        <div className="mt-5 flex items-center gap-3 rounded-xl border border-violet-100 bg-gradient-to-r from-violet-50 to-blue-50 p-4">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-100 text-violet-600">
-            <Smartphone size={21} />
-          </div>
-
-          <div>
-            <p className="text-sm font-semibold text-slate-800">
-              Mobile App Overview
-            </p>
-
-            <p className="mt-1 text-xs text-slate-500">
-              Logged-in user counts across all five courses.
-            </p>
-          </div>
-        </div>
       </Card>
     </div>
   );

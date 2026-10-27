@@ -2,6 +2,8 @@ import axios, { AxiosError } from "axios";
 import apiClient from "./client";
 import fastApiClient from "./fastApiClient";
 import type { AppError } from "@/types/api";
+import authClient from "./authClient";
+import { clearStoredToken } from "./tokenStorage";
 
 const getAppError = (error: AxiosError): AppError => {
   const status = error.response?.status;
@@ -89,6 +91,18 @@ const getAppError = (error: AxiosError): AppError => {
 
 const responseErrorInterceptor = (error: unknown) => {
   if (axios.isAxiosError(error)) {
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      clearStoredToken();
+
+      sessionStorage.removeItem("dt-admin-encrypted-credentials");
+      sessionStorage.removeItem("dt-admin-auth");
+      localStorage.removeItem("dt-admin-auth");
+
+      if (window.location.pathname !== "/login") {
+        window.location.replace("/login");
+      }
+    }
+
     const appError = getAppError(error);
     return Promise.reject(appError);
   }
@@ -109,6 +123,11 @@ apiClient.interceptors.response.use(
 
 // FastAPI client
 fastApiClient.interceptors.response.use(
+  (response) => response,
+  responseErrorInterceptor,
+);
+
+authClient.interceptors.response.use(
   (response) => response,
   responseErrorInterceptor,
 );

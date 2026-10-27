@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
-  CalendarDays,
   RotateCcw,
   Mail,
   FileText,
@@ -17,14 +16,7 @@ import DatePicker from "@/components/ui/DatePicker/DatePicker";
 import Select from "@/components/ui/Select/Select";
 
 import { sendCouponAttemptsReport } from "../services/couponAttemptsService";
-
-const COURSE_OPTIONS = [
-  { label: "NEET PG", value: "1" },
-  { label: "NEET SS", value: "2" },
-  { label: "FMGE", value: "3" },
-  { label: "MBBS Curriculum", value: "4" },
-  { label: "PG Residency", value: "5" },
-];
+import { COURSE_OPTIONS } from "@/constants/courseOptions";
 
 interface ReportResult {
   message: string;
@@ -39,13 +31,14 @@ export default function CouponAttemptsReport() {
   const [toDate, setToDate] = useState("");
 
   const [isSending, setIsSending] = useState(false);
+  const isSendingRef = useRef(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<ReportResult | null>(null);
 
   function handleFromDateChange(value: string) {
     setFromDate(value);
 
-    if (toDate && value > toDate) {
+    if (!value || (toDate && value > toDate)) {
       setToDate("");
     }
 
@@ -62,8 +55,15 @@ export default function CouponAttemptsReport() {
   }
 
   async function handleSendMail() {
+    if (isSendingRef.current) return;
+
     setError("");
     setResult(null);
+
+    if (!COURSE_OPTIONS.some((course) => course.value === courseId)) {
+      setError("Please select a valid course.");
+      return;
+    }
 
     if (!fromDate || !toDate) {
       setError("Please select both From Date and To Date.");
@@ -75,6 +75,7 @@ export default function CouponAttemptsReport() {
       return;
     }
 
+    isSendingRef.current = true;
     setIsSending(true);
 
     try {
@@ -98,10 +99,18 @@ export default function CouponAttemptsReport() {
           : "Unable to send the coupon attempts report. Please try again.",
       );
     } finally {
+      isSendingRef.current = false;
       setIsSending(false);
     }
   }
+  function getTodayDate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
 
+    return `${year}-${month}-${day}`;
+  }
   return (
     <div className="space-y-6">
       {/* Page heading */}
@@ -115,10 +124,6 @@ export default function CouponAttemptsReport() {
           <h1 className="text-2xl font-semibold tracking-tight text-text-primary">
             Coupon Attempts Report
           </h1>
-
-          <p className="mt-1 text-sm text-text-secondary">
-            Generate coupon attempt reports by course and date range.
-          </p>
         </div>
       </div>
 
@@ -126,7 +131,7 @@ export default function CouponAttemptsReport() {
 
       <Card
         title="Report Filters"
-        description="Select a course and date range to send the report to your registered report recipient."
+        description="Select a course and date range to send the report to your registered Email."
         className="hover:translate-y-0 hover:shadow-sm"
       >
         <form
@@ -142,7 +147,10 @@ export default function CouponAttemptsReport() {
             <Select
               label="Course"
               value={courseId}
-              options={COURSE_OPTIONS}
+              options={COURSE_OPTIONS.map(({ label, value }) => ({
+                label,
+                value,
+              }))}
               placeholder="Select Course"
               onChange={(value) => {
                 setCourseId(value);
@@ -156,6 +164,7 @@ export default function CouponAttemptsReport() {
             <DatePicker
               label="From Date"
               value={fromDate}
+              maxDate={getTodayDate()}
               onChange={handleFromDateChange}
             />
 
@@ -165,6 +174,7 @@ export default function CouponAttemptsReport() {
               label="To Date"
               value={toDate}
               minDate={fromDate || undefined}
+              maxDate={getTodayDate()}
               disabled={!fromDate}
               onChange={(value) => {
                 setToDate(value);
@@ -218,7 +228,7 @@ export default function CouponAttemptsReport() {
                 {result.recipientEmail && (
                   <div>
                     <p className="text-xs font-medium text-emerald-700">
-                      Recipient Email
+                      Email
                     </p>
 
                     <p className="mt-1 break-all text-sm font-medium text-emerald-900">
@@ -282,29 +292,6 @@ export default function CouponAttemptsReport() {
             </Button>
           </div>
         </form>
-      </Card>
-
-      {/* Information card */}
-
-      <Card className="hover:translate-y-0 hover:shadow-sm">
-        <div className="flex items-start gap-4">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-            <CalendarDays className="h-5 w-5" />
-          </div>
-
-          <div>
-            <h2 className="font-semibold text-text-primary">
-              About this report
-            </h2>
-
-            <p className="mt-1 text-sm leading-6 text-text-secondary">
-              Choose the course and reporting period, then select Send Mail. The
-              generated report will be sent to the recipient configured by the
-              backend. The response will show the recipient, report filename,
-              and number of records processed.
-            </p>
-          </div>
-        </div>
       </Card>
     </div>
   );
