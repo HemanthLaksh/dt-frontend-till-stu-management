@@ -99,14 +99,14 @@ export async function fetchFastApiDashboard(): Promise<FastApiDashboardResponse>
 
 // ============================================================
 // Fetch Daily Statistics
-// POST /api/Operations/sendEmailDailyStats
+// POST /api/Operations/DailyStatistics
 // ============================================================
 
 export async function sendFastApiDailyStats(params: {
   fromDate: string;
   toDate: string;
 }) {
-  const response = await fastApiClient.post("/Operations/sendEmailDailyStats", {
+  const response = await fastApiClient.post("/Operations/DailyStatistics", {
     fromDate: params.fromDate,
     toDate: params.toDate,
   });

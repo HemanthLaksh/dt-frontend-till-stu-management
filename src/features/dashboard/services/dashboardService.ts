@@ -82,7 +82,7 @@ export async function fetchDailyStats(
   payload: DailyStatsRequest,
 ): Promise<DailyStatsResponse> {
   const response = await authClient.post<DailyStatsResponse>(
-    "/Operations/sendEmailDailyStats",
+    "/Operations/DailyStatistics",
     payload,
   );
 
