@@ -65,7 +65,10 @@ function getSummaryLabels(reportId: string) {
   };
 }
 
-export default function BarTrendChart({ report }: TrendChartProps) {
+export default function BarTrendChart({
+  report,
+  selectedState,
+}: TrendChartProps) {
   const [view, setView] = useState<ViewMode>("top10");
   const [search, setSearch] = useState("");
 
@@ -109,10 +112,6 @@ export default function BarTrendChart({ report }: TrendChartProps) {
     ? items.length
     : new Set(items.map((item) => item.name)).size;
 
-  const selectedState = report.id.endsWith("-state-wise")
-    ? (report.description.match(/by\s+(.+?)\.?$/i)?.[1] ?? null)
-    : null;
-
   const secondMetricValue = report.id.endsWith("-state-wise")
     ? selectedState || "See state filter"
     : formatValue(secondMetric);
@@ -139,6 +138,10 @@ export default function BarTrendChart({ report }: TrendChartProps) {
     >
       {label}
     </button>
+  );
+
+  const rankByOriginalIndex = new Map(
+    items.map((item, index) => [item.originalIndex, index + 1]),
   );
 
   return (
@@ -284,11 +287,7 @@ export default function BarTrendChart({ report }: TrendChartProps) {
         /* Ranked bars */
         <div className="max-h-[440px] space-y-5 overflow-y-auto overscroll-auto pr-2">
           {displayedItems.map((item) => {
-            const rank =
-              items.findIndex(
-                (candidate) => candidate.originalIndex === item.originalIndex,
-              ) + 1;
-
+            const rank = rankByOriginalIndex.get(item.originalIndex) ?? 0;
             const percentage = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
 
             return (

@@ -6,7 +6,11 @@ import BarTrendChart from "./BarTrendChart";
 import PieTrendChart from "./PieTrendChart";
 import EmptyTrendState from "./EmptyTrendState";
 
-export default function TrendChart({ report }: TrendChartProps) {
+type Props = TrendChartProps & {
+  selectedState?: string | null;
+};
+
+export default function TrendChart({ report, selectedState }: Props) {
   if (!report.data || report.data.length === 0) {
     return <EmptyTrendState />;
   }
@@ -16,7 +20,7 @@ export default function TrendChart({ report }: TrendChartProps) {
       return <LineTrendChart report={report} />;
 
     case "bar":
-      return <BarTrendChart report={report} />;
+      return <BarTrendChart report={report} selectedState={selectedState} />;
 
     case "pie":
       return <PieTrendChart report={report} />;

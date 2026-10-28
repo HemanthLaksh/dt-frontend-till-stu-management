@@ -67,6 +67,7 @@ export interface TrendReportCardProps {
 
 export interface TrendChartProps {
   report: TrendReport;
+  selectedState?: string | null;
 }
 
 export interface TrendDateFilterProps {

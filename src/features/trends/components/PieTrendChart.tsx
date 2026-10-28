@@ -219,7 +219,7 @@ export default function PieTrendChart({ report }: TrendChartProps) {
                 aria-label="Ranked plan breakdown"
                 tabIndex={0}
               >
-                {sortedPlans.map((plan, index) => {
+                {sortedPlans.map((plan) => {
                   const percentage =
                     totalOrders > 0 ? (plan.value / totalOrders) * 100 : 0;
 

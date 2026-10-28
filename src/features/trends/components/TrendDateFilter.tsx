@@ -1,9 +1,10 @@
 "use client";
 
+import { RotateCcw } from "lucide-react";
+
 import DatePicker from "@/components/ui/DatePicker/DatePicker";
 
 import type { TrendDateFilterProps } from "../types/trends.types";
-import { RotateCcw } from "lucide-react";
 
 export default function TrendDateFilter({
   fromDate,
@@ -28,11 +29,13 @@ export default function TrendDateFilter({
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      {/* Filters */}
       <div
         className={`grid grid-cols-1 gap-5 ${
           showStateFilter ? "md:grid-cols-3" : "md:grid-cols-2"
         }`}
       >
+        {/* From Date */}
         <DatePicker
           label="From Date"
           value={fromDate}
@@ -40,6 +43,7 @@ export default function TrendDateFilter({
           disabled={disabled}
         />
 
+        {/* To Date */}
         <DatePicker
           label="To Date"
           value={toDate}
@@ -48,6 +52,7 @@ export default function TrendDateFilter({
           disabled={!fromDate || disabled}
         />
 
+        {/* State Filter */}
         {showStateFilter && (
           <div className="flex flex-col gap-2">
             <label
@@ -78,22 +83,26 @@ export default function TrendDateFilter({
         )}
       </div>
 
+      {/* Validation Error */}
       {error && (
-        <p className="mt-3 text-sm font-medium text-red-600">{error}</p>
+        <p role="alert" className="mt-3 text-sm font-medium text-red-600">
+          {error}
+        </p>
       )}
 
+      {/* Actions */}
       <div className="mt-5 flex flex-wrap justify-end gap-3">
         <button
           type="button"
           onClick={onClear}
           disabled={disabled || (!fromDate && !toDate && !state && !error)}
           className="
-                inline-flex items-center gap-2 rounded-lg border border-slate-200
-                bg-white px-5 py-2.5 text-sm font-semibold text-slate-700
-                transition-colors hover:bg-slate-50
-                focus:outline-none focus:ring-4 focus:ring-blue-100
-                disabled:cursor-not-allowed disabled:opacity-50
-              "
+            inline-flex items-center gap-2 rounded-lg border border-slate-200
+            bg-white px-5 py-2.5 text-sm font-semibold text-slate-700
+            transition-colors hover:bg-slate-50
+            focus:outline-none focus:ring-4 focus:ring-blue-100
+            disabled:cursor-not-allowed disabled:opacity-50
+          "
         >
           <RotateCcw size={16} />
           Clear
@@ -109,11 +118,11 @@ export default function TrendDateFilter({
             (showStateFilter && !state.trim())
           }
           className="
-                rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold
-                text-white transition-all duration-200 hover:bg-blue-700
-                focus:outline-none focus:ring-4 focus:ring-blue-100
-                disabled:cursor-not-allowed disabled:bg-slate-300
-              "
+            rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold
+            text-white transition-all duration-200 hover:bg-blue-700
+            focus:outline-none focus:ring-4 focus:ring-blue-100
+            disabled:cursor-not-allowed disabled:bg-slate-300
+          "
         >
           {disabled ? "Generating..." : "Generate Report"}
         </button>
